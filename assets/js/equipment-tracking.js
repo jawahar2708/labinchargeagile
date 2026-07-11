@@ -419,22 +419,31 @@ function fillRemainingTickets() {
 }
 fillRemainingTickets();
 
-const DB_VERSION = 12;
+const DB_VERSION = 13;
 function initLocalStorageDB() {
     const storedVersion = parseInt(localStorage.getItem("rplms_db_version") || "0");
     if (storedVersion < DB_VERSION) {
         localStorage.setItem("rplms_db", JSON.stringify(DEFAULT_DATABASE));
         localStorage.setItem("rplms_db_version", String(DB_VERSION));
+        return;
     }
+
+    const db = getDB();
+    let patched = false;
+    if (!Array.isArray(db.inventory) || db.inventory.length === 0) {
+        db.inventory = DEFAULT_DATABASE.inventory;
+        patched = true;
+    }
+    if (!Array.isArray(db.equipmentRequests) || db.equipmentRequests.length === 0) {
+        db.equipmentRequests = DEFAULT_DATABASE.equipmentRequests;
+        patched = true;
+    }
+    if (patched) setDB(db);
 }
 initLocalStorageDB();
 
-
-// Call renderBaseLayout
-document.addEventListener('DOMContentLoaded', () => { renderBaseLayout('equipment-tracking'); });
-// Equipment Approvals Redesigned Controller
-
 document.addEventListener("DOMContentLoaded", () => {
+    renderBaseLayout("equipment-tracking");
     let db = getDB();
 
     const cardsGrid = document.getElementById("trackingCardsGrid");
@@ -551,10 +560,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (totalItems === 0) {
             cardsGrid.innerHTML = `
-                <div class="equipment-tracking-style-b5347e">
-                    <div class="equipment-tracking-style-441dff">📋</div>
-                    <h3 class="equipment-tracking-style-c17571">No Equipment Requests Found</h3>
-                    <p class="equipment-tracking-style-a079c9">There are no team requests matching your filter criteria.</p>
+                <div class="empty-state" style="display: block;">
+                    <div class="empty-state-icon">&#128203;</div>
+                    <h3 class="empty-state-title">No Equipment Requests Found</h3>
+                    <p class="empty-state-desc">There are no team requests matching your filter criteria.</p>
                 </div>
             `;
             return;
@@ -574,7 +583,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div class="card-body">
                         <h3 class="team-name">${team.teamName}</h3>
-                        <div class="equipment-tracking-style-3772fe">
+                        <div class="card-subtext">
                             ${team.requests.length} request(s) total
                         </div>
                     </div>
@@ -673,147 +682,161 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusSearch = document.getElementById("statusSearchPanel");
     const statusFilterPn = document.getElementById("statusFilterPanel");
 
-    const STATUS_BADGES = {
-        "Available": "eq-badge-available",
-        "Maintenance": "eq-badge-maintenance",
-        "Repairing": "eq-badge-repairing",
-        "In Use": "eq-badge-inuse",
-        "Retired": "eq-badge-retired"
-    };
-
-    function getStatusBadgeClass(status) {
-        return STATUS_BADGES[status] || "eq-badge-retired";
+    function getEquipmentItems(db) {
+        return (db.inventory || []).filter(item => item.type === "Equipment");
     }
 
     function renderStatusPanel() {
         const freshDb = getDB();
-        const items = freshDb.inventory || [];
+        const items = getEquipmentItems(freshDb);
         const query = (statusSearch ? statusSearch.value : "").trim().toLowerCase();
         const filter = statusFilterPn ? statusFilterPn.value : "all";
 
         const filtered = items.filter(item => {
             const name = (item.name || item.componentName || "").toLowerCase();
             const id = (item.id || "").toLowerCase();
-            const matchesSearch = !query || name.includes(query) || id.includes(query);
+            const location = (item.location || item.lab || "").toLowerCase();
+            const matchesSearch = !query || name.includes(query) || id.includes(query) || location.includes(query);
             const matchesFilter = filter === "all" || item.status === filter;
             return matchesSearch && matchesFilter;
         });
 
         if (!eqStatusList) return;
 
+        const columnsEl = document.querySelector(".eq-status-columns");
+        if (columnsEl) columnsEl.style.display = filtered.length ? "grid" : "none";
+
         if (filtered.length === 0) {
             eqStatusList.innerHTML = "";
-            if (eqStatusEmpty) eqStatusEmpty.style.display = "";
+            if (eqStatusEmpty) eqStatusEmpty.style.display = "block";
         } else {
             if (eqStatusEmpty) eqStatusEmpty.style.display = "none";
             eqStatusList.innerHTML = filtered.map(item => {
                 const name = item.name || item.componentName || "Unknown";
-                const badgeCls = getStatusBadgeClass(item.status || "Available");
-               return `
-<div class="eq-status-row" data-id="${item.id}">
-    
-    <div class="eq-status-info">
-        <div class="eq-status-name">${name}</div>
-        <div class="eq-status-meta">
-            ${item.id || ""} • ${item.location || item.lab || "Lab"} • ${item.type || "Equipment"}
-        </div>
-    </div>
+                const status = item.status || "Available";
+                const startVal = item.maintenanceStartTime || "";
+                const endVal = item.maintenanceEndTime || "";
 
-    <span class="eq-status-badge ${badgeCls}" id="badge-${item.id}">
-        ${item.status || "Available"}
-    </span>
+                return `
+                    <div class="eq-status-row" data-id="${item.id}">
+                        <div class="eq-status-info">
+                            <div class="eq-status-name">${name}</div>
+                            <div class="eq-status-meta">
+                                ${item.id || ""} &bull; ${item.location || item.lab || "Lab"}
+                            </div>
+                        </div>
 
-    <input
-        type="time"
-        id="start-${item.id}"
-        class="eq-status-select equipment-tracking-style-c8419c"
-    >
+                        <select
+                            class="eq-status-select"
+                            data-action="updateEqStatus"
+                            data-id="${item.id}"
+                            aria-label="Status for ${name}"
+                        >
+                            <option value="Available" ${status === "Available" ? "selected" : ""}>Available</option>
+                            <option value="In Use" ${status === "In Use" ? "selected" : ""}>In Use</option>
+                            <option value="Maintenance" ${status === "Maintenance" ? "selected" : ""}>Maintenance</option>
+                            <option value="Repairing" ${status === "Repairing" ? "selected" : ""}>Repairing</option>
+                            <option value="Retired" ${status === "Retired" ? "selected" : ""}>Retired</option>
+                        </select>
 
-    <input
-        type="time"
-        id="end-${item.id}"
-        class="eq-status-select equipment-tracking-style-c8419c"
-    >
+                        <input
+                            type="time"
+                            id="start-${item.id}"
+                            class="eq-time-input"
+                            value="${startVal}"
+                            aria-label="Maintenance start time for ${name}"
+                        >
 
-    <button
-        class="eq-save-btn"
-        data-action="markUnderMaintenance" data-id="${item.id}"
-    >
-        Under Maintenance
-    </button>
+                        <input
+                            type="time"
+                            id="end-${item.id}"
+                            class="eq-time-input"
+                            value="${endVal}"
+                            aria-label="Maintenance end time for ${name}"
+                        >
 
-</div>
-`;
-                
+                        <button
+                            class="eq-save-btn"
+                            data-action="markUnderMaintenance"
+                            data-id="${item.id}"
+                        >
+                            Under Maintenance
+                        </button>
+                    </div>
+                `;
             }).join("");
         }
     }
 
-    window.onEqStatusChange = function (itemId, newStatus) {
-        // Live-preview badge colour as user picks a new status
-        const badge = document.getElementById("badge-" + itemId);
-        if (badge) {
-            // Remove all badge classes
-            Object.values(STATUS_BADGES).forEach(c => badge.classList.remove(c));
-            badge.classList.add(getStatusBadgeClass(newStatus));
-            badge.textContent = newStatus;
+    function updateEquipmentStatus(itemId, newStatus) {
+        const freshDb = getDB();
+        const item = (freshDb.inventory || []).find(i => i.id === itemId);
+        if (!item) return;
+
+        item.status = newStatus;
+        if (newStatus !== "Maintenance") {
+            delete item.maintenanceStartTime;
+            delete item.maintenanceEndTime;
         }
-    };
 
-    window.markUnderMaintenance = function (itemId) {
-
-    const startTime = document.getElementById(`start-${itemId}`).value;
-    const endTime = document.getElementById(`end-${itemId}`).value;
-
-    if (!startTime || !endTime) {
-        showToast("Please select start and end time.", "error");
-        return;
+        setDB(freshDb);
+        showToast(`${item.name || item.componentName} status updated to ${newStatus}.`, "success");
+        renderStatusPanel();
     }
 
-    const freshDb = getDB();
-    const item = freshDb.inventory.find(i => i.id === itemId);
+    function markUnderMaintenance(itemId) {
+        const startTime = document.getElementById(`start-${itemId}`)?.value;
+        const endTime = document.getElementById(`end-${itemId}`)?.value;
 
-    if (!item) return;
+        if (!startTime || !endTime) {
+            showToast("Please select start and end time.", "error");
+            return;
+        }
 
-    item.status = "Maintenance";
-    item.maintenanceStartTime = startTime;
-    item.maintenanceEndTime = endTime;
+        const freshDb = getDB();
+        const item = (freshDb.inventory || []).find(i => i.id === itemId);
+        if (!item) return;
 
-    freshDb.notifications = freshDb.notifications || [];
+        item.status = "Maintenance";
+        item.maintenanceStartTime = startTime;
+        item.maintenanceEndTime = endTime;
 
-    freshDb.notifications.unshift({
-        id: `NTF-${String(freshDb.notifications.length + 1).padStart(3, "0")}`,
-        icon: "🔧",
-        iconClass: "notif-icon-info",
-        body: `${item.name || item.componentName} marked under maintenance from ${startTime} to ${endTime}.`,
-        time: "Just now",
-        unread: true
-    });
+        freshDb.notifications = freshDb.notifications || [];
+        freshDb.notifications.unshift({
+            id: `NTF-${String(freshDb.notifications.length + 1).padStart(3, "0")}`,
+            icon: "🔧",
+            iconClass: "notif-icon-info",
+            body: `${item.name || item.componentName} marked under maintenance from ${startTime} to ${endTime}.`,
+            time: "Just now",
+            unread: true
+        });
 
-    setDB(freshDb);
+        setDB(freshDb);
+        showToast(`${item.name || item.componentName} moved to Maintenance.`, "success");
+        renderStatusPanel();
+    }
 
-    showToast(
-        `${item.name || item.componentName} moved to Maintenance.`,
-        "success"
-    );
-
-    renderStatusPanel();
-};
     if (statusSearch) statusSearch.addEventListener("input", renderStatusPanel);
     if (statusFilterPn) statusFilterPn.addEventListener("change", renderStatusPanel);
 
+    document.addEventListener("click", (e) => {
+        const target = e.target.closest("[data-action]");
+        if (!target) return;
+
+        const action = target.getAttribute("data-action");
+        const itemId = target.getAttribute("data-id");
+
+        if (action === "markUnderMaintenance") {
+            e.preventDefault();
+            markUnderMaintenance(itemId);
+        }
+    });
+
+    document.addEventListener("change", (e) => {
+        const target = e.target.closest("[data-action='updateEqStatus']");
+        if (!target) return;
+        updateEquipmentStatus(target.getAttribute("data-id"), target.value);
+    });
+
     renderStatusPanel();
-});
-
-        renderBaseLayout("equipment-tracking");
-    
-
-document.addEventListener('click', function(e) {
-    let target = e.target.closest('[data-action]');
-    if (!target) return;
-    let action = target.getAttribute('data-action');
-    if (action === 'markUnderMaintenance') {
-        e.preventDefault();
-        markUnderMaintenance(target.getAttribute('data-id'));
-    }
 });

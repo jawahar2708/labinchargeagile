@@ -56,6 +56,7 @@
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
+    
 }
 
 .stat-card::after {
@@ -552,3 +553,126 @@
 .material-requests-style-80f33f::before { content: '•'; font-size: 14px; }
 .material-requests-style-f45d97 { font-size:11.5px;color:#EA580C;margin-top:2px; font-weight:600; display: flex; align-items: center; gap: 4px; }
 .material-requests-style-f45d97::before { content: '•'; font-size: 14px; }
+
+
+/* ============================================================
+   PORTABLE THEME OVERRIDE (Equipment Tracking Aesthetic)
+   ============================================================ */
+
+/* 1. Animated Mesh Background */
+.page-content-wrapper {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.page-content-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(92, 89, 242, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 40%);
+    z-index: -1;
+    pointer-events: none;
+    animation: slow-pan 20s infinite alternate ease-in-out;
+}
+
+@keyframes slow-pan {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-5%, -5%); }
+}
+
+/* 2. Universal Glassmorphism (Overriding Solid Containers) */
+.glass-panel, .controls-bar, .toolbar, .table-card, .status-panel, .pagination-footer {
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+}
+
+/* 3. Stat & KPI Cards with Shine & Hover Lift */
+.stat-card, .kpi-card, .card {
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    border-radius: 20px !important;
+    padding: 24px !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::after, .kpi-card::after, .card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+    transform: skewX(-25deg);
+    transition: 0.5s;
+    opacity: 0;
+}
+
+.stat-card:hover, .kpi-card:hover, .card:hover {
+    transform: translateY(-6px) scale(1.02) !important;
+    box-shadow: 0 20px 40px rgba(92, 89, 242, 0.12),
+                0 1px 3px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+    border-color: rgba(92, 89, 242, 0.3) !important;
+}
+
+.stat-card:hover::after, .kpi-card:hover::after, .card:hover::after {
+    animation: shine 1.2s;
+    opacity: 1;
+}
+
+@keyframes shine {
+    100% { left: 200%; }
+}
+
+/* Gradient Typography for Metric Numbers */
+.stat-value, .kpi-num, .card-data h3 {
+    font-size: 32px !important;
+    font-weight: 800 !important;
+    background: linear-gradient(135deg, #0F172A, #334155);
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+/* 4. Unified Gradient Primary Buttons */
+.btn-primary, .eq-save-btn {
+    background: linear-gradient(135deg, #5C59F2, #7C3AED) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 8px 16px rgba(92, 89, 242, 0.25) !important;
+    border: none !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-primary:hover:not(:disabled), .eq-save-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #4E4AC8, #6D28D9) !important;
+    box-shadow: 0 12px 24px rgba(92, 89, 242, 0.35) !important;
+    transform: translateY(-2px);
+}
+
+/* 5. Modern Focus Rings for Inputs & Dropdowns */
+.search-input:focus, .filter-select:focus, .form-control:focus, .search-wrap:focus-within {
+    border-color: #5C59F2 !important;
+    background-color: #FFFFFF !important;
+    box-shadow: 0 0 0 4px rgba(92, 89, 242, 0.1) !important;
+}
+
+/* 6. Table & Grid Entrance Animations */
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.custom-table tbody tr, .cards-grid > div, .row, .table-row {
+    animation: fade-in-up 0.5s ease-out forwards;
+}

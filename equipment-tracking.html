@@ -4,25 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipment Tracking - RPLMS</title>
-    
+    <title>Equipment Tracking · RPLMS</title>
+    <meta name="description" content="Review and approve equipment requests submitted by project teams in the RPLMS Lab In-Charge Portal.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
-    
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/equipment-tracking.css">
-    <!-- Keep lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    </head>
+</head>
 
 <body>
-
     <div class="app-container">
 
-        <!-- SIDEBAR -->
+        <!-- SIDEBAR (injected by global.js renderBaseLayout) -->
         <aside class="sidebar"></aside>
 
         <!-- MAIN PANEL -->
@@ -32,15 +26,8 @@
             <header class="header">
                 <div class="header-left">
                     <button class="sidebar-toggle" id="sidebarToggleBtn">&#9776;</button>
-                    <div class="page-title-area">
-                        <h1 class="page-title">Equipment Approvals</h1>
-                        <ul class="breadcrumbs">
-                            <li>Home</li>
-                            <li>Equipment Approvals</li>
-                        </ul>
-                    </div>
+                    <h1 class="page-title">Equipment Approvals</h1>
                 </div>
-
                 <div class="header-right">
                     <button class="header-icon-btn">
                         <span class="icon">&#128276;</span>
@@ -51,115 +38,126 @@
             </header>
 
             <!-- CONTENT BODY -->
-            <div class="page-content-wrapper equipment-tracking-wrapper">
+            <div class="page-content-wrapper">
 
-                <!-- KPI METRICS GRID -->
-                <div
-                    class="kpi-metrics-grid">
-                    <div
-                        class="kpi-metric-card">
-                        <div
-                            class="kpi-metric-title title-gray">
-                            Total Team Requests</div>
-                        <div id="kpiTotalTeams"
-                            class="kpi-metric-value value-dark">0</div>
+                <!-- KPI STATS -->
+                <section class="stats-grid">
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon-wrapper stat-blue">&#128230;</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="kpiTotalTeams">0</span>
+                            <span class="stat-label">Total Team Requests</span>
+                            <span class="stat-subtext">All equipment requests</span>
+                        </div>
                     </div>
-                    <div
-                        class="kpi-metric-card">
-                        <div
-                            class="kpi-metric-title title-orange">
-                            Pending Approvals</div>
-                        <div id="kpiPendingTeams"
-                            class="kpi-metric-value value-orange">0</div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon-wrapper stat-orange">&#9201;</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="kpiPendingTeams">0</span>
+                            <span class="stat-label">Pending Approvals</span>
+                            <span class="stat-subtext">Awaiting review</span>
+                        </div>
                     </div>
-                    <div
-                        class="kpi-metric-card">
-                        <div
-                            class="kpi-metric-title title-green">
-                            Approved Requests</div>
-                        <div id="kpiApprovedTeams"
-                            class="kpi-metric-value value-green">0</div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon-wrapper stat-green">&#10003;</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="kpiApprovedTeams">0</span>
+                            <span class="stat-label">Approved Requests</span>
+                            <span class="stat-subtext">Completed approvals</span>
+                        </div>
                     </div>
-                    <div
-                        class="kpi-metric-card">
-                        <div
-                            class="kpi-metric-title title-red">
-                            Rejected & Flagged</div>
-                        <div id="kpiRejectedTeams"
-                            class="kpi-metric-value value-red">0</div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon-wrapper stat-red">&#10007;</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="kpiRejectedTeams">0</span>
+                            <span class="stat-label">Rejected & Flagged</span>
+                            <span class="stat-subtext">Declined or flagged</span>
+                        </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- SEARCH & FILTER BAR -->
-                <div
-                    class="filter-bar">
-                    <div class="filter-search-wrapper">
-                        <input type="text" id="teamSearchInput" placeholder="Search by Team ID, Team Name, or Asset..."
-                            class="filter-input">
+                <!-- FILTER BAR + SEARCH -->
+                <section class="controls-bar glass-panel">
+                    <div class="filters-left">
+                        <select id="teamStatusFilter" class="filter-select">
+                            <option value="all">All Overall Statuses</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected / Flagged</option>
+                        </select>
+                        <select id="teamLabFilter" class="filter-select">
+                            <option value="all">All Labs</option>
+                            <option value="Electronics Lab">Electronics Lab</option>
+                            <option value="Mechanical Lab">Mechanical Lab</option>
+                            <option value="Robotics Lab">Robotics Lab</option>
+                            <option value="Fabrication Lab">Fabrication Lab</option>
+                            <option value="IoT Lab">IoT Lab</option>
+                        </select>
+                        <button id="clearTeamFilters" class="btn btn-secondary btn-clear-filters">Clear Filters</button>
                     </div>
-                    <select id="teamStatusFilter"
-                        class="filter-select">
-                        <option value="all">All Overall Statuses</option>
-                        <option value="pending">Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected / Flagged</option>
-                    </select>
-                    <select id="teamLabFilter"
-                        class="filter-select">
-                        <option value="all">All Labs</option>
-                        <option value="Electronics Lab">Electronics Lab</option>
-                        <option value="Mechanical Lab">Mechanical Lab</option>
-                        <option value="Robotics Lab">Robotics Lab</option>
-                        <option value="Fabrication Lab">Fabrication Lab</option>
-                        <option value="IoT Lab">IoT Lab</option>
-                    </select>
-                    <button id="clearTeamFilters" class="btn equipment-tracking-style-dc251b">Clear
-                        Filters</button>
-                </div>
+                    <div class="filters-right">
+                        <div class="search-wrapper">
+                            <span class="search-icon">&#128269;</span>
+                            <input type="text" id="teamSearchInput" class="search-input"
+                                placeholder="Search by Team ID, Team Name, or Asset...">
+                        </div>
+                    </div>
+                </section>
 
                 <!-- CARDS GRID -->
-                <div class="cards-grid" id="trackingCardsGrid" class="equipment-tracking-style-03ed67">
+                <div class="cards-grid" id="trackingCardsGrid">
                     <!-- Rendered programmatically -->
                 </div>
+
+                <!-- PAGINATION CONTROLS (team request cards) -->
+                <div class="pagination-footer glass-panel">
+                    <span id="paginationInfo" class="table-info">Showing 0-0 of 0 teams</span>
+                    <div class="pagination-actions">
+                        <button id="prevPageBtn" class="btn btn-secondary">Previous</button>
+                        <button id="nextPageBtn" class="btn btn-primary">Next</button>
+                    </div>
+                </div>
+
                 <!-- EQUIPMENT STATUS MANAGEMENT PANEL -->
-                <div class="status-panel" id="statusMgmtPanel">
+                <div class="status-panel glass-panel" id="statusMgmtPanel">
                     <div class="status-panel-header">
                         <div class="status-panel-title">
-                            <div class="status-panel-icon">🔧</div>
+                            <div class="status-panel-icon">&#128295;</div>
                             Equipment Status Management
                         </div>
-                        <div class="equipment-tracking-style-77dbb8">
-
-                            <div class="equipment-tracking-style-4cb8ce">
-                                <input type="text" id="statusSearchPanel" placeholder="Search equipment..."
-                                    class="equipment-tracking-style-5400c5">
-                                <span
-                                    class="equipment-tracking-style-572e3b">🔍</span>
+                        <div class="status-panel-actions">
+                            <select id="statusFilterPanel" class="filter-select status-filter-select">
+                                <option value="all">All Statuses</option>
+                                <option value="Available">Available</option>
+                                <option value="In Use">In Use</option>
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Repairing">Repairing</option>
+                                <option value="Retired">Retired</option>
+                            </select>
+                            <div class="search-wrapper status-search">
+                                <span class="search-icon">&#128269;</span>
+                                <input type="text" id="statusSearchPanel" class="search-input"
+                                    placeholder="Search equipment...">
                             </div>
                         </div>
                     </div>
+                    <div class="eq-status-columns">
+                        <span>Equipment</span>
+                        <span>Status</span>
+                        <span>Start</span>
+                        <span>End</span>
+                        <span>Action</span>
+                    </div>
                     <div class="eq-status-list" id="eqStatusList">
-                        <!-- Rendered by equipment.js -->
+                        <!-- Rendered by equipment-tracking.js -->
                     </div>
-                    <div id="eqStatusEmpty" class="equipment-tracking-style-2ad489">
-                        <div class="equipment-tracking-style-c83d5d">⚙️</div>
-                        <div class="equipment-tracking-style-a5d2ba">No equipment found</div>
-                    </div>
-                </div>
-
-                <!-- PAGINATION CONTROLS -->
-                <div
-                    class="equipment-tracking-style-c0a057">
-                    <div id="paginationInfo" class="equipment-tracking-style-d4b16f">
-                        Showing 0-0 of 0 teams
-                    </div>
-                    <div class="equipment-tracking-style-13262f">
-                        <button id="prevPageBtn" class="btn equipment-tracking-style-2c4d09">Previous</button>
-                        <button id="nextPageBtn" class="btn btn-primary equipment-tracking-style-4777c2">Next</button>
+                    <div id="eqStatusEmpty" class="empty-state">
+                        <div class="empty-state-icon">&#9881;</div>
+                        <div class="empty-state-text">No equipment found</div>
                     </div>
                 </div>
 
-            </div>
+            </div><!-- /.page-content-wrapper -->
 
             <!-- FOOTER -->
             <footer class="page-footer">
@@ -167,15 +165,10 @@
             </footer>
 
         </main>
-
     </div>
-
-    
-    
-    
 
     <script src="assets/js/global.js"></script>
     <script src="assets/js/equipment-tracking.js"></script>
-    </body>
+</body>
 
 </html>
