@@ -93,37 +93,34 @@
                         <!--<button class="filter-btn">
                             <span>&#9783;</span> Filters <span>&#9662;</span>
                         </button>-->
-                        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                        <div class="inventory-style-5afa63">
                             <label
-                                style="font-size:11.5px; display:inline-flex; align-items:center; gap:6px; cursor:pointer;"
+                                class="inventory-style-302c78"
                                 title="If checked, duplicate IDs in Excel/CSV will update the existing item in the DB. Otherwise, they are skipped and reported.">
                                 <!-- <input type="checkbox" id="updateDuplicateCheck"
-                                    style="cursor:pointer; width:14px; height:14px;"> Update Duplicates -->
+                                    class="inventory-style-964a26"> Update Duplicates -->
                             </label>
 
                             <div id="actionsEquipment" class="action-group">
-                                <a href="#" class="btn btn-primary"
-                                    style="padding:8px 14px;font-size:12.5px;">+ Add Equipment</a>
+                                <a href="#" id="addEquipmentBtn" class="btn btn-primary inventory-style-274acb">+ Add Equipment</a>
                                 <button type="button" class="btn btn-outline btn-download" data-type="equipment"
-                                    style="padding:8px 14px;font-size:12.5px; width:auto; display:inline-flex; border-color:#CBD5E1;">Download
+                                    class="inventory-style-f6b1cb">Download
                                     Template</button>
                             </div>
-                            <div id="actionsComponents" class="action-group" style="display:none;">
-                                <a href="#" class="btn btn-primary"
-                                    style="padding:8px 14px;font-size:12.5px;">+ Add Component</a>
+                            <div id="actionsComponents" class="action-group inventory-style-93b8ea">
+                                <a href="#" class="btn btn-primary inventory-style-274acb">+ Add Component</a>
                                 <button type="button" class="btn btn-outline btn-download" data-type="components"
-                                    style="padding:8px 14px;font-size:12.5px; width:auto; display:inline-flex; border-color:#CBD5E1;">Download
+                                    class="inventory-style-f6b1cb">Download
                                     Template</button>
                             </div>
-                            <div id="actionsTools" class="action-group" style="display:none;">
-                                <a href="#" class="btn btn-primary"
-                                    style="padding:8px 14px;font-size:12.5px;">+ Add Tool</a>
+                            <div id="actionsTools" class="action-group inventory-style-93b8ea">
+                                <a href="#" class="btn btn-primary inventory-style-274acb">+ Add Tool</a>
                                 <button type="button" class="btn btn-outline btn-download" data-type="tools"
-                                    style="padding:8px 14px;font-size:12.5px; width:auto; display:inline-flex; border-color:#CBD5E1;">Download
+                                    class="inventory-style-f6b1cb">Download
                                     Template</button>
                             </div>
                         </div>
-                        <input type="file" id="bulkUploadFileInput" accept=".xlsx,.csv" style="display:none;">
+                        <input type="file" id="bulkUploadFileInput" accept=".xlsx,.csv" class="inventory-style-93b8ea">
 
 
 
@@ -147,8 +144,8 @@
 
                 <!-- DATA TABLE -->
                 <section class="table-card">
-                    <div class="table-responsive" style="overflow-x:auto;">
-                        <table class="custom-table" id="inventoryTable" style="min-width:2200px;">
+                    <div class="table-responsive inventory-style-77c814">
+                        <table class="custom-table" id="inventoryTable" class="inventory-style-c97348">
 
                             <thead id="inventoryTableHead"></thead>
 
@@ -180,47 +177,100 @@
 
     </div>
 
+    <!-- ADD EQUIPMENT MODAL -->
+    <div class="drawer-overlay" id="addEquipmentModalOverlay" data-action="closeAddEquipmentModal"></div>
+    <div class="drawer" id="addEquipmentModal">
+        <div class="drawer-header">
+            <div>
+                <h2>Add Equipment</h2>
+                <span>Create a new equipment entry</span>
+            </div>
+            <button class="modal-close-btn" data-action="closeAddEquipmentModal">&times;</button>
+        </div>
+        <div class="drawer-body">
+            <form id="addEquipmentForm">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Component Name</label>
+                    <input type="text" id="eqName" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Make</label>
+                    <input type="text" id="eqMake" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Specification/Version</label>
+                    <input type="text" id="eqSpec" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Total Count</label>
+                    <input type="number" id="eqCount" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Component Type</label>
+                    <select id="eqType" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="Manufacturing Equipment">Manufacturing Equipment</option>
+                        <option value="Testing Equipment">Testing Equipment</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Lab</label>
+                    <select id="eqLab" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="Mechanical Lab">Mechanical Lab</option>
+                        <option value="Electronics Lab">Electronics Lab</option>
+                        <option value="Manufacturing Lab">Manufacturing Lab</option>
+                        <option value="Embedded Lab">Embedded Lab</option>
+                        <option value="IoT Lab">IoT Lab</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Remarks</label>
+                    <input type="text" id="eqRemarks" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+            </form>
+        </div>
+        <div class="drawer-footer" style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <button class="btn btn-outline" data-action="closeAddEquipmentModal">Cancel</button>
+            <button class="btn btn-primary" id="saveEquipmentBtn">Save Equipment</button>
+        </div>
+    </div>
+
     <!-- BULK UPLOAD SUMMARY MODAL -->
-    <div class="drawer-overlay" id="uploadSummaryModalOverlay" onclick="closeUploadSummaryModal()"></div>
-    <div class="drawer" id="uploadSummaryModal" style="width: 580px;">
+    <div class="drawer-overlay" id="uploadSummaryModalOverlay" data-action="closeUploadSummaryModal"></div>
+    <div class="drawer" id="uploadSummaryModal" class="inventory-style-c5a25c">
         <div class="drawer-header">
             <div>
                 <h2>Bulk Upload Summary</h2>
-                <span style="font-size: 12px; color: var(--muted-2); font-weight: 500;">Excel / CSV Import
+                <span class="inventory-style-7e1b38">Excel / CSV Import
                     Results</span>
             </div>
-            <button class="modal-close-btn"
-                style="background:none; border:none; font-size:24px; color:var(--muted); cursor:pointer;"
-                onclick="closeUploadSummaryModal()">&times;</button>
+            <button class="modal-close-btn inventory-style-4cc55b"
+                data-action="closeUploadSummaryModal">&times;</button>
         </div>
-        <div class="drawer-body" style="gap: 16px;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
-                <div class="stat-card"
-                    style="padding: 12px; flex-direction: column; align-items: flex-start; gap: 4px;">
-                    <span class="stat-value" id="summaryTotalRows" style="font-size: 20px;">0</span>
-                    <span class="stat-label" style="font-size: 11px;">Total Processed</span>
+        <div class="drawer-body inventory-style-86c90f">
+            <div class="inventory-style-320f95">
+                <div class="stat-card inventory-style-4aa468">
+                    <span class="stat-value" id="summaryTotalRows" class="inventory-style-af18ea">0</span>
+                    <span class="stat-label inventory-style-6ec708">Total Processed</span>
                 </div>
-                <div class="stat-card"
-                    style="padding: 12px; flex-direction: column; align-items: flex-start; gap: 4px; border-color: #BBF7D0;">
-                    <span class="stat-value" id="summarySuccessRows" style="font-size: 20px; color: #16A34A;">0</span>
-                    <span class="stat-label" style="font-size: 11px;">Successfully Imported</span>
+                <div class="stat-card inventory-style-f43fec">
+                    <span class="stat-value" id="summarySuccessRows" class="inventory-style-6c06c7">0</span>
+                    <span class="stat-label inventory-style-6ec708">Successfully Imported</span>
                 </div>
-                <div class="stat-card"
-                    style="padding: 12px; flex-direction: column; align-items: flex-start; gap: 4px; border-color: #FECACA;">
-                    <span class="stat-value" id="summaryFailedRows" style="font-size: 20px; color: #DC2626;">0</span>
-                    <span class="stat-label" style="font-size: 11px;">Failed / Skipped</span>
+                <div class="stat-card inventory-style-f80db9">
+                    <span class="stat-value" id="summaryFailedRows" class="inventory-style-534916">0</span>
+                    <span class="stat-label inventory-style-6ec708">Failed / Skipped</span>
                 </div>
             </div>
 
             <div>
-                <h3 class="section-title" style="font-size: 13px; margin-bottom: 6px;">Import Details & Errors</h3>
+                <h3 class="section-title inventory-style-88275e">Import Details & Errors</h3>
                 <div
-                    style="border: 1px solid var(--border-color); border-radius: 8px; max-height: 250px; overflow-y: auto;">
-                    <table class="table-mini" style="font-size: 11.5px; width: 100%;">
-                        <thead style="position: sticky; top: 0; background: var(--bg-primary);">
+                    class="inventory-style-6f9793">
+                    <table class="table-mini inventory-style-7eb3f4">
+                        <thead class="inventory-style-548d46">
                             <tr>
-                                <th style="width: 60px;">Row #</th>
-                                <th style="width: 100px;">Item ID</th>
+                                <th class="inventory-style-902c6d">Row #</th>
+                                <th class="inventory-style-e3d221">Item ID</th>
                                 <th>Status / Reason</th>
                             </tr>
                         </thead>
@@ -230,7 +280,7 @@
             </div>
         </div>
         <div class="drawer-footer">
-            <button class="btn btn-primary" onclick="closeUploadSummaryModal()">OK</button>
+            <button class="btn btn-primary" data-action="closeUploadSummaryModal">OK</button>
         </div>
     </div>
 

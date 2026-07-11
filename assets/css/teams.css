@@ -1151,3 +1151,65 @@
 #issueModal.show {
     display: flex;
 }
+/* Auto-extracted inline styles */
+.teams-style-41296f { padding:16px 20px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between; }
+.teams-style-5ce799 { font-size:14px;font-weight:700;color:var(--text-primary); }
+.teams-style-8347c4 { font-size:11px;color:var(--text-secondary);margin-top:2px; }
+.teams-style-77c814 { overflow-x:auto; }
+.teams-style-c22132 { min-width:620px; }
+.teams-style-feee1c { padding:20px 24px; }
+.teams-style-b35cdb { display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap; }
+.teams-style-719d7f { flex:1;min-width:200px;max-width:300px;margin:0; }
+.teams-style-d72008 { max-width:100%; }
+.teams-style-879192 { padding-left:36px;width:100%; }
+.teams-style-93b8ea { display:none; }
+.teams-style-c7a535 { padding:10px 20px; }
+.teams-style-6abd3b { display:none;flex-direction:column;gap:24px; }
+.teams-style-2b2c01 { display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px; }
+.teams-style-24da58 { display:flex;align-items:center;gap:10px;margin-bottom:6px; }
+.teams-style-293390 { font-size:18px;font-weight:800;color:var(--text-primary); }
+.teams-style-ff6263 { display:flex;gap:24px;flex-wrap:wrap; }
+.teams-style-c16bed { font-size:12px;color:var(--text-secondary); }
+.teams-style-7727fb { color:var(--primary-color); }
+.teams-style-96b971 { display:flex;gap:8px;flex-wrap:wrap; }
+.teams-style-7c25ff { font-size:12px;padding:8px 16px; }
+.teams-style-80c8e0 { grid-template-columns:repeat(4,1fr); }
+.teams-style-fe25f4 { color:#DC2626; }
+.teams-style-da4378 { display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start; }
+.teams-style-63ead2 { display:flex;flex-direction:column;gap:24px; }
+.teams-style-8ce9ec { padding:16px 20px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px; }
+.teams-style-6d8ff0 { font-size:14px;font-weight:700; }
+.teams-style-63e984 { display:flex;gap:8px;align-items:center; }
+.teams-style-f6cc99 { padding:6px 10px;font-size:12px;width:auto; }
+.teams-style-8ddd45 { max-width:160px; }
+.teams-style-6acf45 { min-width:680px; }
+.teams-style-5d482d { min-width:560px; }
+.teams-style-a1c1c4 { padding:0;overflow:hidden; }
+.teams-style-c4adde { padding:16px 20px;border-bottom:1px solid var(--border-color); }
+.teams-style-aa7abd { padding:20px 16px;display:flex;flex-direction:column;gap:0;max-height:640px;overflow-y:auto; }
+.teams-style-ca5655 { display:none;position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:10000;align-items:center;justify-content:center; }
+.teams-style-5ecd14 { background:var(--bg-card);border-radius:16px;padding:28px 32px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(15,23,42,0.2);margin:16px;position:relative; }
+.teams-style-276d86 { display:flex;align-items:center;justify-content:space-between;margin-bottom:20px; }
+.teams-style-406fd7 { font-size:16px;font-weight:800;color:var(--text-primary); }
+.teams-style-6dceaa { font-size:12px;color:var(--text-secondary);margin-top:2px; }
+.teams-style-9b40dd { background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-secondary);line-height:1;padding:4px; }
+.teams-style-09c8f1 { grid-template-columns:1fr 1fr;gap:16px; }
+.teams-style-5e0f15 { grid-column:span 2;margin-bottom:0; }
+.teams-style-a2d48c { margin-bottom:0; }
+.teams-style-ae925e { resize:vertical; }
+.teams-style-99031c { display:flex;gap:10px;justify-content:flex-end;margin-top:20px; }
+.teams-style-2314da { margin-left:8px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:#FEE2E2;color:#DC2626; }
+.teams-style-8744e4 { font-weight:700;color:var(--primary-color); }
+.teams-style-a5d2ba { font-weight:600; }
+.teams-style-cce6b7 { text-align:center;padding:32px;color:var(--text-secondary); }
+.teams-style-65dd0a { text-align:center;padding:32px;color:var(--text-secondary);font-size:13px; }
+.teams-style-a39ef9 { display:flex;gap:12px;padding-bottom:${i < events.length - 1 ?  }
+.teams-style-64b8a6 { display:flex;flex-direction:column;align-items:center;flex-shrink:0; }
+.teams-style-42031d { width:32px;height:32px;border-radius:50%;background:${e.bg};color:${e.color};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700; }
+.teams-style-3cd439 { width:2px;flex:1;background:var(--border-color);margin-top:4px; }
+.teams-style-e9cfa2 { padding-top:4px;padding-bottom:${i < events.length - 1 ?  }
+.teams-style-18f3d6 { font-size:12px;font-weight:700;color:var(--text-primary); }
+.teams-style-4b3267 { font-size:11px;color:var(--text-secondary);margin-top:1px; }
+.teams-style-93ac84 { font-size:10px;color:var(--text-secondary);margin-top:3px; }
+
+.bg-red-50 { background: #FFF5F5; }

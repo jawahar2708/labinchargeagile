@@ -107,18 +107,17 @@
     </div>
 
     <!-- SINGLE SHARED RETURN DRAWER -->
-    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <div class="drawer-overlay" id="drawerOverlay" data-action="closeDrawer"></div>
     <div class="drawer" id="returnReviewDrawer">
         <div class="drawer-header">
             <div>
                 <h2 id="drawerTeamName">Team Name</h2>
-                <span style="font-size:12px;color:var(--text-secondary);font-weight:500;" id="drawerTeamId">TEAM-XXX</span>
+                <span class="material-returns-style-9bfa04" id="drawerTeamId">TEAM-XXX</span>
             </div>
-            <div style="display:flex;align-items:center;gap:12px;">
+            <div class="material-returns-style-9cc5e9">
                 <span class="badge" id="drawerStatusBadge">Pending</span>
-                <button class="modal-close-btn"
-                    style="background:none;border:none;font-size:24px;color:var(--text-secondary);line-height:1;cursor:pointer;"
-                    onclick="closeDrawer()">&times;</button>
+                <button class="modal-close-btn material-returns-style-b5593c"
+                    data-action="closeDrawer">&times;</button>
             </div>
         </div>
         <div class="drawer-body">
@@ -129,7 +128,7 @@
                 </div>
                 <div class="meta-item">
                     <label>Overdue Items Count</label>
-                    <span id="metaOverdueCount" style="color:#EF4444;">0</span>
+                    <span id="metaOverdueCount" class="material-returns-style-d55db1">0</span>
                 </div>
             </div>
 
@@ -141,8 +140,8 @@
                             <th id="drawerColId">Item ID</th>
                             <th id="drawerColName">Item Name</th>
                             <th>Issued Count</th>
-                            <th style="width:120px;">Returned Count</th>
-                            <th style="width:180px;text-align:center;">Returned in Good Condition</th>
+                            <th class="material-returns-style-db8a21">Returned Count</th>
+                            <th class="material-returns-style-040c48">Returned in Good Condition</th>
                         </tr>
                     </thead>
                     <tbody id="bodyReturns"></tbody>
@@ -152,13 +151,13 @@
             <div class="box-summary">
                 <div class="summary-row"><span id="labelIssued">Total Items Issued</span><span id="sumIssued">0</span></div>
                 <div class="summary-row"><span id="labelReturned">Total Items Returned</span><span id="sumReturned">0</span></div>
-                <div class="summary-row" style="color:#F59E0B;"><span>Damaged (Ticket pending)</span><span id="sumDamaged">0</span></div>
+                <div class="summary-row material-returns-style-599f9e"><span>Damaged (Ticket pending)</span><span id="sumDamaged">0</span></div>
                 <div class="summary-row bold"><span>Overall Return Status</span><span id="sumStatus">Pending</span></div>
             </div>
         </div>
         <div class="drawer-footer">
-            <button class="btn btn-secondary" style="width:auto;" onclick="closeDrawer()">Cancel</button>
-            <button class="btn btn-primary" style="width:auto;" onclick="submitReturn()">Submit Return</button>
+            <button class="btn btn-secondary material-returns-style-d3b60f" data-action="closeDrawer">Cancel</button>
+            <button class="btn btn-primary material-returns-style-d3b60f" data-action="submitReturn">Submit Return</button>
         </div>
     </div>
 

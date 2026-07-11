@@ -554,13 +554,13 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderTable() {
         tableBody.innerHTML = `
       <tr>
-        <td class="skeleton" style="height: 48px; border-bottom: 8px solid white;"></td>
-        <td class="skeleton" style="height: 48px; border-bottom: 8px solid white;"></td>
-        <td class="skeleton" style="height: 48px; border-bottom: 8px solid white;"></td>
-        <td class="skeleton" style="height: 48px; border-bottom: 8px solid white;"></td>
-        <td class="skeleton" style="height: 48px; border-bottom: 8px solid white;"></td>
-        <td class="skeleton" style="height: 48px; border-bottom: 8px solid white;"></td>
-        <td class="skeleton" style="height: 48px; border-bottom: 8px solid white;"></td>
+        <td class="skeleton inventory-style-37b663"></td>
+        <td class="skeleton inventory-style-37b663"></td>
+        <td class="skeleton inventory-style-37b663"></td>
+        <td class="skeleton inventory-style-37b663"></td>
+        <td class="skeleton inventory-style-37b663"></td>
+        <td class="skeleton inventory-style-37b663"></td>
+        <td class="skeleton inventory-style-37b663"></td>
       </tr>
     `;
 
@@ -605,7 +605,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (paginatedData.length === 0) {
                 tableBody.innerHTML = `
           <tr>
-            <td colspan="7" style="text-align: center; padding: 48px 16px;">
+            <td colspan="7" class="inventory-style-8e8f43">
               <div class="empty-state">
                 <span class="empty-state-icon">&#10065;</span>
                 <span class="empty-state-title">No Inventory Items Found</span>
@@ -631,13 +631,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${item.lab}</td>
                         <td>${item.remarks || ""}</td>
                         <td>
-    <a href="#" style="font-size:18px;text-decoration:none;margin-right:10px;">
+    <a href="#" class="inventory-style-5a2edf">
         ✏️
     </a>
 
-    <a href="javascript:void(0)"
-       onclick="deleteEquipment('${item.eqpid}','${item.name || item.componentName}')"
-       style="font-size:18px;text-decoration:none;color:red;">
+    <a href="#"
+       data-action="deleteEquipment" data-id="${item.eqpid}" data-name="${item.name || item.componentName}"
+       class="inventory-style-eadcd3">
         🗑️
     </a>
 </td>
@@ -663,13 +663,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${item.purpose || ""}</td>
                         <td>${item.comments || ""}</td>
                         <td>
-    <a href="#" style="font-size:18px;text-decoration:none;margin-right:10px;">
+    <a href="#" class="inventory-style-5a2edf">
         ✏️
     </a>
 
-    <a href="javascript:void(0)"
-       onclick="deleteComponent('${item.cid}','${item.componentName}')"
-       style="font-size:18px;text-decoration:none;color:red;">
+    <a href="#"
+       data-action="deleteComponent" data-id="${item.cid}" data-name="${item.componentName}"
+       class="inventory-style-eadcd3">
         🗑️
     </a>
 </td>
@@ -695,13 +695,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${item.purpose || ""}</td>
                         <td>${item.comments || ""}</td>
                         <td>
-    <a href="#" style="font-size:18px;text-decoration:none;margin-right:10px;">
+    <a href="#" class="inventory-style-5a2edf">
         ✏️
     </a>
 
-    <a href="javascript:void(0)"
-       onclick="deleteTool('${item.toolid}','${item.componentName}')"
-       style="font-size:18px;text-decoration:none;color:red;">
+    <a href="#"
+       data-action="deleteTool" data-id="${item.toolid}" data-name="${item.componentName}"
+       class="inventory-style-eadcd3">
         🗑️
     </a>
 </td>
@@ -1083,7 +1083,7 @@ window.deleteTool = function (id, name) {
 
         const tbody = document.getElementById("uploadSummaryTableBody");
         tbody.innerHTML = details.map(d => {
-            const rowClass = d.status === "Failed" || d.status === "Skipped" ? "style='color: #DC2626; font-weight: 600;'" : "style='color: #16A34A;'";
+            const rowClass = d.status === "Failed" || d.status === "Skipped" ? "class='text-red-600 font-semibold'" : "class='text-green-600'";
             return `
                 <tr>
                     <td>Row ${d.row}</td>
@@ -1126,6 +1126,78 @@ window.deleteTool = function (id, name) {
         document.body.removeChild(link);
     };
 
+    // --- Add Equipment Modal Logic ---
+    const addEquipmentBtn = document.getElementById("addEquipmentBtn");
+    const addEqModal = document.getElementById("addEquipmentModal");
+    const addEqOverlay = document.getElementById("addEquipmentModalOverlay");
+
+    if (addEquipmentBtn) {
+        addEquipmentBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            addEqModal.classList.add("show");
+            addEqOverlay.classList.add("show");
+        });
+    }
+
+    window.closeAddEquipmentModal = function () {
+        addEqModal.classList.remove("show");
+        addEqOverlay.classList.remove("show");
+        document.getElementById("addEquipmentForm").reset();
+    };
+
+    const saveEquipmentBtn = document.getElementById("saveEquipmentBtn");
+    if (saveEquipmentBtn) {
+        saveEquipmentBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const form = document.getElementById("addEquipmentForm");
+            if (!form.reportValidity()) {
+                return;
+            }
+
+            const name = document.getElementById("eqName").value;
+            const make = document.getElementById("eqMake").value;
+            const spec = document.getElementById("eqSpec").value;
+            const count = parseInt(document.getElementById("eqCount").value);
+            const type = document.getElementById("eqType").value;
+            const lab = document.getElementById("eqLab").value;
+            const remarks = document.getElementById("eqRemarks").value;
+
+            const maxSno = db.equipment.length > 0 ? Math.max(...db.equipment.map(e => e.sno || 0)) : 0;
+            let maxEqpId = 0;
+            db.equipment.forEach(e => {
+                if (e.eqpid) {
+                    const idNum = parseInt(e.eqpid.replace("EQP", ""));
+                    if (!isNaN(idNum) && idNum > maxEqpId) maxEqpId = idNum;
+                }
+            });
+
+            const newEq = {
+                sno: maxSno + 1,
+                eqpid: `EQP${String(maxEqpId + 1).padStart(3, '0')}`,
+                componentName: name,
+                make: make,
+                specification: spec,
+                totalCount: count,
+                componentType: type,
+                lab: lab,
+                remarks: remarks
+            };
+
+            db.equipment.push(newEq);
+            setDB(db); // Save to local storage
+            
+            closeAddEquipmentModal();
+            // Fallback alert if showToast isn't globally available
+            if(typeof showToast === 'function') {
+                showToast("Equipment added successfully", "success");
+            } else {
+                alert("Equipment added successfully");
+            }
+            updateKPIs();
+            renderTable();
+        });
+    }
+
     // Initial load
     renderHeader();
     updateKPIs();
@@ -1135,3 +1207,35 @@ window.deleteTool = function (id, name) {
 
         renderBaseLayout("inventory");
     
+
+document.addEventListener('click', function(e) {
+    let target = e.target.closest('[data-action]');
+    if (!target) return;
+    
+    let action = target.getAttribute('data-action');
+    if (action === 'deleteEquipment') {
+        e.preventDefault();
+        deleteEquipment(target.getAttribute('data-id'), target.getAttribute('data-name'));
+    } else if (action === 'deleteComponent') {
+        e.preventDefault();
+        deleteComponent(target.getAttribute('data-id'), target.getAttribute('data-name'));
+    } else if (action === 'deleteTool') {
+        e.preventDefault();
+        deleteTool(target.getAttribute('data-id'), target.getAttribute('data-name'));
+    }
+});
+
+document.addEventListener('click', function(e) {
+    let target = e.target.closest('[data-action]');
+    if (!target) return;
+    let action = target.getAttribute('data-action');
+    if (action === 'closeUploadSummaryModal') {
+        e.preventDefault();
+        closeUploadSummaryModal();
+    } else if (action === 'closeAddEquipmentModal') {
+        e.preventDefault();
+        if (typeof closeAddEquipmentModal === 'function') {
+            closeAddEquipmentModal();
+        }
+    }
+});

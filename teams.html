@@ -45,16 +45,16 @@
                 <!-- QUICK ACCESS TABLE -->
                 <section class="table-card" id="quickAccessTable">
                     <div
-                        style="padding:16px 20px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;">
+                        class="teams-style-41296f">
                         <div>
-                            <div style="font-size:14px;font-weight:700;color:var(--text-primary);">Active Teams</div>
-                            <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">Click View to load a
+                            <div class="teams-style-5ce799">Active Teams</div>
+                            <div class="teams-style-8347c4">Click View to load a
                                 team workspace</div>
                         </div>
                         <span class="badge status-resolved" id="activeTeamCount">--</span>
                     </div>
-                    <div class="table-responsive" style="overflow-x:auto;">
-                        <table class="custom-table" style="min-width:620px;">
+                    <div class="table-responsive teams-style-77c814">
+                        <table class="custom-table teams-style-c22132">
                             <thead>
                                 <tr>
                                     <th>Team ID</th>
@@ -73,20 +73,20 @@
                     </div>
                 </section>
                 <!-- SEARCH BAR -->
-                <section class="content-card" style="padding:20px 24px;">
-                    <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;">
-                        <div class="form-group" style="flex:1;min-width:200px;max-width:300px;margin:0;">
+                <section class="content-card teams-style-feee1c">
+                    <div class="teams-style-b35cdb">
+                        <div class="form-group teams-style-719d7f">
                             <label class="form-label">Team ID <span class="required-star">*</span></label>
-                            <div class="search-wrapper" style="max-width:100%;">
+                            <div class="search-wrapper teams-style-d72008">
                                 <span class="search-icon">&#128269;</span>
                                 <input type="text" id="teamSearchInput" class="search-input" placeholder="e.g. TEAM-001"
-                                    maxlength="20" style="padding-left:36px;width:100%;">
+                                    maxlength="20" class="teams-style-879192">
                             </div>
-                            <span class="invalid-feedback" id="searchError" style="display:none;">Please enter a valid
+                            <span class="invalid-feedback" id="searchError" class="teams-style-93b8ea">Please enter a valid
                                 Team ID (e.g. TEAM-001).</span>
                         </div>
-                        <button class="btn btn-primary" id="searchBtn" style="padding:10px 20px;">Search</button>
-                        <button class="btn btn-secondary" id="resetBtn" style="padding:10px 20px;">Reset</button>
+                        <button class="btn btn-primary" id="searchBtn" class="teams-style-c7a535">Search</button>
+                        <button class="btn btn-secondary" id="resetBtn" class="teams-style-c7a535">Reset</button>
                     </div>
                 </section>
 
@@ -101,37 +101,37 @@
                 </div>
 
                 <!-- WORKSPACE (hidden until search) -->
-                <div id="workspaceContent" style="display:none;flex-direction:column;gap:24px;">
+                <div id="workspaceContent" class="teams-style-6abd3b">
 
                     <!-- TEAM INFO CARD -->
-                    <section class="content-card" style="padding:20px 24px;">
+                    <section class="content-card teams-style-feee1c">
                         <div
-                            style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+                            class="teams-style-2b2c01">
                             <div>
-                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                                    <span style="font-size:18px;font-weight:800;color:var(--text-primary);"
+                                <div class="teams-style-24da58">
+                                    <span class="teams-style-293390"
                                         id="wsTeamName">--</span>
                                     <span class="badge" id="wsStatusBadge">--</span>
                                 </div>
-                                <div style="display:flex;gap:24px;flex-wrap:wrap;">
-                                    <span style="font-size:12px;color:var(--text-secondary);">ID: <strong id="wsTeamId"
-                                            style="color:var(--primary-color);">--</strong></span>
-                                    <span style="font-size:12px;color:var(--text-secondary);">Project: <strong
+                                <div class="teams-style-ff6263">
+                                    <span class="teams-style-c16bed">ID: <strong id="wsTeamId"
+                                            class="teams-style-7727fb">--</strong></span>
+                                    <span class="teams-style-c16bed">Project: <strong
                                             id="wsProject">--</strong></span>
                                 </div>
                             </div>
-                            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            <div class="teams-style-96b971">
                                 <button class="btn btn-secondary" id="btnRaiseTicket"
-                                    style="font-size:12px;padding:8px 16px;">Raise Ticket</button>
-                                <!-- <button class="btn btn-secondary" id="btnAddRequest" style="font-size:12px;padding:8px 16px;">&#43; Add Request</button> -->
+                                    class="teams-style-7c25ff">Raise Ticket</button>
+                                <!-- <button class="btn btn-secondary" id="btnAddRequest" class="teams-style-7c25ff">&#43; Add Request</button> -->
                                 <button class="btn btn-primary" id="btnPrint"
-                                    style="font-size:12px;padding:8px 16px;">Print Summary</button>
+                                    class="teams-style-7c25ff">Print Summary</button>
                             </div>
                         </div>
                     </section>
 
                     <!-- KPI CARDS -->
-                    <section class="stats-grid" style="grid-template-columns:repeat(4,1fr);">
+                    <section class="stats-grid teams-style-80c8e0">
                         <div class="stat-card">
                             <div class="stat-details">
                                 <span class="stat-value" id="kpiBorrowed">0</span>
@@ -155,7 +155,7 @@
                         </div>
                         <div class="stat-card">
                             <div class="stat-details">
-                                <span class="stat-value" id="kpiOverdue" style="color:#DC2626;">0</span>
+                                <span class="stat-value" id="kpiOverdue" class="teams-style-fe25f4">0</span>
                                 <span class="stat-label">Overdue Returns</span>
                                 <span class="stat-subtext">Past due date</span>
                             </div>
@@ -163,36 +163,35 @@
                     </section>
 
                     <!-- MAIN GRID: LEFT tables + RIGHT timeline -->
-                    <div style="display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start;">
+                    <div class="teams-style-da4378">
 
-                        <div style="display:flex;flex-direction:column;gap:24px;">
+                        <div class="teams-style-63ead2">
 
                             <!-- BORROWED EQUIPMENT TABLE -->
                             <section class="table-card">
                                 <div
-                                    style="padding:16px 20px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                                    class="teams-style-8ce9ec">
                                     <div>
-                                        <div style="font-size:14px;font-weight:700;">Borrowed Equipment</div>
-                                        <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">Items
+                                        <div class="teams-style-6d8ff0">Borrowed Equipment</div>
+                                        <div class="teams-style-8347c4">Items
                                             currently issued to this team</div>
                                     </div>
-                                    <div style="display:flex;gap:8px;align-items:center;">
-                                        <select id="eqStatusFilter" class="form-control"
-                                            style="padding:6px 10px;font-size:12px;width:auto;">
+                                    <div class="teams-style-63e984">
+                                        <select id="eqStatusFilter" class="form-control teams-style-f6cc99">
                                             <option value="All">All Status</option>
                                             <option value="Assigned">With Team</option>
                                             <option value="Overdue">Overdue</option>
                                             <option value="Returned">Returned</option>
                                         </select>
-                                        <div class="search-wrapper" style="max-width:160px;">
+                                        <div class="search-wrapper teams-style-8ddd45">
                                             <span class="search-icon">&#128269;</span>
                                             <input type="text" id="eqSearch" class="search-input"
                                                 placeholder="Search...">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="table-responsive" style="overflow-x:auto;">
-                                    <table class="custom-table" style="min-width:680px;">
+                                <div class="table-responsive teams-style-77c814">
+                                    <table class="custom-table teams-style-6acf45">
                                         <thead>
                                             <tr>
                                                 <th>Eq. ID</th>
@@ -215,22 +214,21 @@
                             <!-- COMPONENT REQUESTS TABLE -->
                             <section class="table-card">
                                 <div
-                                    style="padding:16px 20px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                                    class="teams-style-8ce9ec">
                                     <div>
-                                        <div style="font-size:14px;font-weight:700;">Component Requests</div>
-                                        <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">All
+                                        <div class="teams-style-6d8ff0">Component Requests</div>
+                                        <div class="teams-style-8347c4">All
                                             component requests raised by this team</div>
                                     </div>
-                                    <select id="reqStatusFilter" class="form-control"
-                                        style="padding:6px 10px;font-size:12px;width:auto;">
+                                    <select id="reqStatusFilter" class="form-control teams-style-f6cc99">
                                         <option value="All">All Status</option>
                                         <option value="Pending">Pending</option>
                                         <option value="Approved">Approved</option>
                                         <option value="Rejected">Rejected</option>
                                     </select>
                                 </div>
-                                <div class="table-responsive" style="overflow-x:auto;">
-                                    <table class="custom-table" style="min-width:560px;">
+                                <div class="table-responsive teams-style-77c814">
+                                    <table class="custom-table teams-style-5d482d">
                                         <thead>
                                             <tr>
                                                 <th>Request ID</th>
@@ -252,14 +250,14 @@
                         </div>
 
                         <!-- ACTIVITY TIMELINE -->
-                        <section class="content-card" style="padding:0;overflow:hidden;">
-                            <div style="padding:16px 20px;border-bottom:1px solid var(--border-color);">
-                                <div style="font-size:14px;font-weight:700;">Recent Activity</div>
-                                <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">Latest actions —
+                        <section class="content-card teams-style-a1c1c4">
+                            <div class="teams-style-c4adde">
+                                <div class="teams-style-6d8ff0">Recent Activity</div>
+                                <div class="teams-style-8347c4">Latest actions —
                                     newest first</div>
                             </div>
                             <div id="timelineContainer"
-                                style="padding:20px 16px;display:flex;flex-direction:column;gap:0;max-height:640px;overflow-y:auto;">
+                                class="teams-style-aa7abd">
                             </div>
                         </section>
 
@@ -277,49 +275,49 @@
 
     <!-- ── Add Component Request Modal ───────────────────────────────────────── -->
     <div id="addRequestModal"
-        style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:10000;align-items:center;justify-content:center;">
+        class="teams-style-ca5655">
         <div
-            style="background:var(--bg-card);border-radius:16px;padding:28px 32px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(15,23,42,0.2);margin:16px;position:relative;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+            class="teams-style-5ecd14">
+            <div class="teams-style-276d86">
                 <div>
-                    <div style="font-size:16px;font-weight:800;color:var(--text-primary);">&#43; Add Component Request
+                    <div class="teams-style-406fd7">&#43; Add Component Request
                     </div>
-                    <div style="font-size:12px;color:var(--text-secondary);margin-top:2px;">Submit a new material
+                    <div class="teams-style-6dceaa">Submit a new material
                         request for this team</div>
                 </div>
                 <button id="closeAddRequestModal"
-                    style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-secondary);line-height:1;padding:4px;">&times;</button>
+                    class="teams-style-9b40dd">&times;</button>
             </div>
             <form id="addRequestForm" novalidate>
-                <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:16px;">
-                    <div class="form-group form-group-full" style="grid-column:span 2;margin-bottom:0;">
+                <div class="form-grid teams-style-09c8f1">
+                    <div class="form-group form-group-full teams-style-5e0f15">
                         <label class="form-label" for="reqItemName">Item Name <span
                                 class="required-star">*</span></label>
                         <input type="text" id="reqItemName" name="item" class="form-control"
                             placeholder="e.g. Arduino Uno R3" maxlength="80">
                         <span class="invalid-feedback" id="reqItemErr"></span>
                     </div>
-                    <div class="form-group" style="margin-bottom:0;">
+                    <div class="form-group teams-style-a2d48c">
                         <label class="form-label" for="reqQty">Quantity <span class="required-star">*</span></label>
                         <input type="number" id="reqQty" name="qty" class="form-control" placeholder="e.g. 5" min="1"
                             max="999">
                         <span class="invalid-feedback" id="reqQtyErr"></span>
                     </div>
-                    <div class="form-group" style="margin-bottom:0;">
+                    <div class="form-group teams-style-a2d48c">
                         <label class="form-label" for="reqDate">Required By <span class="required-star">*</span></label>
                         <input type="date" id="reqDate" name="date" class="form-control">
                         <span class="invalid-feedback" id="reqDateErr"></span>
                     </div>
-                    <div class="form-group form-group-full" style="grid-column:span 2;margin-bottom:0;">
+                    <div class="form-group form-group-full teams-style-5e0f15">
                         <label class="form-label" for="reqPurpose">Purpose / Notes <span
                                 class="required-star">*</span></label>
                         <textarea id="reqPurpose" name="purpose" class="form-control" rows="3"
                             placeholder="Briefly describe why this component is needed..." maxlength="200"
-                            style="resize:vertical;"></textarea>
+                            class="teams-style-ae925e"></textarea>
                         <span class="invalid-feedback" id="reqPurposeErr"></span>
                     </div>
                 </div>
-                <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                <div class="teams-style-99031c">
                     <button type="button" id="cancelAddRequest" class="btn btn-secondary">&times; Cancel</button>
                     <button type="submit" class="btn btn-primary" id="submitAddRequest">&#10003; Submit Request</button>
                 </div>

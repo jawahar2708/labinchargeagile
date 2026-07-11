@@ -551,10 +551,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (totalItems === 0) {
             cardsGrid.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; padding: 48px; background: #fff; border-radius: 12px; box-shadow: var(--shadow);">
-                    <div style="font-size: 48px; margin-bottom: 16px;">📋</div>
-                    <h3 style="margin: 0; font-size: 18px; color: #1F2937;">No Equipment Requests Found</h3>
-                    <p style="color: #6B7280; margin: 8px 0 0 0;">There are no team requests matching your filter criteria.</p>
+                <div class="equipment-tracking-style-b5347e">
+                    <div class="equipment-tracking-style-441dff">📋</div>
+                    <h3 class="equipment-tracking-style-c17571">No Equipment Requests Found</h3>
+                    <p class="equipment-tracking-style-a079c9">There are no team requests matching your filter criteria.</p>
                 </div>
             `;
             return;
@@ -574,7 +574,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div class="card-body">
                         <h3 class="team-name">${team.teamName}</h3>
-                        <div style="font-size: 12px; color: #6B7280; margin-top: 8px;">
+                        <div class="equipment-tracking-style-3772fe">
                             ${team.requests.length} request(s) total
                         </div>
                     </div>
@@ -726,20 +726,18 @@ document.addEventListener("DOMContentLoaded", () => {
     <input
         type="time"
         id="start-${item.id}"
-        class="eq-status-select"
-        style="min-width:120px;"
+        class="eq-status-select equipment-tracking-style-c8419c"
     >
 
     <input
         type="time"
         id="end-${item.id}"
-        class="eq-status-select"
-        style="min-width:120px;"
+        class="eq-status-select equipment-tracking-style-c8419c"
     >
 
     <button
         class="eq-save-btn"
-        onclick="markUnderMaintenance('${item.id}')"
+        data-action="markUnderMaintenance" data-id="${item.id}"
     >
         Under Maintenance
     </button>
@@ -809,3 +807,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderBaseLayout("equipment-tracking");
     
+
+document.addEventListener('click', function(e) {
+    let target = e.target.closest('[data-action]');
+    if (!target) return;
+    let action = target.getAttribute('data-action');
+    if (action === 'markUnderMaintenance') {
+        e.preventDefault();
+        markUnderMaintenance(target.getAttribute('data-id'));
+    }
+});

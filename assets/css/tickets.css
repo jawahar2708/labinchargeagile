@@ -113,3 +113,49 @@
             padding: 4px 0;
         }
     
+
+/* Auto-extracted inline styles */
+.tickets-style-ed73fb { max-width: 1280px; margin: 0 auto; padding: 28px 36px; display: flex; flex-direction: column; gap: 28px; }
+.tickets-style-1b4308 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.tickets-style-e5970f { margin: 0; font-size: 18px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.4px; }
+.tickets-style-34f8fb { gap: 8px; box-shadow: 0 4px 12px rgba(92, 89, 242, 0.25); }
+.tickets-style-c45cca { width: 200px; text-align: center; }
+.tickets-style-a08cac { display:none; position:fixed; inset:0; background:rgba(15,23,42,0.4); backdrop-filter: blur(4px); align-items:center; justify-content:center; z-index: 1000; }
+.tickets-style-f43a25 { background:#fff; border-radius:14px; padding:28px; width:520px; max-width:95%; box-shadow: var(--shadow-lg); }
+.tickets-style-00e7e4 { margin-top:0; font-size:18px; font-weight:800; color:var(--text-primary); margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:12px; }
+.tickets-style-81a2a1 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom:14px; }
+.tickets-style-ce68f6 { margin-bottom:14px; display:none; }
+.tickets-style-2e286e { font-weight:600; color:var(--primary); font-size:14px; margin-top:2px; }
+.tickets-style-157a9c { margin-bottom:14px; }
+.tickets-style-ffc706 { width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; font-family:inherit; font-size:13px; color:var(--text-primary); }
+.tickets-style-684111 { margin-bottom:20px; }
+.tickets-style-c47b5b { width:100%; height:90px; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; resize:vertical; font-family: inherit; font-size: 13px; color:var(--text-primary); }
+.tickets-style-19deb9 { text-align:right; border-top: 1px solid var(--border-color); padding-top: 16px; display:flex; justify-content:flex-end; gap:8px; }
+.tickets-style-4d0f59 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:14px; }
+.tickets-style-cfa410 { width:100%; height:90px; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; resize:vertical; font-family:inherit; font-size:13px; color:var(--text-primary); }
+.tickets-style-25e68e { background:#fff; border-radius:14px; padding:28px; width:560px; max-width:95%; box-shadow: var(--shadow-lg); }
+.tickets-style-f3a94c { max-height: 400px; overflow-y: auto; padding-right: 8px; }
+.tickets-style-e15ac1 { text-align:right; border-top: 1px solid var(--border-color); padding-top: 16px; margin-top:16px; display:flex; justify-content:flex-end; gap:8px; }
+.tickets-style-17f737 { text-align: center; padding: 48px 16px; color: var(--text-secondary); font-weight: 500; }
+.tickets-style-a5a31a { font-size:11px;color:#6B7280;font-weight:normal; }
+.tickets-style-7d28b7 { font-weight: 700; color: var(--text-secondary); }
+.tickets-style-3eca9e { font-weight: 600; color: var(--text-primary); }
+.tickets-style-1c6f07 { font-weight: 600; color: var(--text-secondary); }
+.tickets-style-36c650 { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tickets-style-cdd8ca { text-align: center; }
+.tickets-style-06b88c { padding: 6px 12px; font-size: 12px; }
+.tickets-style-872cee { padding: 6px 12px; font-size:12px; }
+.tickets-style-457a20 { font-family: monospace; font-weight: 700; color: var(--text-secondary); }
+.tickets-style-00eef5 { font-weight: 700; color: #10B981; }
+.tickets-style-a4b527 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size:13px; color: #4B5563; margin-bottom:12px; }
+.tickets-style-cc568f { font-weight:700; }
+.tickets-style-a5d2ba { font-weight:600; }
+.tickets-style-8107c2 { grid-column: span 2; }
+.tickets-style-a8b812 { font-weight:600; color:#5C59F2; }
+.tickets-style-589af2 { grid-column: span 2; background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid var(--border-color); }
+.tickets-style-d725dc { margin:4px 0 0 0; color:var(--text-primary); line-height:1.4; }
+.tickets-style-1efd74 { margin-top:16px; }
+.tickets-style-e485e7 { font-size:12px; font-weight:700; color:#374151; display:block; margin-bottom:4px; }
+.tickets-style-f440e7 { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; }
+.tickets-style-78f6f2 { margin-top:12px; }
+.tickets-style-43d7b3 { width:100%; height:75px; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; resize:vertical; font-family:inherit; font-size:13px; color:var(--text-primary); }

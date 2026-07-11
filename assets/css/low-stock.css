@@ -1664,3 +1664,14 @@ input[type="checkbox"] {
         flex-wrap: wrap;
     }
 }
+/* Auto-extracted inline styles */
+.low-stock-style-f8ad38 { background:var(--purple-bg); }
+.low-stock-style-53b8cf { background:var(--red-bg); }
+.low-stock-style-11073e { background:var(--orange-bg); }
+.low-stock-style-66877d { background:var(--amber-bg); }
+.low-stock-style-4b1756 { width:${fillPct}%;background:${meta.gauge}; }
+.low-stock-style-70849d { left:calc(${tickPct}% - 1px); }
+.low-stock-style-566ef8 { background:${sm.bg};color:${sm.fg}; }
+.low-stock-style-29081a { background:${meta.badgeBg};color:${meta.badgeFg}; }
+.low-stock-style-0c5e26 { background:${meta.dot}; }
+.low-stock-style-99b316 { font-size:11px;color:var(--muted-2);font-weight:600; }

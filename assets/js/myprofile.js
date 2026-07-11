@@ -732,3 +732,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderBaseLayout("profile");
     
+
+document.addEventListener('click', function(e) {
+    let target = e.target.closest('[data-action]');
+    if (!target) return;
+    let action = target.getAttribute('data-action');
+    if (action === 'triggerPhotoUpload') {
+        e.preventDefault();
+        document.getElementById('photoUpload').click();
+    }
+});

@@ -571,7 +571,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (page.length === 0) {
             container.innerHTML = `
-                <div style="grid-column:1/-1;padding:48px 16px;text-align:center;">
+                <div class="material-returns-style-fd42f3">
                     <div class="empty-state">
                         <span class="empty-state-icon">&#8617;</span>
                         <span class="empty-state-title">No Return Items Found</span>
@@ -589,23 +589,22 @@ document.addEventListener("DOMContentLoaded", () => {
             const ids         = team.items.map(i => i.id).join(", ");
             const btnLabel    = allReturned ? "View Return Details" : "Process Return";
             return `
-                <div class="req-card" onclick="openReturnDrawer('${team.teamId}')"
-                     style="cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;min-height:180px;">
+                <div class="req-card" data-action="openReturnDrawer" data-id="${team.teamId}"
+                     class="material-returns-style-a1b346">
                     <div>
                         <div class="card-header">
                             <span class="badge ${badgeClass}">${cardStatus}</span>
-                            <span style="font-size:11px;color:var(--text-secondary);font-weight:700;">${ids}</span>
+                            <span class="material-returns-style-209573">${ids}</span>
                         </div>
-                        <div class="card-body" style="margin-bottom:0;">
+                        <div class="card-body material-returns-style-a2d48c">
                             <div><strong>Team Name</strong>${team.teamName}</div>
                             <div><strong>Team ID</strong>${team.teamId}</div>
                             <div><strong>Items</strong>${team.items.map(i => i.item).join(", ")}</div>
                         </div>
                     </div>
-                    <div style="display:flex;justify-content:flex-end;margin-top:16px;">
-                        <button class="btn ${allReturned ? 'btn-secondary' : 'btn-primary'}"
-                                style="width:auto;min-width:150px;font-size:12.5px;padding:8px 16px;"
-                                onclick="event.stopPropagation();openReturnDrawer('${team.teamId}')">
+                    <div class="material-returns-style-239a22">
+                        <button class="btn ${allReturned ? 'btn-secondary' : 'btn-primary'} material-returns-style-b751cf"
+                                data-action="openReturnDrawerStop" data-id="${team.teamId}">
                             ${btnLabel}
                         </button>
                     </div>
@@ -649,7 +648,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td><strong>${itemId}</strong></td>
-                <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;">${item.item}</td>
+                <td class="material-returns-style-a04dfa">${item.item}</td>
                 <td>${item.qty}</td>
                 <td>
                     <input type="number" class="qty-input"
@@ -657,9 +656,9 @@ document.addEventListener("DOMContentLoaded", () => {
                            min="0" max="${item.qty}" value="${retQty}"
                            oninput="validateAndRecalculate('${item.id}',${item.qty})">
                 </td>
-                <td style="text-align:center;">
+                <td class="material-returns-style-539b04">
                     <input type="checkbox"
-                           style="width:16px;height:16px;transform:scale(1.1);accent-color:var(--primary-color);cursor:pointer;"
+                           class="material-returns-style-aead9c"
                            id="chk-return-${item.id}" ${isGood}
                            onchange="recalculateReturnSummary()">
                 </td>`;
@@ -808,3 +807,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderBaseLayout("material-returns");
     
+
+document.addEventListener('click', function(e) {
+    let target = e.target.closest('[data-action]');
+    if (!target) return;
+    let action = target.getAttribute('data-action');
+    if (action === 'openReturnDrawer') {
+        e.preventDefault();
+        openReturnDrawer(target.getAttribute('data-id'));
+    } else if (action === 'openReturnDrawerStop') {
+        e.preventDefault();
+        e.stopPropagation();
+        openReturnDrawer(target.getAttribute('data-id'));
+    }
+});
+
+document.addEventListener('click', function(e) {
+    let target = e.target.closest('[data-action]');
+    if (!target) return;
+    let action = target.getAttribute('data-action');
+    if (action === 'closeDrawer') {
+        e.preventDefault();
+        closeDrawer();
+    } else if (action === 'submitReturn') {
+        e.preventDefault();
+        submitReturn();
+    }
+});

@@ -1,359 +1,402 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Low Stock Alerts · RPLMS</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
-    
-    
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="stylesheet" href="assets/css/global.css">
-    <link rel="stylesheet" href="assets/css/low-stock.css">
+    <link rel="stylesheet" href="assets/css/global.css" />
+    <link rel="stylesheet" href="assets/css/low-stock.css" />
     <!-- Keep lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    </head>
+  </head>
 
-<body>
-
+  <body>
     <div class="app">
+      <!-- ================= SIDEBAR ================= -->
+      <aside class="sidebar"></aside>
 
-        <!-- ================= SIDEBAR ================= -->
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="mark">ILP</div>
-                <div class="sub">RAPID PROTOTYPING LAB</div>
-            </div>
-            <div class="portal-label">Lab In-Charge Portal</div>
-            <nav class="nav">
-                <a class="nav-item" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                        <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                        <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                        <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                    </svg><span>Dashboard</span></a>
-                <a class="nav-item" href="teams.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                        <circle cx="9" cy="7" r="4" />
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                    </svg><span>Team Workspace</span></a>
-                <a class="nav-item" href="inventory.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path
-                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                        <line x1="12" y1="22.08" x2="12" y2="12" />
-                    </svg><span>Lab Asset Management</span></a>
-                <a class="nav-item" href="material-requests.html"><svg viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
-                        <path
-                            d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8z" />
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                    </svg><span>Component Requests</span></a>
-                <a class="nav-item" href="material-returns.html"><svg viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                        <polyline points="14 2 14 8 20 8" />
-                    </svg><span>Component Returns</span></a>
-                <a class="nav-item" href="equipment-tracking.html"><svg viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="10" r="3" />
-                        <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z" />
-                    </svg><span>Equipment Tracking</span></a>
-                <a class="nav-item active" href="low-stock.html"><svg viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="10" r="3" />
-                        <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z" />
-                    </svg><span>Low Stock Alerts</span></a>
-                <a class="nav-item" href="tickets.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path
-                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                    </svg><span>Ticket Management</span></a>
-                <a class="nav-item" href="myprofile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                        <circle cx="12" cy="7" r="4" />
-                    </svg><span>Profile</span></a>
-            </nav>
-            <a class="nav-logout" href="../../../faculty-main final version/login1.html"><svg viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                    <polyline points="16 17 21 12 16 7" />
-                    <line x1="21" y1="12" x2="9" y2="12" />
-                </svg><span>Logout</span></a>
-        </aside>
-
-        <!-- ================= MAIN ================= -->
-        <main class="main">
-
-            <div class="topbar">
-                <div class="topbar-left">
-                    <!-- <div class="hamburger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <!-- ================= MAIN ================= -->
+      <main class="main">
+        <div class="topbar">
+          <div class="topbar-left">
+            <!-- <div class="hamburger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="3" y1="6" x2="21" y2="6" />
                             <line x1="3" y1="12" x2="21" y2="12" />
                             <line x1="3" y1="18" x2="21" y2="18" />
                         </svg></div> -->
-                    <div class="titles">
-                        <h1>Low Stock Alerts</h1>
-                        <p>Assets that require inventory replenishment</p>
-                    </div>
-                </div>
-                <div class="topbar-right">
-                    <button class="btn btn-primary" id="headerCta">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="15"
-                            height="15">
-                            <line x1="12" y1="5" x2="12" y2="19" />
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                        </svg>
-                        Create Procurement Request
-                    </button>
-                    <button class="icon-btn" id="openRequestsPanel" title="Procurement requests">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                            <polyline points="14 2 14 8 20 8" />
-                            <line x1="8" y1="13" x2="16" y2="13" />
-                            <line x1="8" y1="17" x2="13" y2="17" />
-                        </svg>
-                        <span class="badge-dot" id="reqBadge">0</span>
-                    </button>
-                    <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                        </svg><span class="badge-dot">3</span></button>
-                    <div class="profile">
-                        <div class="avatar">PS</div>
-                        <div class="who">
-                            <div class="name">Dr. Priya S.</div>
-                            <div class="role">LAB IN-CHARGE</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="titles">
+              <h1>Low Stock Alerts</h1>
+              <p>Assets that require inventory replenishment</p>
             </div>
-
-            <!-- KPI CARDS -->
-            <div class="kpi-grid">
-                <div class="kpi-card" data-kpi="all">
-                    <div class="kpi-icon" style="background:var(--purple-bg);"><svg viewBox="0 0 24 24" fill="none"
-                            stroke="var(--purple)" stroke-width="2">
-                            <path
-                                d="M20.5 7.28a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4a2 2 0 0 0-1 1.73v9.44a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73z" />
-                            <polyline points="3.3 6.96 12 12.01 20.7 6.96" />
-                            <line x1="12" y1="22.08" x2="12" y2="12" />
-                        </svg></div>
-                    <div class="kpi-num" id="kpiTotal">0</div>
-                    <div class="kpi-label">Total Low Stock Assets</div>
-                    <div class="kpi-sub">Across all labs &amp; categories</div>
-                </div>
-                <div class="kpi-card" data-kpi="critical">
-                    <div class="kpi-icon" style="background:var(--red-bg);"><svg viewBox="0 0 24 24" fill="none"
-                            stroke="var(--red)" stroke-width="2">
-                            <path
-                                d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                            <line x1="12" y1="9" x2="12" y2="13" />
-                            <line x1="12" y1="17" x2="12.01" y2="17" />
-                        </svg></div>
-                    <div class="kpi-num" id="kpiCritical">0</div>
-                    <div class="kpi-label">Critical</div>
-                    <div class="kpi-sub">Needs immediate action</div>
-                </div>
-                <div class="kpi-card" data-kpi="high">
-                    <div class="kpi-icon" style="background:var(--orange-bg);"><svg viewBox="0 0 24 24" fill="none"
-                            stroke="var(--orange)" stroke-width="2">
-                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                            <polyline points="17 6 23 6 23 12" />
-                        </svg></div>
-                    <div class="kpi-num" id="kpiHigh">0</div>
-                    <div class="kpi-label">High Priority</div>
-                    <div class="kpi-sub">Order within a few days</div>
-                </div>
-                <div class="kpi-card" data-kpi="medium">
-                    <div class="kpi-icon" style="background:var(--amber-bg);"><svg viewBox="0 0 24 24" fill="none"
-                            stroke="var(--amber)" stroke-width="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <polyline points="12 6 12 12 16 14" />
-                        </svg></div>
-                    <div class="kpi-num" id="kpiMedium">0</div>
-                    <div class="kpi-label">Medium Priority</div>
-                    <div class="kpi-sub">Plan for next cycle</div>
-                </div>
+          </div>
+          <div class="topbar-right">
+            <button class="btn btn-primary" id="headerCta">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                width="15"
+                height="15"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Create Procurement Request
+            </button>
+            <button
+              class="icon-btn"
+              id="openRequestsPanel"
+              title="Procurement requests"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="8" y1="13" x2="16" y2="13" />
+                <line x1="8" y1="17" x2="13" y2="17" />
+              </svg>
+              <span class="badge-dot" id="reqBadge">0</span>
+            </button>
+            <button class="icon-btn">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg
+              ><span class="badge-dot">3</span>
+            </button>
+            <div class="profile">
+              <div class="avatar">PS</div>
+              <div class="who">
+                <div class="name">Dr. Priya S.</div>
+                <div class="role">LAB IN-CHARGE</div>
+              </div>
             </div>
+          </div>
+        </div>
 
-            <!-- TOOLBAR / FILTERS -->
-            <div class="toolbar">
-                <div class="search-wrap">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8" />
-                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    </svg>
-                    <input type="text" id="searchInput" placeholder="Search asset name...">
-                </div>
-                <!-- <select class="filter-select" id="priorityFilter">
+        <!-- KPI CARDS -->
+        <div class="kpi-grid">
+          <div class="kpi-card" data-kpi="all">
+            <div class="kpi-icon low-stock-style-f8ad38">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--purple)"
+                stroke-width="2"
+              >
+                <path
+                  d="M20.5 7.28a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4a2 2 0 0 0-1 1.73v9.44a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73z"
+                />
+                <polyline points="3.3 6.96 12 12.01 20.7 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg>
+            </div>
+            <div class="kpi-num" id="kpiTotal">0</div>
+            <div class="kpi-label">Total Low Stock Assets</div>
+            <div class="kpi-sub">Across all labs &amp; categories</div>
+          </div>
+          <div class="kpi-card" data-kpi="critical">
+            <div class="kpi-icon low-stock-style-53b8cf">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--red)"
+                stroke-width="2"
+              >
+                <path
+                  d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+            </div>
+            <div class="kpi-num" id="kpiCritical">0</div>
+            <div class="kpi-label">Critical</div>
+            <div class="kpi-sub">Needs immediate action</div>
+          </div>
+          <div class="kpi-card" data-kpi="high">
+            <div class="kpi-icon low-stock-style-11073e">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--orange)"
+                stroke-width="2"
+              >
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                <polyline points="17 6 23 6 23 12" />
+              </svg>
+            </div>
+            <div class="kpi-num" id="kpiHigh">0</div>
+            <div class="kpi-label">High Priority</div>
+            <div class="kpi-sub">Order within a few days</div>
+          </div>
+          <div class="kpi-card" data-kpi="medium">
+            <div class="kpi-icon low-stock-style-66877d">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--amber)"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <div class="kpi-num" id="kpiMedium">0</div>
+            <div class="kpi-label">Medium Priority</div>
+            <div class="kpi-sub">Plan for next cycle</div>
+          </div>
+        </div>
+
+        <!-- TOOLBAR / FILTERS -->
+        <div class="toolbar">
+          <div class="search-wrap">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search asset name..."
+            />
+          </div>
+          <!-- <select class="filter-select" id="priorityFilter">
                     <option value="all">All Priorities</option>
                     <option value="critical">Critical</option>
                     <option value="high">High Priority</option>
                     <option value="medium">Medium Priority</option>
                 </select> -->
-                <select class="filter-select" id="categoryFilter">
-                    <option value="all">All Categories</option>
-                </select>
-                <select class="filter-select" id="labFilter">
-                    <option value="all">All Labs</option>
-                </select>
-                <button class="clear-filters" id="clearFilters">Clear Filters</button>
-            </div>
+          <select class="filter-select" id="categoryFilter">
+            <option value="all">All Categories</option>
+          </select>
+          <select class="filter-select" id="labFilter">
+            <option value="all">All Labs</option>
+          </select>
+          <button class="clear-filters" id="clearFilters">Clear Filters</button>
+        </div>
 
-            <!-- PRIORITY GROUPS -->
-            <div class="groups" id="groups"></div>
-
-        </main>
+        <!-- PRIORITY GROUPS -->
+        <div class="groups" id="groups"></div>
+      </main>
     </div>
 
     <!-- STICKY FOOTER -->
     <div class="sticky-footer" id="stickyFooter">
-        <div class="sf-left">
-            <div class="sf-count" id="sfCount">0</div>
-            <div class="sf-text"><b id="sfCountText">0 assets</b> selected · Ready to create procurement request</div>
+      <div class="sf-left">
+        <div class="sf-count" id="sfCount">0</div>
+        <div class="sf-text">
+          <b id="sfCountText">0 assets</b> selected · Ready to create
+          procurement request
         </div>
-        <div class="sf-right">
-            <button class="sf-clear" id="sfClear">Clear selection</button>
-            <button class="btn btn-primary" id="sfCreate">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="15" height="15">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                Create Procurement Request
-            </button>
-        </div>
+      </div>
+      <div class="sf-right">
+        <button class="sf-clear" id="sfClear">Clear selection</button>
+        <button class="btn btn-primary" id="sfCreate">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.4"
+            width="15"
+            height="15"
+          >
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          Create Procurement Request
+        </button>
+      </div>
     </div>
 
     <!-- CREATE REQUEST MODAL -->
     <div class="overlay" id="createModal">
-        <div class="modal wide">
-            <div class="modal-head">
-                <div>
-                    <h2>Create Procurement Request</h2>
-                    <p id="createSubtitle">Review order quantities before sending to Admin</p>
-                </div>
-                <button class="modal-close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg></button>
-            </div>
-            <div class="modal-body">
-                <div id="createItemsList"></div>
-                <div class="field-label">Notes for Admin (optional)</div>
-                <textarea class="notes" id="requestNotes"
-                    placeholder="e.g. Vendor preference, urgency context, delivery instructions..."></textarea>
-            </div>
-            <div class="modal-foot">
-                <button class="btn btn-outline" data-close>Cancel</button>
-                <button class="btn btn-primary" id="submitRequest">Submit to Admin</button>
-            </div>
+      <div class="modal wide">
+        <div class="modal-head">
+          <div>
+            <h2>Create Procurement Request</h2>
+            <p id="createSubtitle">
+              Review order quantities before sending to Admin
+            </p>
+          </div>
+          <button class="modal-close" data-close>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
+        <div class="modal-body">
+          <div id="createItemsList"></div>
+          <div class="field-label">Notes for Admin (optional)</div>
+          <textarea
+            class="notes"
+            id="requestNotes"
+            placeholder="e.g. Vendor preference, urgency context, delivery instructions..."
+          ></textarea>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-outline" data-close>Cancel</button>
+          <button class="btn btn-primary" id="submitRequest">
+            Submit to Admin
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- SUCCESS MODAL -->
     <div class="overlay" id="successModal">
-        <div class="modal">
-            <div class="modal-head">
-                <div>
-                    <h2>Request Submitted</h2>
-                    <p>Admin has been notified</p>
-                </div>
-                <button class="modal-close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg></button>
-            </div>
-            <div class="modal-body">
-                <div class="success-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                        <polyline points="22 4 12 14.01 9 11.01" />
-                    </svg>
-                    <div>
-                        <div class="t" id="successReqId">Request PR-000 created</div>
-                        <div class="d" id="successDesc">0 assets have been sent for approval. These assets will no
-                            longer appear as selectable until restocked.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-foot">
-                <button class="btn btn-outline" id="exportExcelBtn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" />
-                        <line x1="12" y1="15" x2="12" y2="3" />
-                    </svg>
-                    Export Excel
-                </button>
-                <button class="btn btn-primary" data-close>Done</button>
-            </div>
+      <div class="modal">
+        <div class="modal-head">
+          <div>
+            <h2>Request Submitted</h2>
+            <p>Admin has been notified</p>
+          </div>
+          <button class="modal-close" data-close>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
+        <div class="modal-body">
+          <div class="success-box">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+            <div>
+              <div class="t" id="successReqId">Request PR-000 created</div>
+              <div class="d" id="successDesc">
+                0 assets have been sent for approval. These assets will no
+                longer appear as selectable until restocked.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-outline" id="exportExcelBtn">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              width="15"
+              height="15"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Export Excel
+          </button>
+          <button class="btn btn-primary" data-close>Done</button>
+        </div>
+      </div>
     </div>
 
     <!-- VIEW DETAILS MODAL -->
     <div class="overlay" id="detailModal">
-        <div class="modal">
-            <div class="modal-head">
-                <div>
-                    <h2 id="detailName">Asset name</h2>
-                    <p id="detailSub">Category · Lab</p>
-                </div>
-                <button class="modal-close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg></button>
-            </div>
-            <div class="modal-body">
-                <div class="detail-grid" id="detailGrid"></div>
-            </div>
-            <div class="modal-foot">
-                <button class="btn btn-outline" data-close>Close</button>
-            </div>
+      <div class="modal">
+        <div class="modal-head">
+          <div>
+            <h2 id="detailName">Asset name</h2>
+            <p id="detailSub">Category · Lab</p>
+          </div>
+          <button class="modal-close" data-close>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
+        <div class="modal-body">
+          <div class="detail-grid" id="detailGrid"></div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-outline" data-close>Close</button>
+        </div>
+      </div>
     </div>
 
     <!-- REQUESTS PANEL -->
     <div class="panel-overlay" id="panelOverlay"></div>
     <div class="panel" id="requestsPanel">
-        <div class="panel-head">
-            <div>
-                <h2>Procurement Requests</h2>
-                <p>Track approval &amp; restock progress</p>
-            </div>
-            <button class="modal-close" id="closePanel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                </svg></button>
+      <div class="panel-head">
+        <div>
+          <h2>Procurement Requests</h2>
+          <p>Track approval &amp; restock progress</p>
         </div>
-        <div class="panel-body" id="panelBody"></div>
+        <button class="modal-close" id="closePanel">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="panel-body" id="panelBody"></div>
     </div>
 
     <div class="toast" id="toast">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
-            <polyline points="20 6 9 17 4 12" />
-        </svg>
-        <span id="toastText">Done</span>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.4"
+      >
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+      <span id="toastText">Done</span>
     </div>
-
-    
 
     <script src="assets/js/global.js"></script>
     <script src="assets/js/low-stock.js"></script>
-    </body>
-
+  </body>
 </html>

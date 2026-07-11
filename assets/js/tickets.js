@@ -582,7 +582,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tickets.length === 0) {
       activeTableBody.innerHTML = `
         <tr>
-          <td colspan="7" style="text-align: center; padding: 48px 16px; color: var(--text-secondary); font-weight: 500;">
+          <td colspan="7" class="tickets-style-17f737">
             No active tickets recorded at this time.
           </td>
         </tr>
@@ -601,20 +601,20 @@ document.addEventListener("DOMContentLoaded", () => {
       // Parse details
       const details = t.damageDescription || t.reason || "No details provided.";
       const cleanSubject = t.subject || "Asset Issue";
-      const slotHtml = t.timeSlot ? `<br><span style="font-size:11px;color:#6B7280;font-weight:normal;">Slot: ${t.timeSlot}</span>` : "";
+      const slotHtml = t.timeSlot ? `<br><span class="tickets-style-a5a31a">Slot: ${t.timeSlot}</span>` : "";
 
       return `
         <tr>
-          <td style="font-weight: 700; color: var(--text-secondary);">${t.id}</td>
-          <td style="font-weight: 600; color: var(--text-primary);">${t.teamName} (${t.assignedTo})</td>
-          <td style="font-weight: 600; color: var(--text-primary);">${t.equipmentName || 'N/A'}${slotHtml}</td>
-          <td style="font-weight: 600; color: var(--text-secondary);">${cleanSubject}</td>
-          <td style="max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${escapeHtml(details)}">
+          <td class="tickets-style-7d28b7">${t.id}</td>
+          <td class="tickets-style-3eca9e">${t.teamName} (${t.assignedTo})</td>
+          <td class="tickets-style-3eca9e">${t.equipmentName || 'N/A'}${slotHtml}</td>
+          <td class="tickets-style-1c6f07">${cleanSubject}</td>
+          <td class="tickets-style-36c650" title="${escapeHtml(details)}">
             ${escapeHtml(details)}
           </td>
           <td><span class="${badgeClass}">${t.status}</span></td>
-          <td style="text-align: center;">
-            <button class="btn btn-secondary" onclick="viewTicket('${t.id}')" style="padding: 6px 12px; font-size: 12px;">View & Track</button>
+          <td class="tickets-style-cdd8ca">
+            <button class="btn btn-secondary" data-action="viewTicket" data-id="${t.id}" class="tickets-style-06b88c">View & Track</button>
           </td>
         </tr>
       `;
@@ -628,7 +628,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (items.length === 0) {
       flaggedTableBody.innerHTML = `
         <tr>
-          <td colspan="7" style="text-align: center; padding: 48px 16px; color: var(--text-secondary); font-weight: 500;">
+          <td colspan="7" class="tickets-style-17f737">
             No items require manual tickets at this time. All caught up!
           </td>
         </tr>
@@ -637,20 +637,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     flaggedTableBody.innerHTML = items.map(item => {
-      const slotHtml = item.timeSlot ? `<br><span style="font-size:11px;color:#6B7280;font-weight:normal;">Slot: ${item.timeSlot}</span>` : "";
+      const slotHtml = item.timeSlot ? `<br><span class="tickets-style-a5a31a">Slot: ${item.timeSlot}</span>` : "";
       const actionButton = item.ticketRaised
-        ? `<button class="btn btn-disabled" disabled style="padding: 6px 12px; font-size:12px;">Ticket Raised</button>`
-        : `<button class="btn btn-primary" onclick="openRaiseModal('${item.source}', '${item.refId}', '${item.teamId}', '${item.itemId}', '${escapeHtml(item.itemName)}', '${item.timeSlot || ''}')" style="padding: 6px 12px; font-size:12px;">Raise Ticket</button>`;
+        ? `<button class="btn btn-disabled" disabled class="tickets-style-872cee">Ticket Raised</button>`
+        : `<button class="btn btn-primary tickets-style-872cee" data-action="openRaiseModal" data-source="${item.source}" data-refid="${item.refId}" data-teamid="${item.teamId}" data-itemid="${item.itemId}" data-itemname="${escapeHtml(item.itemName)}" data-timeslot="${item.timeSlot || ''}">Raise Ticket</button>`;
 
       return `
         <tr>
-          <td style="font-weight: 700; color: var(--text-secondary);">${item.teamId}</td>
-          <td style="font-weight: 600; color: var(--text-primary);">${item.teamName}</td>
+          <td class="tickets-style-7d28b7">${item.teamId}</td>
+          <td class="tickets-style-3eca9e">${item.teamName}</td>
           <td>${item.itemType}</td>
-          <td style="font-family: monospace; font-weight: 700; color: var(--text-secondary);">${item.itemId || 'N/A'}</td>
-          <td style="font-weight: 600; color: var(--text-primary);">${item.itemName}${slotHtml}</td>
-          <td style="font-weight: 700; color: #10B981;">&#8377; ${item.amount.toLocaleString()}</td>
-          <td style="text-align: center;">${actionButton}</td>
+          <td class="tickets-style-457a20">${item.itemId || 'N/A'}</td>
+          <td class="tickets-style-3eca9e">${item.itemName}${slotHtml}</td>
+          <td class="tickets-style-00eef5">&#8377; ${item.amount.toLocaleString()}</td>
+          <td class="tickets-style-cdd8ca">${actionButton}</td>
         </tr>
       `;
     }).join("");
@@ -906,22 +906,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let formHtml = `
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size:13px; color: #4B5563; margin-bottom:12px;">
-        <div><strong>Ticket ID:</strong> <span style="font-weight:700;">${t.id}</span></div>
-        <div><strong>Type:</strong> <span style="font-weight:600;">${t.type}</span></div>
+      <div class="tickets-style-a4b527">
+        <div><strong>Ticket ID:</strong> <span class="tickets-style-cc568f">${t.id}</span></div>
+        <div><strong>Type:</strong> <span class="tickets-style-a5d2ba">${t.type}</span></div>
         <div><strong>Team:</strong> <span>${t.teamName || t.assignedTo} (${t.assignedTo})</span></div>
         <div><strong>Asset:</strong> <span>${t.equipmentName || "N/A"}</span></div>
-        ${t.timeSlot ? `<div style="grid-column: span 2;"><strong>Booking Slot:</strong> <span style="font-weight:600; color:#5C59F2;">${t.timeSlot}</span></div>` : ''}
-        <div style="grid-column: span 2;"><strong>Subject:</strong> <span>${t.subject}</span></div>
-        <div style="grid-column: span 2; background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid var(--border-color);">
+        ${t.timeSlot ? `<div class="tickets-style-8107c2"><strong>Booking Slot:</strong> <span class="tickets-style-a8b812">${t.timeSlot}</span></div>` : ''}
+        <div class="tickets-style-8107c2"><strong>Subject:</strong> <span>${t.subject}</span></div>
+        <div class="tickets-style-589af2">
           <strong>Issue Details:</strong>
-          <p style="margin:4px 0 0 0; color:var(--text-primary); line-height:1.4;">${escapeHtml(t.damageDescription || t.reason || "No details provided.")}</p>
+          <p class="tickets-style-d725dc">${escapeHtml(t.damageDescription || t.reason || "No details provided.")}</p>
         </div>
       </div>
       
-      <div style="margin-top:16px;">
-        <label style="font-size:12px; font-weight:700; color:#374151; display:block; margin-bottom:4px;">Ticket Status</label>
-        <select id="detailStatus" style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; font-family:inherit; font-size:13px; color:var(--text-primary);">
+      <div class="tickets-style-1efd74">
+        <label class="tickets-style-e485e7">Ticket Status</label>
+        <select id="detailStatus" class="tickets-style-ffc706">
           <option value="Open" ${t.status === 'Open' ? 'selected' : ''}>Open</option>
           <option value="Pending" ${t.status === 'Pending' ? 'selected' : ''}>Pending</option>
           <option value="In Progress" ${t.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
@@ -932,20 +932,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isDamage) {
       formHtml += `
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
+        <div class="tickets-style-f440e7">
           
           <div>
-            <label style="font-size:12px; font-weight:700; color:#374151; display:block; margin-bottom:4px;">Due Date</label>
-            <input type="date" id="detailDueDate" value="${dateVal}" style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; font-family:inherit; font-size:13px; color:var(--text-primary);">
+            <label class="tickets-style-e485e7">Due Date</label>
+            <input type="date" id="detailDueDate" value="${dateVal}" class="tickets-style-ffc706">
           </div>
         </div>
       `;
     }
 
     formHtml += `
-      <div style="margin-top:12px;">
-        <label style="font-size:12px; font-weight:700; color:#374151; display:block; margin-bottom:4px;">Remarks / Resolution Notes</label>
-        <textarea id="detailRemarks" style="width:100%; height:75px; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; resize:vertical; font-family:inherit; font-size:13px; color:var(--text-primary);">${t.remarks || ''}</textarea>
+      <div class="tickets-style-78f6f2">
+        <label class="tickets-style-e485e7">Remarks / Resolution Notes</label>
+        <textarea id="detailRemarks" class="tickets-style-43d7b3">${t.remarks || ''}</textarea>
       </div>
     `;
 
@@ -1002,3 +1002,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderBaseLayout("tickets");
     
+
+document.addEventListener('click', function(e) {
+    let target = e.target.closest('[data-action]');
+    if (!target) return;
+    let action = target.getAttribute('data-action');
+    if (action === 'viewTicket') {
+        e.preventDefault();
+        viewTicket(target.getAttribute('data-id'));
+    } else if (action === 'openRaiseModal') {
+        e.preventDefault();
+        openRaiseModal(
+            target.getAttribute('data-source'),
+            target.getAttribute('data-refid'),
+            target.getAttribute('data-teamid'),
+            target.getAttribute('data-itemid'),
+            target.getAttribute('data-itemname'),
+            target.getAttribute('data-timeslot')
+        );
+    }
+});
+
+document.addEventListener('click', function(e) {
+    let target = e.target.closest('[data-action]');
+    if (!target) return;
+    let action = target.getAttribute('data-action');
+    if (action === 'openManualCreateModal') {
+        e.preventDefault();
+        openManualCreateModal();
+    } else if (action === 'closeRaiseModal') {
+        e.preventDefault();
+        closeRaiseModal();
+    } else if (action === 'closeManualCreateModal') {
+        e.preventDefault();
+        closeManualCreateModal();
+    } else if (action === 'closeViewModal') {
+        e.preventDefault();
+        closeViewModal();
+    }
+});

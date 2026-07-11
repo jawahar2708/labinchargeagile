@@ -74,7 +74,7 @@
                             <div class="profile-avatar-container">
                                 <img src="" alt="Avatar" class="avatar-img" id="sidebarAvatar">
                                 <button class="btn-camera-upload"
-                                    onclick="document.getElementById('photoUpload').click()">
+                                    data-action="triggerPhotoUpload">
                                     <i class="fa-solid fa-camera"></i>
                                 </button>
                                 <input type="file" id="photoUpload" accept="image/*" hidden>
@@ -270,7 +270,7 @@
                         <label>Gender</label>
                         <div class="input-wrapper">
                             <select id="editGender"
-                                style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; background: white; font-family: inherit; color: var(--text-dark);">
+                                class="myprofile-style-e07790">
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                                 <option value="Other">Other</option>

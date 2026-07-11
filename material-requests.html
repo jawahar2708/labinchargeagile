@@ -122,11 +122,11 @@
     </div>
 
     <!-- ISSUE MODAL -->
-    <div class="modal" id="issueModal">
-        <div class="modal-box">
+    <div class="modal-backdrop" id="issueModal">
+        <div class="modal-container">
             <div class="modal-header">
-                <h3 class="modal-title">Issue Component</h3>
-                <button class="modal-close-btn" onclick="closeIssueModal()">&times;</button>
+                <h3 class="modal-title" style="margin: 0; font-size: 16px; font-weight: 700;">Issue Component</h3>
+                <button class="modal-close-btn" data-action="closeIssueModal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-info-grid">
@@ -157,7 +157,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeIssueModal()">Cancel</button>
+                <button class="btn btn-secondary" data-action="closeIssueModal">Cancel</button>
                 <button class="btn btn-primary" id="confirmIssueBtn">Confirm Issue</button>
             </div>
         </div>

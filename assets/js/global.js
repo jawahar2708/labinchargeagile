@@ -287,10 +287,10 @@ function createConfirmationModal(title, bodyText, confirmCallback, confirmText =
     }
 
     backdrop.innerHTML = `
-    <div class="modal-container" style="max-width: 420px;">
-      <div class="modal-header" style="padding: 20px 24px;">
+    <div class="modal-container global-style-df925c">
+      <div class="modal-header global-style-5c52b3">
         <div class="modal-header-left">
-          <div class="circle-icon-wrapper ${isDanger ? 'red-alert' : 'blue-info'}" style="width: 40px; height: 40px; font-size: 16px;">
+          <div class="circle-icon-wrapper ${isDanger ? 'red-alert' : 'blue-info'} global-style-26ebab">
             ${isDanger ? '&#9888;' : '&#8505;'}
           </div>
           <div class="card-header-text">
@@ -299,12 +299,12 @@ function createConfirmationModal(title, bodyText, confirmCallback, confirmText =
         </div>
         <button class="modal-close-btn" id="confirmModalClose">&times;</button>
       </div>
-      <div class="modal-body" style="padding: 20px 24px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+      <div class="modal-body global-style-1479c4">
         ${bodyText}
       </div>
-      <div class="modal-footer" style="padding: 12px 24px;">
-        <button class="btn btn-secondary" id="confirmCancelBtn" style="padding: 8px 16px; font-size: 12px;">Cancel</button>
-        <button class="btn ${isDanger ? 'btn-danger' : 'btn-primary'}" id="confirmConfirmBtn" style="padding: 8px 16px; font-size: 12px;">${confirmText}</button>
+      <div class="modal-footer global-style-2df922">
+        <button class="btn btn-secondary" id="confirmCancelBtn" class="global-style-af56eb">Cancel</button>
+        <button class="btn ${isDanger ? 'btn-danger' : 'btn-primary'}" id="confirmConfirmBtn" class="global-style-af56eb">${confirmText}</button>
       </div>
     </div>
   `;

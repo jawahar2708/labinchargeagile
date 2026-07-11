@@ -101,14 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // Show skeleton while "loading"
         tableBody.innerHTML = `
             <tr>
-                <td class="skeleton" style="height:48px;border-bottom:8px solid white;"></td>
-                <td class="skeleton" style="height:48px;border-bottom:8px solid white;"></td>
-                <td class="skeleton" style="height:48px;border-bottom:8px solid white;"></td>
-                <td class="skeleton" style="height:48px;border-bottom:8px solid white;"></td>
-                <td class="skeleton" style="height:48px;border-bottom:8px solid white;"></td>
-                <td class="skeleton" style="height:48px;border-bottom:8px solid white;"></td>
-                <td class="skeleton" style="height:48px;border-bottom:8px solid white;"></td>
-                <td class="skeleton" style="height:48px;border-bottom:8px solid white;"></td>
+                <td class="skeleton material-requests-style-684d31"></td>
+                <td class="skeleton material-requests-style-684d31"></td>
+                <td class="skeleton material-requests-style-684d31"></td>
+                <td class="skeleton material-requests-style-684d31"></td>
+                <td class="skeleton material-requests-style-684d31"></td>
+                <td class="skeleton material-requests-style-684d31"></td>
+                <td class="skeleton material-requests-style-684d31"></td>
+                <td class="skeleton material-requests-style-684d31"></td>
             </tr>`;
 
         setTimeout(() => {
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (page.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="8" style="text-align:center;padding:48px 16px;">
+                        <td colspan="8" class="material-requests-style-7091e2">
                             <div class="empty-state">
                                 <span class="empty-state-icon">&#9998;</span>
                                 <span class="empty-state-title">No Requests Found</span>
@@ -166,11 +166,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const isActionable = req.status !== "Fully Issued" && req.status !== "Rejected";
                 const actionsHtml  = isActionable
-                    ? `<div style="display:flex;gap:8px;">
-                            <button class="btn-view" onclick="approveRequest('${req.id}','${escapeHtml(req.item)}')">Approve</button>
-                            <button class="btn-view" style="color:#EF4444;border-color:var(--border-color);" onclick="rejectRequest('${req.id}','${escapeHtml(req.item)}')">Reject</button>
+                    ? `<div class="material-requests-style-1952d6">
+                            <button class="btn-action" data-action="approveRequest" data-id="${req.id}" data-item="${escapeHtml(req.item)}">Approve</button>
+                            <button class="btn-action material-requests-style-8c60b8" data-action="rejectRequest" data-id="${req.id}" data-item="${escapeHtml(req.item)}">Reject</button>
                         </div>`
-                    : `<span style="color:var(--text-secondary);font-size:11px;font-weight:500;">No action required</span>`;
+                    : `<span class="material-requests-style-2877db">No action required</span>`;
 
                 const highPriorityHtml = (req.pendingQty > 0)
                     ? `<span class="priority-badge">HIGH PRIORITY</span>`
@@ -178,14 +178,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 return `
                     <tr>
-                        <td style="font-weight:700;">${req.id}</td>
-                        <td style="font-weight:700;">${req.teamId}</td>
+                        <td class="material-requests-style-cc568f">${req.id}</td>
+                        <td class="material-requests-style-cc568f">${req.teamId}</td>
                         <td><a href="teams.html" class="team-link">${req.teamName}</a></td>
-                        <td style="font-weight:600;">${req.item}</td>
+                        <td class="material-requests-style-a5d2ba">${req.item}</td>
                         <td>
-                            <div style="font-weight:600;">Requested : ${req.qty}</div>
-                            <div style="font-size:11px;color:#16A34A;margin-top:4px;">Issued : ${req.issuedQty || 0}</div>
-                            <div style="font-size:11px;color:#F59E0B;margin-top:4px;">Pending : ${req.pendingQty ?? req.qty}</div>
+                            <div class="material-requests-style-a5d2ba">Requested : ${req.qty}</div>
+                            <div class="material-requests-style-80f33f">Issued : ${req.issuedQty || 0}</div>
+                            <div class="material-requests-style-f45d97">Pending : ${req.pendingQty ?? req.qty}</div>
                             ${highPriorityHtml}
                         </td>
                         <td>${req.date}</td>
@@ -313,4 +313,27 @@ document.addEventListener("DOMContentLoaded", () => {
     // ── 10. Initial render ──────────────────────────────────────────────────────
     updateKPIs();
     renderTable();
+});
+
+document.addEventListener('click', function(e) {
+    let target = e.target.closest('[data-action]');
+    if (!target) return;
+    let action = target.getAttribute('data-action');
+    if (action === 'approveRequest') {
+        e.preventDefault();
+        approveRequest(target.getAttribute('data-id'), target.getAttribute('data-item'));
+    } else if (action === 'rejectRequest') {
+        e.preventDefault();
+        rejectRequest(target.getAttribute('data-id'), target.getAttribute('data-item'));
+    }
+});
+
+document.addEventListener('click', function(e) {
+    let target = e.target.closest('[data-action]');
+    if (!target) return;
+    let action = target.getAttribute('data-action');
+    if (action === 'closeIssueModal') {
+        e.preventDefault();
+        closeIssueModal();
+    }
 });

@@ -50,18 +50,17 @@
             </header>
 
             <!-- CONTENT BODY -->
-            <div class="page-content-wrapper"
-                style="max-width: 1280px; margin: 0 auto; padding: 28px 36px; display: flex; flex-direction: column; gap: 28px;">
+            <div class="page-content-wrapper tickets-style-ed73fb">
 
                 <!-- ACTIVE TICKETS -->
                 <section class="table-card">
                     <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        class="tickets-style-1b4308">
                         <h2
-                            style="margin: 0; font-size: 18px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.4px;">
+                            class="tickets-style-e5970f">
                             Active Issues &amp; Tickets</h2>
-                        <button class="btn btn-primary" onclick="openManualCreateModal()"
-                            style="gap: 8px; box-shadow: 0 4px 12px rgba(92, 89, 242, 0.25);">
+                        <button class="btn btn-primary" data-action="openManualCreateModal"
+                            class="tickets-style-34f8fb">
                             <span>+</span> Raise New Ticket
                         </button>
                     </div>
@@ -75,7 +74,7 @@
                                     <th>Damage Type</th>
                                     <th>Details</th>
                                     <th>Status</th>
-                                    <th style="width: 200px; text-align: center;">Actions</th>
+                                    <th class="tickets-style-c45cca">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="activeTicketsTableBody">
@@ -86,15 +85,14 @@
                 </section>
 
                 <!-- Raise Ticket Modal (From Flagged) -->
-                <div id="raiseTicketModal" class="modal"
-                    style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.4); backdrop-filter: blur(4px); align-items:center; justify-content:center; z-index: 1000;">
+                <div id="raiseTicketModal" class="modal tickets-style-a08cac">
                     <div
-                        style="background:#fff; border-radius:14px; padding:28px; width:520px; max-width:95%; box-shadow: var(--shadow-lg);">
+                        class="tickets-style-f43a25">
                         <h3
-                            style="margin-top:0; font-size:18px; font-weight:800; color:var(--text-primary); margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:12px;">
+                            class="tickets-style-00e7e4">
                             Raise Ticket</h3>
                         <form id="raiseTicketForm">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom:14px;">
+                            <div class="tickets-style-81a2a1">
                                 <div><span class="modal-label">Team ID</span>
                                     <div id="modalTeamId" class="modal-value"></div>
                                 </div>
@@ -102,7 +100,7 @@
                                     <div id="modalTeamName" class="modal-value"></div>
                                 </div>
                             </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom:14px;">
+                            <div class="tickets-style-81a2a1">
                                 <div><span class="modal-label">Asset ID / Type</span>
                                     <div id="modalAssetId" class="modal-value"></div>
                                 </div>
@@ -110,31 +108,31 @@
                                     <div id="modalAssetName" class="modal-value"></div>
                                 </div>
                             </div>
-                            <div style="margin-bottom:14px; display:none;" id="modalTimeSlotContainer">
+                            <div class="tickets-style-ce68f6" id="modalTimeSlotContainer">
                                 <span class="modal-label">Booking Slot</span>
                                 <div id="modalTimeSlot"
-                                    style="font-weight:600; color:var(--primary); font-size:14px; margin-top:2px;">
+                                    class="tickets-style-2e286e">
                                 </div>
                             </div>
-                            <div style="margin-bottom:14px;">
+                            <div class="tickets-style-157a9c">
                                 <label class="modal-label">Damage/Issue Type</label>
                                 <select id="modalDamageType" required
-                                    style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; font-family:inherit; font-size:13px; color:var(--text-primary);">
+                                    class="tickets-style-ffc706">
                                     <option value="Damaged">Damaged</option>
                                     <option value="Lost">Lost</option>
                                     <option value="Unusable">Unusable</option>
                                 </select>
                             </div>
-                            <div style="margin-bottom:20px;">
+                            <div class="tickets-style-684111">
                                 <label class="modal-label">Details of Damage/Verdict</label>
                                 <textarea id="modalDamageDetails" required
                                     placeholder="Describe what components are missing, damaged or unusable..."
-                                    style="width:100%; height:90px; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; resize:vertical; font-family: inherit; font-size: 13px; color:var(--text-primary);"></textarea>
+                                    class="tickets-style-c47b5b"></textarea>
                             </div>
                             <div
-                                style="text-align:right; border-top: 1px solid var(--border-color); padding-top: 16px; display:flex; justify-content:flex-end; gap:8px;">
+                                class="tickets-style-19deb9">
                                 <button type="button" class="btn btn-secondary"
-                                    onclick="closeRaiseModal()">Cancel</button>
+                                    data-action="closeRaiseModal">Cancel</button>
                                 <button type="submit" class="btn btn-primary">Submit Ticket</button>
                             </div>
                         </form>
@@ -142,35 +140,34 @@
                 </div>
 
                 <!-- Create Ticket Modal (Manual) -->
-                <div id="createTicketModal" class="modal"
-                    style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.4); backdrop-filter: blur(4px); align-items:center; justify-content:center; z-index: 1000;">
+                <div id="createTicketModal" class="modal tickets-style-a08cac">
                     <div
-                        style="background:#fff; border-radius:14px; padding:28px; width:520px; max-width:95%; box-shadow: var(--shadow-lg);">
+                        class="tickets-style-f43a25">
                         <h3
-                            style="margin-top:0; font-size:18px; font-weight:800; color:var(--text-primary); margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:12px;">
+                            class="tickets-style-00e7e4">
                             Raise New Ticket</h3>
                         <form id="createTicketForm">
-                            <div style="margin-bottom:14px;">
+                            <div class="tickets-style-157a9c">
                                 <label class="modal-label">Select Team</label>
                                 <select id="createTicketTeam" required onchange="populateCreateTicketAssets(this.value)"
-                                    style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; font-family:inherit; font-size:13px; color:var(--text-primary);">
+                                    class="tickets-style-ffc706">
                                     <option value="">-- Choose Team --</option>
                                     <!-- Populated dynamically -->
                                 </select>
                             </div>
-                            <div style="margin-bottom:14px;">
+                            <div class="tickets-style-157a9c">
                                 <label class="modal-label">Select Asset / Equipment</label>
                                 <select id="createTicketAsset" required
-                                    style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; font-family:inherit; font-size:13px; color:var(--text-primary);">
+                                    class="tickets-style-ffc706">
                                     <option value="">-- Choose Asset --</option>
                                     <!-- Populated dynamically -->
                                 </select>
                             </div>
-                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:14px;">
+                            <div class="tickets-style-4d0f59">
                                 <div>
                                     <label class="modal-label">Damage Type</label>
                                     <select id="createTicketType" required
-                                        style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; font-family:inherit; font-size:13px; color:var(--text-primary);">
+                                        class="tickets-style-ffc706">
                                         <option value="Damaged">Damaged</option>
                                         <option value="Lost">Lost</option>
                                         <!-- <option value="Unusable">Unusable</option> -->
@@ -179,24 +176,24 @@
                                 <!-- <div>
                                     <label class="modal-label">Fine Amount (₹)</label>
                                     <input type="number" id="createTicketFine" value="500" min="0" required
-                                        style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; font-family:inherit; font-size:13px; color:var(--text-primary);" />
+                                        class="tickets-style-ffc706" />
                                 </div> -->
                             </div>
-                            <div style="margin-bottom:14px;">
+                            <div class="tickets-style-157a9c">
                                 <label class="modal-label">Due Date</label>
                                 <input type="date" id="createTicketDueDate" required
-                                    style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; font-family:inherit; font-size:13px; color:var(--text-primary);" />
+                                    class="tickets-style-ffc706" />
                             </div>
-                            <div style="margin-bottom:20px;">
+                            <div class="tickets-style-684111">
                                 <label class="modal-label">Damage/Issue Description</label>
                                 <textarea id="createTicketDescription" required
                                     placeholder="Describe the damage details here..."
-                                    style="width:100%; height:90px; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; resize:vertical; font-family:inherit; font-size:13px; color:var(--text-primary);"></textarea>
+                                    class="tickets-style-cfa410"></textarea>
                             </div>
                             <div
-                                style="text-align:right; border-top: 1px solid var(--border-color); padding-top: 16px; display:flex; justify-content:flex-end; gap:8px;">
+                                class="tickets-style-19deb9">
                                 <button type="button" class="btn btn-secondary"
-                                    onclick="closeManualCreateModal()">Cancel</button>
+                                    data-action="closeManualCreateModal">Cancel</button>
                                 <button type="submit" class="btn btn-primary">Create Ticket</button>
                             </div>
                         </form>
@@ -204,20 +201,19 @@
                 </div>
 
                 <!-- View / Update Ticket Modal -->
-                <div id="viewTicketModal" class="modal"
-                    style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.4); backdrop-filter: blur(4px); align-items:center; justify-content:center; z-index: 1000;">
+                <div id="viewTicketModal" class="modal tickets-style-a08cac">
                     <div
-                        style="background:#fff; border-radius:14px; padding:28px; width:560px; max-width:95%; box-shadow: var(--shadow-lg);">
+                        class="tickets-style-25e68e">
                         <h3
-                            style="margin-top:0; font-size:18px; font-weight:800; color:var(--text-primary); margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:12px;">
+                            class="tickets-style-00e7e4">
                             Ticket Details &amp; History</h3>
                         <form id="viewTicketForm">
                             <div id="viewTicketContent"
-                                style="max-height: 400px; overflow-y: auto; padding-right: 8px;"></div>
+                                class="tickets-style-f3a94c"></div>
                             <div
-                                style="text-align:right; border-top: 1px solid var(--border-color); padding-top: 16px; margin-top:16px; display:flex; justify-content:flex-end; gap:8px;">
+                                class="tickets-style-e15ac1">
                                 <button type="button" class="btn btn-secondary"
-                                    onclick="closeViewModal()">Cancel</button>
+                                    data-action="closeViewModal">Cancel</button>
                                 <button type="submit" class="btn btn-primary">Save Changes</button>
                             </div>
                         </form>
