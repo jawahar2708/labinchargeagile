@@ -2,6 +2,10 @@
    My Profile Layout & General Styles
    ========================================= */
 
+:root {
+    --primary-light: #EDE9FE;
+}
+
 .content-wrapper {
     padding: 24px 32px;
     max-width: 1400px;
@@ -19,18 +23,18 @@
 .header-title h1 {
     font-size: 24px;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--text-primary);
     margin: 0 0 4px 0;
 }
 
 .header-title p {
     font-size: 14px;
-    color: var(--text-light);
+    color: var(--text-secondary);
     margin: 0;
 }
 
 .btn-edit-profile {
-    background-color: var(--primary);
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -45,7 +49,7 @@
 }
 
 .btn-edit-profile:hover {
-    background-color: #4338CA;
+    background-color: var(--primary-hover);
 }
 
 /* Profile Grid Layout */
@@ -62,11 +66,11 @@
 
 .profile-sidebar-card,
 .details-card {
-    background: var(--card);
+    background: var(--bg-card);
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-color);
 }
 
 .profile-sidebar-card {
@@ -94,7 +98,7 @@
     position: absolute;
     bottom: 4px;
     right: 4px;
-    background-color: var(--primary);
+    background-color: var(--primary-color);
     color: white;
     border: 3px solid white;
     border-radius: 50%;
@@ -115,7 +119,7 @@
 .student-name {
     font-size: 20px;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--text-primary);
     margin: 0 0 8px 0;
 }
 
@@ -139,7 +143,7 @@
 .id-label {
     display: block;
     font-size: 12px;
-    color: var(--text-light);
+    color: var(--text-secondary);
     margin-bottom: 4px;
 }
 
@@ -147,13 +151,13 @@
     display: block;
     font-size: 16px;
     font-weight: 700;
-    color: var(--primary);
+    color: var(--primary-color);
 }
 
 .card-divider {
     width: 100%;
     border: none;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--border-color);
     margin: 0 0 24px 0;
 }
 
@@ -174,7 +178,7 @@
     width: 40px;
     height: 40px;
     background-color: var(--primary-light);
-    color: var(--primary);
+    color: var(--primary-color);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -187,13 +191,13 @@
     margin: 0 0 4px 0;
     font-size: 14px;
     font-weight: 600;
-    color: var(--text-dark);
+    color: var(--text-primary);
 }
 
 .meta-details p {
     margin: 0;
     font-size: 12px;
-    color: var(--text-light);
+    color: var(--text-secondary);
 }
 
 /* =========================================
@@ -217,7 +221,7 @@
     width: 40px;
     height: 40px;
     background-color: var(--primary-light);
-    color: var(--primary);
+    color: var(--primary-color);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -229,7 +233,7 @@
     margin: 0;
     font-size: 18px;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--text-primary);
 }
 
 .info-grid {
@@ -243,7 +247,7 @@
     align-items: center;
     gap: 16px;
     padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .info-grid .grid-item:nth-last-child(-n+2) {
@@ -255,7 +259,7 @@
     width: 40px;
     height: 40px;
     background-color: var(--primary-light);
-    color: var(--primary);
+    color: var(--primary-color);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -267,7 +271,7 @@
 .item-data label {
     display: block;
     font-size: 12px;
-    color: var(--text-light);
+    color: var(--text-secondary);
     font-weight: 600;
     margin-bottom: 4px;
 }
@@ -275,7 +279,7 @@
 .item-data p {
     margin: 0;
     font-size: 14px;
-    color: var(--text-dark);
+    color: var(--text-primary);
     font-weight: 500;
 }
 
@@ -292,7 +296,7 @@
 }
 
 .security-grid .grid-item {
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .security-grid .security-action-row {
@@ -311,7 +315,7 @@
     position: absolute;
     bottom: 24px;
     right: 24px;
-    background-color: var(--primary);
+    background-color: var(--primary-color);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -326,7 +330,7 @@
 }
 
 .btn-change-pwd:hover {
-    background-color: #4338CA;
+    background-color: var(--primary-hover);
 }
 
 /* =========================================
@@ -373,7 +377,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 24px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .modal-header h3 {
@@ -386,13 +390,13 @@
     background: none;
     border: none;
     font-size: 20px;
-    color: var(--text-light);
+    color: var(--text-secondary);
     cursor: pointer;
     transition: color 0.2s;
 }
 
 .btn-close-modal:hover {
-    color: var(--text-dark);
+    color: var(--text-primary);
 }
 
 .modal-body {
@@ -406,7 +410,7 @@
 .form-group label {
     display: block;
     font-size: 13px;
-    color: var(--text-dark);
+    color: var(--text-primary);
     font-weight: 500;
     margin-bottom: 8px;
 }
@@ -420,7 +424,7 @@
 .input-wrapper input {
     width: 100%;
     padding: 12px 40px 12px 16px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 14px;
     outline: none;
@@ -429,13 +433,13 @@
 }
 
 .input-wrapper input:focus {
-    border-color: var(--primary);
+    border-color: var(--primary-color);
 }
 
 .toggle-pwd {
     position: absolute;
     right: 16px;
-    color: var(--text-light);
+    color: var(--text-secondary);
     cursor: pointer;
 }
 
@@ -448,8 +452,8 @@
 
 .btn-cancel {
     background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
     padding: 10px 20px;
     border-radius: 6px;
     font-size: 14px;
@@ -463,7 +467,7 @@
 }
 
 .btn-submit {
-    background: var(--primary);
+    background: var(--primary-color);
     color: white;
     border: none;
     padding: 10px 24px;
@@ -475,7 +479,7 @@
 }
 
 .btn-submit:hover {
-    background: #4338CA;
+    background: var(--primary-hover);
 }
 
 /* Success Modal Specifics */
@@ -506,7 +510,7 @@
 
 .success-container p {
     margin: 0 0 24px 0;
-    color: var(--text-light);
+    color: var(--text-secondary);
     font-size: 14px;
 }
 
@@ -535,7 +539,7 @@
     }
 
     .info-grid .grid-item {
-        border-bottom: 1px solid var(--border);
+        border-bottom: 1px solid var(--border-color);
         padding-bottom: 16px;
     }
 
@@ -545,4 +549,4 @@
     }
 }
 /* Auto-extracted inline styles */
-.myprofile-style-e07790 { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; background: white; font-family: inherit; color: var(--text-dark); }
+.myprofile-style-e07790 { width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; outline: none; background: white; font-family: inherit; color: var(--text-primary); }

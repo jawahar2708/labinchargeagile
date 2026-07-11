@@ -431,7 +431,7 @@ initLocalStorageDB();
 
 
 // Call renderBaseLayout
-document.addEventListener('DOMContentLoaded', () => { renderBaseLayout('myprofile'); });
+document.addEventListener('DOMContentLoaded', () => { renderBaseLayout('profile'); });
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 1. Database Load & UI Bindings

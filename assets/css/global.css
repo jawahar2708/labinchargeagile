@@ -15,10 +15,10 @@
     --text-inactive: #9FA8C7;
     --text-primary: #0F172A;
     --text-secondary: #64748B;
-    --border-color: #E2E8F0;
+    --border-color: #E2E8F0;    
     --bg-card: #FFFFFF;
-    --primary-color: #5C59F2;
-    --primary-hover: #4E4AC8;
+    --primary-color: #4E4AC8;
+    --primary-hover: #938ff3;
 
     /* Statuses */
     --status-open-text: #D97706;
