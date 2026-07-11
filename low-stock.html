@@ -17,26 +17,18 @@
   </head>
 
   <body>
-    <div class="app">
+    <div class="app-container">
       <!-- ================= SIDEBAR ================= -->
       <aside class="sidebar"></aside>
 
       <!-- ================= MAIN ================= -->
-      <main class="main">
-        <div class="topbar">
-          <div class="topbar-left">
-            <!-- <div class="hamburger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="3" y1="6" x2="21" y2="6" />
-                            <line x1="3" y1="12" x2="21" y2="12" />
-                            <line x1="3" y1="18" x2="21" y2="18" />
-                        </svg></div> -->
-            <div class="titles">
-              <h1>Low Stock Alerts</h1>
-              <p>Assets that require inventory replenishment</p>
-            </div>
+      <main class="main-content">
+        <header class="header">
+          <div class="header-left">
+            <h1 class="page-title">Low Stock Alerts</h1>
           </div>
-          <div class="topbar-right">
-            <button class="btn btn-primary" id="headerCta">
+          <div class="header-right">
+            <button class="ls-header-cta btn btn-primary" id="headerCta">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -51,7 +43,7 @@
               Create Procurement Request
             </button>
             <button
-              class="icon-btn"
+              class="header-icon-btn ls-requests-btn"
               id="openRequestsPanel"
               title="Procurement requests"
             >
@@ -68,138 +60,116 @@
                 <line x1="8" y1="13" x2="16" y2="13" />
                 <line x1="8" y1="17" x2="13" y2="17" />
               </svg>
-              <span class="badge-dot" id="reqBadge">0</span>
+              <span class="icon-badge" id="reqBadge">0</span>
             </button>
-            <button class="icon-btn">
+          </div>
+        </header>
+
+        <div class="page-content-wrapper">
+          <!-- KPI CARDS -->
+          <div class="kpi-grid">
+            <div class="kpi-card" data-kpi="all">
+              <div class="kpi-icon low-stock-style-f8ad38">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--purple)"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M20.5 7.28a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4a2 2 0 0 0-1 1.73v9.44a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73z"
+                  />
+                  <polyline points="3.3 6.96 12 12.01 20.7 6.96" />
+                  <line x1="12" y1="22.08" x2="12" y2="12" />
+                </svg>
+              </div>
+              <div class="kpi-num" id="kpiTotal">0</div>
+              <div class="kpi-label">Total Low Stock Assets</div>
+              <div class="kpi-sub">Across all labs &amp; categories</div>
+            </div>
+            <div class="kpi-card" data-kpi="critical">
+              <div class="kpi-icon low-stock-style-53b8cf">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--red)"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                  />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+              </div>
+              <div class="kpi-num" id="kpiCritical">0</div>
+              <div class="kpi-label">Critical</div>
+              <div class="kpi-sub">Needs immediate action</div>
+            </div>
+            <div class="kpi-card" data-kpi="high">
+              <div class="kpi-icon low-stock-style-11073e">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--orange)"
+                  stroke-width="2"
+                >
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                  <polyline points="17 6 23 6 23 12" />
+                </svg>
+              </div>
+              <div class="kpi-num" id="kpiHigh">0</div>
+              <div class="kpi-label">High Priority</div>
+              <div class="kpi-sub">Order within a few days</div>
+            </div>
+            <div class="kpi-card" data-kpi="medium">
+              <div class="kpi-icon low-stock-style-66877d">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--amber)"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+              </div>
+              <div class="kpi-num" id="kpiMedium">0</div>
+              <div class="kpi-label">Medium Priority</div>
+              <div class="kpi-sub">Plan for next cycle</div>
+            </div>
+          </div>
+
+          <!-- TOOLBAR / FILTERS -->
+          <div class="toolbar">
+            <div class="search-wrap">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
               >
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg
-              ><span class="badge-dot">3</span>
-            </button>
-            <div class="profile">
-              <div class="avatar">PS</div>
-              <div class="who">
-                <div class="name">Dr. Priya S.</div>
-                <div class="role">LAB IN-CHARGE</div>
-              </div>
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Search asset name..."
+              />
             </div>
+            <select class="filter-select" id="categoryFilter">
+              <option value="all">All Categories</option>
+            </select>
+            <select class="filter-select" id="labFilter">
+              <option value="all">All Labs</option>
+            </select>
+            <button class="clear-filters" id="clearFilters">Clear Filters</button>
           </div>
-        </div>
 
-        <!-- KPI CARDS -->
-        <div class="kpi-grid">
-          <div class="kpi-card" data-kpi="all">
-            <div class="kpi-icon low-stock-style-f8ad38">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="var(--purple)"
-                stroke-width="2"
-              >
-                <path
-                  d="M20.5 7.28a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4a2 2 0 0 0-1 1.73v9.44a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73z"
-                />
-                <polyline points="3.3 6.96 12 12.01 20.7 6.96" />
-                <line x1="12" y1="22.08" x2="12" y2="12" />
-              </svg>
-            </div>
-            <div class="kpi-num" id="kpiTotal">0</div>
-            <div class="kpi-label">Total Low Stock Assets</div>
-            <div class="kpi-sub">Across all labs &amp; categories</div>
-          </div>
-          <div class="kpi-card" data-kpi="critical">
-            <div class="kpi-icon low-stock-style-53b8cf">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="var(--red)"
-                stroke-width="2"
-              >
-                <path
-                  d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-                />
-                <line x1="12" y1="9" x2="12" y2="13" />
-                <line x1="12" y1="17" x2="12.01" y2="17" />
-              </svg>
-            </div>
-            <div class="kpi-num" id="kpiCritical">0</div>
-            <div class="kpi-label">Critical</div>
-            <div class="kpi-sub">Needs immediate action</div>
-          </div>
-          <div class="kpi-card" data-kpi="high">
-            <div class="kpi-icon low-stock-style-11073e">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="var(--orange)"
-                stroke-width="2"
-              >
-                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                <polyline points="17 6 23 6 23 12" />
-              </svg>
-            </div>
-            <div class="kpi-num" id="kpiHigh">0</div>
-            <div class="kpi-label">High Priority</div>
-            <div class="kpi-sub">Order within a few days</div>
-          </div>
-          <div class="kpi-card" data-kpi="medium">
-            <div class="kpi-icon low-stock-style-66877d">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="var(--amber)"
-                stroke-width="2"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-            </div>
-            <div class="kpi-num" id="kpiMedium">0</div>
-            <div class="kpi-label">Medium Priority</div>
-            <div class="kpi-sub">Plan for next cycle</div>
-          </div>
+          <!-- PRIORITY GROUPS -->
+          <div class="groups" id="groups"></div>
         </div>
-
-        <!-- TOOLBAR / FILTERS -->
-        <div class="toolbar">
-          <div class="search-wrap">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Search asset name..."
-            />
-          </div>
-          <!-- <select class="filter-select" id="priorityFilter">
-                    <option value="all">All Priorities</option>
-                    <option value="critical">Critical</option>
-                    <option value="high">High Priority</option>
-                    <option value="medium">Medium Priority</option>
-                </select> -->
-          <select class="filter-select" id="categoryFilter">
-            <option value="all">All Categories</option>
-          </select>
-          <select class="filter-select" id="labFilter">
-            <option value="all">All Labs</option>
-          </select>
-          <button class="clear-filters" id="clearFilters">Clear Filters</button>
-        </div>
-
-        <!-- PRIORITY GROUPS -->
-        <div class="groups" id="groups"></div>
       </main>
     </div>
 
