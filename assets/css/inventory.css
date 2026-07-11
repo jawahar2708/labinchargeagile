@@ -1375,3 +1375,122 @@
 .custom-table tbody tr, .cards-grid > div, .row, .table-row {
     animation: fade-in-up 0.5s ease-out forwards;
 }
+
+/* ============================================================
+   PORTABLE THEME OVERRIDE: COMPONENT REQUESTS TABLE STYLE
+   ============================================================ */
+
+/* 1. Table Card Container (Matched to Component Requests) */
+.table-card, .alerts-table-container, .detail-table-card {
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+}
+
+/* 2. Base Table Typography & Spacing */
+.custom-table, .table-mini, .detail-table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    text-align: left !important;
+    font-size: 13.5px !important;
+}
+
+/* 3. Crisp Uppercase Slate Headers */
+.custom-table th, .table-mini th, .detail-table th, .eq-status-columns {
+    background: rgba(248, 250, 252, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    padding: 15px 21px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    border-top: none !important;
+    white-space: nowrap !important;
+    text-transform: uppercase !important;
+    font-size: 11.5px !important;
+    letter-spacing: 0.5px !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10 !important;
+    transition: background 0.2s ease, color 0.2s ease !important;
+}
+
+/* Sortable Header Interaction */
+.custom-table th.sortable:hover, .table-mini th:hover {
+    background: rgba(241, 245, 249, 0.95) !important;
+    color: #5C59F2 !important;
+    cursor: pointer !important;
+}
+
+/* 4. Generous Cell Spacing & Clean Borders */
+.custom-table td, .table-mini td, .detail-table td {
+    padding: 18px 24px !important;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5) !important;
+    color: #0F172A !important;
+    vertical-align: middle !important;
+    transition: background 0.2s ease !important;
+    background: transparent !important;
+}
+
+/* Remove bottom borders on last row */
+.custom-table tr:last-child td, .table-mini tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* 5. Subtle Slate Hover Tint (Component Requests Signature Hover) */
+.custom-table tbody tr:hover td, 
+.table-mini tbody tr:hover td, 
+.detail-table tbody tr:hover td {
+    background: rgba(248, 250, 252, 0.9) !important;
+}
+
+/* Apply same hover and padding to Grid-Based Rows (.row, .eq-status-row, .table-row) */
+.row, .eq-status-row, .table-row, .issue-row {
+    padding: 16px 24px !important;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5) !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: 0 !important;
+    margin-bottom: 0 !important;
+    background: transparent !important;
+    transition: background 0.2s ease !important;
+}
+
+.row:hover, .eq-status-row:hover, .table-row:hover, .issue-row:hover {
+    background: rgba(248, 250, 252, 0.9) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* 6. Staggered Row Entrance Animation */
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.custom-table tbody tr, 
+.table-mini tbody tr, 
+.eq-status-list > div, 
+.groups .row, 
+.dynamic-list .table-row {
+    animation: fade-in-up 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+/* Stagger animation delays for rows 1 to 10 */
+.custom-table tbody tr:nth-child(1), .row:nth-child(1), .eq-status-row:nth-child(1) { animation-delay: 0.05s; }
+.custom-table tbody tr:nth-child(2), .row:nth-child(2), .eq-status-row:nth-child(2) { animation-delay: 0.10s; }
+.custom-table tbody tr:nth-child(3), .row:nth-child(3), .eq-status-row:nth-child(3) { animation-delay: 0.15s; }
+.custom-table tbody tr:nth-child(4), .row:nth-child(4), .eq-status-row:nth-child(4) { animation-delay: 0.20s; }
+.custom-table tbody tr:nth-child(5), .row:nth-child(5), .eq-status-row:nth-child(5) { animation-delay: 0.25s; }
+.custom-table tbody tr:nth-child(6), .row:nth-child(6), .eq-status-row:nth-child(6) { animation-delay: 0.30s; }
+.custom-table tbody tr:nth-child(7), .row:nth-child(7), .eq-status-row:nth-child(7) { animation-delay: 0.35s; }
+.custom-table tbody tr:nth-child(8), .row:nth-child(8), .eq-status-row:nth-child(8) { animation-delay: 0.40s; }
+.custom-table tbody tr:nth-child(9), .row:nth-child(9), .eq-status-row:nth-child(9) { animation-delay: 0.45s; }
+.custom-table tbody tr:nth-child(10), .row:nth-child(10), .eq-status-row:nth-child(10) { animation-delay: 0.50s; }
+
+
