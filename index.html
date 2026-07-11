@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - RPLMS</title>
+    <meta name="description" content="RPLMS Lab In-Charge Dashboard - Overview of equipment, requests, and tickets.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/index.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar"></aside>
+        <main class="main-content">
+
+            <header class="header">
+                <div class="header-left">
+                    <button class="sidebar-toggle" id="sidebarToggleBtn">&#9776;</button>
+                    <div class="page-title-area">
+                        <h1 class="page-title">Dashboard</h1>
+                        <ul class="breadcrumbs">
+                            <li>Home</li>
+                            <li>Dashboard</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-icon-btn">
+                        <span class="icon">&#128276;</span>
+                        <span class="icon-badge">3</span>
+                    </button>
+                    <div class="header-date-widget"></div>
+                </div>
+            </header>
+
+            <div class="page-content-wrapper" id="pageContentWrapper">
+
+                <!-- BANNER -->
+                <div class="db-banner">
+                    <div class="db-banner-bg-circle"></div>
+                    <div class="db-banner-left">
+                        <div class="db-banner-greeting" id="bannerGreeting">Good morning</div>
+                        <div class="db-banner-title" id="bannerName">Lab In-Charge</div>
+                        <div class="db-banner-sub" id="bannerSub">Here is your lab overview for today. Stay on top of
+                            equipment, requests &amp; tickets.</div>
+                    </div>
+                    <div class="db-banner-pills">
+                        <div class="db-pill">
+                            <span class="db-pill-val" id="pillTeams">--</span>
+                            <span class="db-pill-lbl">Active Teams</span>
+                        </div>
+                        <div class="db-pill pill-warn">
+                            <span class="db-pill-val" id="pillPending">--</span>
+                            <span class="db-pill-lbl">Pending Requests</span>
+                        </div>
+                        <div class="db-pill pill-danger">
+                            <span class="db-pill-val" id="pillOverdue">--</span>
+                            <span class="db-pill-lbl">Overdue Returns</span>
+                        </div>
+                        <div class="db-pill pill-danger">
+                            <span class="db-pill-val" id="pillTickets">--</span>
+                            <span class="db-pill-lbl">Open Tickets</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI CARDS -->
+                <div class="db-kpi-grid">
+                    <div class="db-kpi a-purple">
+                        <div class="db-kpi-accent"></div>
+                        <div class="db-kpi-top">
+                            <div class="db-kpi-icon">📦</div>
+                            <span class="db-kpi-badge info" id="kpiBadge1">--</span>
+                        </div>
+                        <div class="db-kpi-val" id="kpiInventory">--</div>
+                        <div class="db-kpi-label">Total Inventory</div>
+                        <div class="db-kpi-sub">Equipment &amp; Components</div>
+                    </div>
+                    <div class="db-kpi a-orange">
+                        <div class="db-kpi-accent"></div>
+                        <div class="db-kpi-top">
+                            <div class="db-kpi-icon">⚠️</div>
+                            <span class="db-kpi-badge warn" id="kpiBadge2">--</span>
+                        </div>
+                        <div class="db-kpi-val" id="kpiUnavailable">--</div>
+                        <div class="db-kpi-label">Unavailable Items</div>
+                        <div class="db-kpi-sub">Maintenance &amp; Repair</div>
+                    </div>
+                    <div class="db-kpi a-blue">
+                        <div class="db-kpi-accent"></div>
+                        <div class="db-kpi-top">
+                            <div class="db-kpi-icon">📋</div>
+                            <span class="db-kpi-badge up" id="kpiBadge3">--</span>
+                        </div>
+                        <div class="db-kpi-val" id="kpiReqMonth">--</div>
+                        <div class="db-kpi-label">Requests This Month</div>
+                        <div class="db-kpi-sub">Component requests raised</div>
+                    </div>
+                    <div class="db-kpi a-green">
+                        <div class="db-kpi-accent"></div>
+                        <div class="db-kpi-top">
+                            <div class="db-kpi-icon">✅</div>
+                            <span class="db-kpi-badge up" id="kpiBadge4">--</span>
+                        </div>
+                        <div class="db-kpi-val" id="kpiResolved">--</div>
+                        <div class="db-kpi-label">Resolved Tickets</div>
+                        <div class="db-kpi-sub">Issues closed to date</div>
+                    </div>
+                </div>
+
+                <!-- QUICK ACCESS MODULES -->
+                <div>
+                    <div class="section-label">Quick Access</div>
+                    <div class="module-grid">
+                        <a href="inventory.html" class="module-card" id="modInventory">
+                            <div class="module-icon mod-icon-purple">📦</div>
+                            <div>
+                                <div class="module-name">Inventory</div>
+                                <div class="module-desc">Manage assets</div>
+                            </div>
+                        </a>
+                        <a href="material-requests.html" class="module-card" id="modMatRequests">
+                            <div class="module-icon mod-icon-blue">📋</div>
+                            <div>
+                                <div class="module-name">Material Requests</div>
+                                <div class="module-desc">Approve / reject</div>
+                            </div>
+                        </a>
+                        <a href="material-returns.html" class="module-card" id="modMatReturns">
+                            <div class="module-icon mod-icon-green">↩️</div>
+                            <div>
+                                <div class="module-name">Material Returns</div>
+                                <div class="module-desc">Track returns</div>
+                            </div>
+                        </a>
+                        <a href="equipment-tracking.html" class="module-card" id="modEquipTrack">
+                            <div class="module-icon mod-icon-orange">🔧</div>
+                            <div>
+                                <div class="module-name">Equipment Tracking</div>
+                                <div class="module-desc">Approvals &amp; status</div>
+                            </div>
+                        </a>
+                        <a href="tickets.html" class="module-card" id="modTickets">
+                            <div class="module-icon mod-icon-red">🎫</div>
+                            <div>
+                                <div class="module-name">Tickets</div>
+                                <div class="module-desc">Raise &amp; track issues</div>
+                            </div>
+                        </a>
+                        <a href="teams.html" class="module-card" id="modTeams">
+                            <div class="module-icon mod-icon-violet">👥</div>
+                            <div>
+                                <div class="module-name">Teams</div>
+                                <div class="module-desc">Manage teams</div>
+                            </div>
+                        </a>
+                        <a href="team-workspace.html" class="module-card" id="modTeamWs">
+                            <div class="module-icon mod-icon-teal">🖥️</div>
+                            <div>
+                                <div class="module-name">Team Workspace</div>
+                                <div class="module-desc">Per-team view</div>
+                            </div>
+                        </a>
+                        <a href="low-stock.html" class="module-card" id="modLowStock">
+                            <div class="module-icon mod-icon-yellow">📉</div>
+                            <div>
+                                <div class="module-name">Low Stock</div>
+                                <div class="module-desc">Reorder alerts</div>
+                            </div>
+                        </a>
+                        <a href="myprofile.html" class="module-card" id="modProfile">
+                            <div class="module-icon mod-icon-slate">👤</div>
+                            <div>
+                                <div class="module-name">My Profile</div>
+                                <div class="module-desc">Settings &amp; account</div>
+                            </div>
+                        </a>
+                        <a href="#" class="module-card" id="modEquipDetails">
+                            <div class="module-icon mod-icon-pink">🔍</div>
+                            <div>
+                                <div class="module-name">Equipment Details</div>
+                                <div class="module-desc">In-depth records</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <footer class="page-footer">
+                    &copy; 2025 RPLMS - Rapid Prototyping Lab Management System. All rights reserved.
+                </footer>
+
+            </div>
+
+        </main>
+    </div>
+
+    <script src="assets/js/global.js"></script>
+    <script src="assets/js/index.js"></script>
+</body>
+
+</html>

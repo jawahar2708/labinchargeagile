@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component Requests · RPLMS</title>
+    <meta name="description" content="Review and issue component requests submitted by project teams in the RPLMS Lab In-Charge Portal.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/material-requests.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- SIDEBAR (injected by global.js renderBaseLayout) -->
+        <aside class="sidebar"></aside>
+
+        <!-- MAIN PANEL -->
+        <main class="main-content">
+
+            <!-- HEADER -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="sidebar-toggle" id="sidebarToggleBtn">&#9776;</button>
+                    <h1 class="page-title">Component Requests</h1>
+                </div>
+                <div class="header-right">
+                    <button class="header-icon-btn">
+                        <span class="icon">&#128276;</span>
+                        <span class="icon-badge">3</span>
+                    </button>
+                    <div class="header-date-widget"></div>
+                </div>
+            </header>
+
+            <!-- CONTENT BODY -->
+            <div class="page-content-wrapper">
+
+                <!-- KPI STATS -->
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper stat-blue">&#128230;</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="kpiTotalRequests">--</span>
+                            <span class="stat-label">Total Requests</span>
+                            <span class="stat-subtext">All component requests</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper stat-orange">&#9201;</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="kpiPendingRequests">--</span>
+                            <span class="stat-label">Partially Issued</span>
+                            <span class="stat-subtext">Awaiting remaining stock</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper stat-green">&#10003;</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="kpiApprovedRequests">--</span>
+                            <span class="stat-label">Fully Issued</span>
+                            <span class="stat-subtext">Completed requests</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FILTER TABS + SEARCH BAR -->
+                <section class="controls-bar">
+                    <div class="filters-left">
+                        <button class="filter-tab active" data-status="All">All Requests</button>
+                        <button class="filter-tab" data-status="Pending">Pending</button>
+                        <button class="filter-tab" data-status="Partially Issued">Partially Issued</button>
+                        <button class="filter-tab" data-status="Fully Issued">Fully Issued</button>
+                        <button class="filter-tab" data-status="Rejected">Rejected</button>
+                    </div>
+                    <div class="filters-right">
+                        <div class="search-wrapper">
+                            <span class="search-icon">&#128269;</span>
+                            <input type="text" id="searchRequestsInput" class="search-input"
+                                placeholder="Search by team, item, or request ID...">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- REQUESTS TABLE -->
+                <div class="table-card">
+                    <table class="custom-table" id="requestsTable">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="id">Req ID <span class="sort-icon">&#8597;</span></th>
+                                <th class="sortable" data-sort="teamId">Team ID <span class="sort-icon">&#8597;</span></th>
+                                <th>Team Name</th>
+                                <th class="sortable" data-sort="item">Item <span class="sort-icon">&#8597;</span></th>
+                                <th class="sortable" data-sort="qty">Quantity <span class="sort-icon">&#8597;</span></th>
+                                <th class="sortable" data-sort="date">Date <span class="sort-icon">&#8597;</span></th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestsTableBody">
+                            <!-- Rows injected by JS -->
+                        </tbody>
+                    </table>
+                    <div class="table-footer">
+                        <span class="table-info" id="requestsTableInfo">Showing 0 to 0 of 0 entries</span>
+                        <ul class="pagination" id="requestsPagination"></ul>
+                    </div>
+                </div>
+
+            </div><!-- /.page-content-wrapper -->
+
+            <!-- FOOTER -->
+            <footer class="page-footer">
+                &copy; 2025 RPLMS - Rapid Prototyping Lab Management System. All rights reserved.
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- ISSUE MODAL -->
+    <div class="modal" id="issueModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Issue Component</h3>
+                <button class="modal-close-btn" onclick="closeIssueModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info-grid">
+                    <div class="modal-info-item">
+                        <span class="modal-label">Item</span>
+                        <span class="modal-value" id="issueItem">—</span>
+                    </div>
+                    <div class="modal-info-item">
+                        <span class="modal-label">Available in Stock</span>
+                        <span class="modal-value" id="issueAvailable">—</span>
+                    </div>
+                    <div class="modal-info-item">
+                        <span class="modal-label">Requested Qty</span>
+                        <span class="modal-value" id="issueRequested">—</span>
+                    </div>
+                    <div class="modal-info-item">
+                        <span class="modal-label">Already Issued</span>
+                        <span class="modal-value" id="issueIssued">—</span>
+                    </div>
+                    <div class="modal-info-item">
+                        <span class="modal-label">Pending Qty</span>
+                        <span class="modal-value" id="issuePending">—</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="issueQtyInput">Quantity to Issue Now</label>
+                    <input type="number" id="issueQtyInput" class="form-input" min="1" placeholder="Enter quantity..." />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeIssueModal()">Cancel</button>
+                <button class="btn btn-primary" id="confirmIssueBtn">Confirm Issue</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/global.js"></script>
+    <script src="assets/js/material-requests.js"></script>
+</body>
+
+</html>

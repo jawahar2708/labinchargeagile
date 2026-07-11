@@ -1,0 +1,115 @@
+
+        :root {
+            --primary: #5C59F2;
+            --primary-dark: #4E4AC8;
+            --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 2px 8px -1px rgba(15, 23, 42, 0.04);
+            --shadow-lg: 0 12px 30px rgba(15, 23, 42, 0.12);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-primary);
+        }
+
+        .table-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            box-shadow: var(--shadow-md);
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13.5px;
+        }
+
+        .custom-table th {
+            padding: 14px 18px;
+            color: var(--text-secondary);
+            background: #F8FAFC;
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .custom-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+            color: var(--text-primary);
+        }
+
+        .custom-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .custom-table tbody tr:hover td {
+            background-color: #FAF5FF;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 600;
+            padding: 8px 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            text-decoration: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #FFFFFF;
+            border: 1.5px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .btn-disabled {
+            background: #F1F5F9;
+            color: #94A3B8;
+            cursor: not-allowed;
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
+        }
+
+        .modal-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            padding: 4px 0;
+        }
+    

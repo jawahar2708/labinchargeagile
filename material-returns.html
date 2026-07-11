@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Returns - RPLMS</title>
+    
+    
+
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/material-returns.css">
+    <!-- Keep lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    </head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar"></aside>
+
+        <!-- MAIN PANEL -->
+        <main class="main-content">
+
+            <!-- HEADER -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="sidebar-toggle" id="sidebarToggleBtn">&#9776;</button>
+                    <h1 class="page-title">Material Returns</h1>
+                </div>
+                <div class="header-right">
+                    <button class="header-icon-btn">
+                        <span class="icon">&#128276;</span>
+                        <span class="icon-badge">3</span>
+                    </button>
+                    <div class="header-date-widget"></div>
+                </div>
+            </header>
+
+            <!-- CONTENT BODY -->
+            <div class="page-content-wrapper">
+
+                <!-- KPI METRICS -->
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper stat-purple">&#8635;</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="kpiTotalReturns">--</span>
+                            <span class="stat-label">Total Assigned</span>
+                            <span class="stat-subtext">Materials out of lab</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper stat-orange">&#9888;</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="kpiOverdueReturns">--</span>
+                            <span class="stat-label">Overdue Returns</span>
+                            <span class="stat-subtext">Passed expected check-in</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper stat-green">&#10003;</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="kpiReturnedCount">--</span>
+                            <span class="stat-label">Returned Items</span>
+                            <span class="stat-subtext">Successfully checked in</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW TABS — same pattern as Requests page -->
+                <div class="view-tabs-bar">
+                    <button class="view-tab-btn active" id="tabComponents">Components Returns</button>
+                    <button class="view-tab-btn" id="tabTools">Tools Returns</button>
+                </div>
+
+                <!-- FILTERS & SEARCH -->
+                <section class="controls-bar">
+                    <div class="filters-left">
+                        <button class="filter-tab active" data-status="All">All Returns</button>
+                        <button class="filter-tab" data-status="Assigned">Out with Team</button>
+                        <button class="filter-tab" data-status="Returned">Returned</button>
+                    </div>
+                    <div class="filters-right">
+                        <div class="search-wrapper">
+                            <span class="search-icon">&#128269;</span>
+                            <input type="text" id="searchReturnsInput" class="search-input"
+                                placeholder="Search by team or item...">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SINGLE CARDS GRID (data swaps on tab switch) -->
+                <div class="cards-grid" id="returnsGridContainer"></div>
+
+            </div>
+
+            <!-- FOOTER -->
+            <footer class="page-footer">
+                &copy; 2025 RPLMS - Rapid Prototyping Lab Management System. All rights reserved.
+            </footer>
+
+        </main>
+
+    </div>
+
+    <!-- SINGLE SHARED RETURN DRAWER -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <div class="drawer" id="returnReviewDrawer">
+        <div class="drawer-header">
+            <div>
+                <h2 id="drawerTeamName">Team Name</h2>
+                <span style="font-size:12px;color:var(--text-secondary);font-weight:500;" id="drawerTeamId">TEAM-XXX</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span class="badge" id="drawerStatusBadge">Pending</span>
+                <button class="modal-close-btn"
+                    style="background:none;border:none;font-size:24px;color:var(--text-secondary);line-height:1;cursor:pointer;"
+                    onclick="closeDrawer()">&times;</button>
+            </div>
+        </div>
+        <div class="drawer-body">
+            <div class="team-meta-box">
+                <div class="meta-item">
+                    <label>Active Returns Count</label>
+                    <span id="metaActiveReturns">0</span>
+                </div>
+                <div class="meta-item">
+                    <label>Overdue Items Count</label>
+                    <span id="metaOverdueCount" style="color:#EF4444;">0</span>
+                </div>
+            </div>
+
+            <div id="wrapperReturnTable">
+                <h3 class="section-title" id="drawerTableTitle">Issued Items for Return</h3>
+                <table class="table-mini" id="tableReturns">
+                    <thead>
+                        <tr>
+                            <th id="drawerColId">Item ID</th>
+                            <th id="drawerColName">Item Name</th>
+                            <th>Issued Count</th>
+                            <th style="width:120px;">Returned Count</th>
+                            <th style="width:180px;text-align:center;">Returned in Good Condition</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyReturns"></tbody>
+                </table>
+            </div>
+
+            <div class="box-summary">
+                <div class="summary-row"><span id="labelIssued">Total Items Issued</span><span id="sumIssued">0</span></div>
+                <div class="summary-row"><span id="labelReturned">Total Items Returned</span><span id="sumReturned">0</span></div>
+                <div class="summary-row" style="color:#F59E0B;"><span>Damaged (Ticket pending)</span><span id="sumDamaged">0</span></div>
+                <div class="summary-row bold"><span>Overall Return Status</span><span id="sumStatus">Pending</span></div>
+            </div>
+        </div>
+        <div class="drawer-footer">
+            <button class="btn btn-secondary" style="width:auto;" onclick="closeDrawer()">Cancel</button>
+            <button class="btn btn-primary" style="width:auto;" onclick="submitReturn()">Submit Return</button>
+        </div>
+    </div>
+
+    
+    
+    
+
+    <script src="assets/js/global.js"></script>
+    <script src="assets/js/material-returns.js"></script>
+    </body>
+
+</html>
