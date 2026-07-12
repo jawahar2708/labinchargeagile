@@ -15,7 +15,7 @@ const DEFAULT_DATABASE = {
   notifications: [
     {
       id: "NTF-001",
-      icon: "📦",
+      icon: "<i data-lucide=\"package\"></i>",
       iconClass: "notif-icon-request",
       body: "TEAM-001 has submitted a new component request for Arduino Mega boards.",
       time: "2 min ago",
@@ -23,7 +23,7 @@ const DEFAULT_DATABASE = {
     },
     {
       id: "NTF-002",
-      icon: "⏰",
+      icon: "<i data-lucide=\"alarm-clock\"></i>",
       iconClass: "notif-icon-overdue",
       body: "TEAM-006 has 1 overdue equipment return — Raspberry Pi 4 (EQ-011).",
       time: "18 min ago",
@@ -31,7 +31,7 @@ const DEFAULT_DATABASE = {
     },
     {
       id: "NTF-003",
-      icon: "🎫",
+      icon: "<i data-lucide=\"ticket\"></i>",
       iconClass: "notif-icon-ticket",
       body: "New damage ticket TKT-007 raised by TEAM-002 for Digital Oscilloscope.",
       time: "1 hr ago",
@@ -39,7 +39,7 @@ const DEFAULT_DATABASE = {
     },
     {
       id: "NTF-004",
-      icon: "✅",
+      icon: "<i data-lucide=\"check-circle\"></i>",
       iconClass: "notif-icon-info",
       body: "Component request REQ-012 for resistors was approved and marked fulfilled.",
       time: "3 hrs ago",
@@ -47,7 +47,7 @@ const DEFAULT_DATABASE = {
     },
     {
       id: "NTF-005",
-      icon: "📋",
+      icon: "<i data-lucide=\"clipboard-list\"></i>",
       iconClass: "notif-icon-request",
       body: "TEAM-005 submitted a material return for Soldering Station (EQ-012).",
       time: "5 hrs ago",
@@ -55,7 +55,7 @@ const DEFAULT_DATABASE = {
     },
     {
       id: "NTF-006",
-      icon: "⚠️",
+      icon: "<i data-lucide=\"triangle-alert\"></i>",
       iconClass: "notif-icon-overdue",
       body: "Inventory alert: 3D Printer (EQ-001) maintenance is due this week.",
       time: "Yesterday",
@@ -2905,13 +2905,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const teamRecord = db.teams.find((t) => t.id === teamId);
     if (teamRecord && Array.isArray(teamRecord.activities)) {
       const activityConfig = {
-        request:  { icon: "📋", color: "#D97706", bg: "#FEF3C7", label: "Component Requested" },
-        issue:    { icon: "✅", color: "#16A34A", bg: "#DCFCE7", label: "Request Fulfilled" },
-        return:   { icon: "↩", color: "#2563EB", bg: "#DBEAFE", label: "Equipment Returned" },
-        borrow:   { icon: "📦", color: "#7C3AED", bg: "#EDE9FE", label: "Equipment Borrowed" },
-        overdue:  { icon: "⚠", color: "#DC2626", bg: "#FEE2E2", label: "Overdue Alert" },
-        rejected: { icon: "✕",  color: "#EF4444", bg: "#FEE2E2", label: "Request Rejected" },
-        ticket:   { icon: "🎫", color: "#6D28D9", bg: "#EDE9FE", label: "Ticket Raised" },
+        request:  { icon: "<i data-lucide=\"clipboard-list\"></i>", color: "#D97706", bg: "#FEF3C7", label: "Component Requested" },
+        issue:    { icon: "<i data-lucide=\"check-circle\"></i>", color: "#16A34A", bg: "#DCFCE7", label: "Request Fulfilled" },
+        return:   { icon: "<i data-lucide=\"corner-down-left\"></i>", color: "#2563EB", bg: "#DBEAFE", label: "Equipment Returned" },
+        borrow:   { icon: "<i data-lucide=\"package\"></i>", color: "#7C3AED", bg: "#EDE9FE", label: "Equipment Borrowed" },
+        overdue:  { icon: "<i data-lucide=\"triangle-alert\"></i>", color: "#DC2626", bg: "#FEE2E2", label: "Overdue Alert" },
+        rejected: { icon: "<i data-lucide=\"x\"></i>",  color: "#EF4444", bg: "#FEE2E2", label: "Request Rejected" },
+        ticket:   { icon: "<i data-lucide=\"ticket\"></i>", color: "#6D28D9", bg: "#EDE9FE", label: "Ticket Raised" },
       };
       teamRecord.activities.forEach((a) => {
         const cfg = activityConfig[a.type] || { icon: "●", color: "#64748B", bg: "#F1F5F9", label: a.type };
@@ -2933,9 +2933,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter((r) => r.teamId === teamId)
       .forEach((r) => {
         const cfg = {
-          Returned: { icon: "↩", color: "#16A34A", bg: "#DCFCE7", label: "Equipment Returned" },
-          Overdue:  { icon: "⚠", color: "#DC2626", bg: "#FEE2E2", label: "Return Overdue" },
-          Assigned: { icon: "📦", color: "#2563EB", bg: "#DBEAFE", label: "Equipment Borrowed" },
+          Returned: { icon: "<i data-lucide=\"corner-down-left\"></i>", color: "#16A34A", bg: "#DCFCE7", label: "Equipment Returned" },
+          Overdue:  { icon: "<i data-lucide=\"triangle-alert\"></i>", color: "#DC2626", bg: "#FEE2E2", label: "Return Overdue" },
+          Assigned: { icon: "<i data-lucide=\"package\"></i>", color: "#2563EB", bg: "#DBEAFE", label: "Equipment Borrowed" },
         }[r.status] || { icon: "●", color: "#64748B", bg: "#F1F5F9", label: r.status };
 
         // Only add if no activity entry already covers this item to avoid duplication
@@ -2961,10 +2961,10 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter((r) => r.teamId === teamId)
       .forEach((r) => {
         const cfg = {
-          "Fully Issued": { icon: "✅", color: "#16A34A", bg: "#DCFCE7", label: "Request Fulfilled" },
-          Pending:        { icon: "📋", color: "#D97706", bg: "#FEF3C7", label: "Component Requested" },
-          Rejected:       { icon: "✕",  color: "#EF4444", bg: "#FEE2E2", label: "Request Rejected" },
-        }[r.status] || { icon: "📋", color: "#64748B", bg: "#F1F5F9", label: "Component Requested" };
+          "Fully Issued": { icon: "<i data-lucide=\"check-circle\"></i>", color: "#16A34A", bg: "#DCFCE7", label: "Request Fulfilled" },
+          Pending:        { icon: "<i data-lucide=\"clipboard-list\"></i>", color: "#D97706", bg: "#FEF3C7", label: "Component Requested" },
+          Rejected:       { icon: "<i data-lucide=\"x\"></i>",  color: "#EF4444", bg: "#FEE2E2", label: "Request Rejected" },
+        }[r.status] || { icon: "<i data-lucide=\"clipboard-list\"></i>", color: "#64748B", bg: "#F1F5F9", label: "Component Requested" };
 
         const alreadyCovered = events.some(
           (ev) => ev.source === "activity" && ev.desc.toLowerCase().includes(r.item.toLowerCase())
@@ -2996,7 +2996,7 @@ document.addEventListener("DOMContentLoaded", () => {
           events.push({
             date: rawDate,
             sortDate: rawDate,
-            icon: "🎫",
+            icon: "<i data-lucide=\"ticket\"></i>",
             color: "#7C3AED",
             bg: "#EDE9FE",
             title: "Ticket Raised",

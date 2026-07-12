@@ -166,7 +166,7 @@ function renderBaseLayout(activeMenu) {
             if (!dropdown) return;
 
             const listHtml = notifs.length === 0
-                ? `<div class="notif-empty"><span class="notif-empty-icon">🔔</span>No notifications yet</div>`
+                ? `<div class="notif-empty"><span class="notif-empty-icon"><i data-lucide=\"bell\"></i></span>No notifications yet</div>`
                 : notifs.map(n => `
                     <div class="notif-item ${n.unread ? 'unread' : ''}" data-notif-id="${n.id}">
                         <div class="notif-icon-wrapper ${n.iconClass}">${n.icon}</div>
@@ -248,10 +248,10 @@ function showToast(message, type = 'success') {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
 
-    let icon = '&#10003;';
-    if (type === 'error') icon = '&#9888;';
-    if (type === 'warn')  icon = '&#9757;';
-    if (type === 'info')  icon = '&#8505;';
+    let icon = '<i data-lucide=\"check\"></i>';
+    if (type === 'error') icon = '<i data-lucide=\"triangle-alert\"></i>';
+    if (type === 'warn')  icon = '<i data-lucide=\"info\"></i>';
+    if (type === 'info')  icon = '<i data-lucide=\"info\"></i>';
 
     toast.innerHTML = `
     <div class="toast-content">
@@ -291,7 +291,7 @@ function createConfirmationModal(title, bodyText, confirmCallback, confirmText =
       <div class="modal-header global-style-5c52b3">
         <div class="modal-header-left">
           <div class="circle-icon-wrapper ${isDanger ? 'red-alert' : 'blue-info'} global-style-26ebab">
-            ${isDanger ? '&#9888;' : '&#8505;'}
+            ${isDanger ? '<i data-lucide=\"triangle-alert\"></i>' : '<i data-lucide=\"info\"></i>'}
           </div>
           <div class="card-header-text">
             <span class="card-title">${title}</span>
@@ -375,3 +375,28 @@ function hasSqlInfectionRisk(str) {
     const sqlRegex = /\b(select|insert|update|delete|drop|alter|union|where|exec|truncate)\b/gi;
     return sqlRegex.test(str);
 }
+
+// ── MutationObserver for dynamically added Lucide Icons ──────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+    if (typeof lucide !== 'undefined') {
+        let timeout;
+        const observer = new MutationObserver((mutations) => {
+            let shouldUpdate = false;
+            for (const mutation of mutations) {
+                if (mutation.addedNodes.length > 0) {
+                    shouldUpdate = true;
+                    break;
+                }
+            }
+            if (shouldUpdate) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    observer.disconnect();
+                    lucide.createIcons();
+                    observer.observe(document.body, { childList: true, subtree: true });
+                }, 50);
+            }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+});

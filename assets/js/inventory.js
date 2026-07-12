@@ -12,12 +12,12 @@ const DEFAULT_DATABASE = {
     },
 
     notifications: [
-        { id: "NTF-001", icon: "📦", iconClass: "notif-icon-request", body: "TEAM-001 has submitted a new component request for Arduino Mega boards.", time: "2 min ago", unread: true },
-        { id: "NTF-002", icon: "⏰", iconClass: "notif-icon-overdue", body: "TEAM-006 has 1 overdue equipment return — Raspberry Pi 4 (EQ-011).", time: "18 min ago", unread: true },
-        { id: "NTF-003", icon: "🎫", iconClass: "notif-icon-ticket", body: "New damage ticket TKT-007 raised by TEAM-002 for Digital Oscilloscope.", time: "1 hr ago", unread: true },
-        { id: "NTF-004", icon: "✅", iconClass: "notif-icon-info", body: "Component request REQ-012 for resistors was approved and marked fulfilled.", time: "3 hrs ago", unread: false },
-        { id: "NTF-005", icon: "📋", iconClass: "notif-icon-request", body: "TEAM-005 submitted a material return for Soldering Station (EQ-012).", time: "5 hrs ago", unread: false },
-        { id: "NTF-006", icon: "⚠️", iconClass: "notif-icon-overdue", body: "Inventory alert: 3D Printer (EQ-001) maintenance is due this week.", time: "Yesterday", unread: false }
+        { id: "NTF-001", icon: "<i data-lucide=\"package\"></i>", iconClass: "notif-icon-request", body: "TEAM-001 has submitted a new component request for Arduino Mega boards.", time: "2 min ago", unread: true },
+        { id: "NTF-002", icon: "<i data-lucide=\"alarm-clock\"></i>", iconClass: "notif-icon-overdue", body: "TEAM-006 has 1 overdue equipment return — Raspberry Pi 4 (EQ-011).", time: "18 min ago", unread: true },
+        { id: "NTF-003", icon: "<i data-lucide=\"ticket\"></i>", iconClass: "notif-icon-ticket", body: "New damage ticket TKT-007 raised by TEAM-002 for Digital Oscilloscope.", time: "1 hr ago", unread: true },
+        { id: "NTF-004", icon: "<i data-lucide=\"check-circle\"></i>", iconClass: "notif-icon-info", body: "Component request REQ-012 for resistors was approved and marked fulfilled.", time: "3 hrs ago", unread: false },
+        { id: "NTF-005", icon: "<i data-lucide=\"clipboard-list\"></i>", iconClass: "notif-icon-request", body: "TEAM-005 submitted a material return for Soldering Station (EQ-012).", time: "5 hrs ago", unread: false },
+        { id: "NTF-006", icon: "<i data-lucide=\"triangle-alert\"></i>", iconClass: "notif-icon-overdue", body: "Inventory alert: 3D Printer (EQ-001) maintenance is due this week.", time: "Yesterday", unread: false }
     ],
 
     teams: [
@@ -608,7 +608,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <tr>
             <td colspan="7" class="inventory-style-8e8f43">
               <div class="empty-state">
-                <span class="empty-state-icon">&#10065;</span>
+                <span class="empty-state-icon"><i data-lucide="box-select"></i></span>
                 <span class="empty-state-title">No Inventory Items Found</span>
                 <p class="empty-state-desc">Try widening your search query or choosing a different filter tab.</p>
               </div>
@@ -633,13 +633,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${item.remarks || ""}</td>
                         <td>
     <a href="#" data-action="editEquipment" data-id="${item.eqpid}" class="inventory-style-5a2edf">
-        ✏️
+        <i data-lucide="pencil" style="width: 16px; height: 16px;"></i>
     </a>
 
     <a href="#"
        data-action="deleteEquipment" data-id="${item.eqpid}" data-name="${item.name || item.componentName}"
        class="inventory-style-eadcd3">
-        🗑️
+        <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i>
     </a>
 </td>
                     </tr>
@@ -665,13 +665,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${item.comments || ""}</td>
                         <td>
     <a href="#" data-action="editComponent" data-id="${item.cid}" class="inventory-style-5a2edf">
-        ✏️
+        <i data-lucide="pencil" style="width: 16px; height: 16px;"></i>
     </a>
 
     <a href="#"
        data-action="deleteComponent" data-id="${item.cid}" data-name="${item.componentName}"
        class="inventory-style-eadcd3">
-        🗑️
+        <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i>
     </a>
 </td>
                     </tr>
@@ -697,13 +697,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${item.comments || ""}</td>
                         <td>
     <a href="#" data-action="editTool" data-id="${item.toolid}" class="inventory-style-5a2edf">
-        ✏️
+        <i data-lucide="pencil" style="width: 16px; height: 16px;"></i>
     </a>
 
     <a href="#"
        data-action="deleteTool" data-id="${item.toolid}" data-name="${item.componentName}"
        class="inventory-style-eadcd3">
-        🗑️
+        <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i>
     </a>
 </td>
                     </tr>
@@ -1048,7 +1048,10 @@ window.editTool = function (id) {
         bumSelectedFile = file;
         bumFpName.textContent = file.name;
         bumFpSize.textContent = (file.size / 1024).toFixed(1) + " KB";
-        bumFpIcon.textContent = ext === "csv" ? "📄" : "📊";
+        bumFpIcon.innerHTML = ext === "csv" ? "<i data-lucide=\"file-text\"></i>" : "<i data-lucide=\"file-spreadsheet\"></i>";
+        
+        // Ensure dynamically added icons are converted
+        if (typeof lucide !== 'undefined') lucide.createIcons();
         bumFilePreview.style.display = "flex";
         bumDropzone.style.display = "none";
         bumUploadBtn.disabled = false;
@@ -1320,7 +1323,7 @@ window.editTool = function (id) {
         const allSuccess = failCount === 0 && successCount > 0;
         const allFail    = successCount === 0;
         const iconClass  = allSuccess ? "success" : allFail ? "error" : "partial";
-        const iconChar   = allSuccess ? "✅" : allFail ? "❌" : "⚠️";
+        const iconChar   = allSuccess ? "<i data-lucide=\"check-circle\"></i>" : allFail ? "<i data-lucide=\"x-circle\"></i>" : "<i data-lucide=\"triangle-alert\"></i>";
         const titleText  = allSuccess ? "All Items Imported Successfully" : allFail ? "Import Failed" : "Partially Imported";
         const subText    = allSuccess ? `${successCount} item(s) added to inventory` :
                           allFail    ? "No items imported — check your file format" :

@@ -1619,6 +1619,16 @@
 .inventory-action-panel {
     display: flex;
     align-items: center;
+    gap: 12px;
+}
+
+/* ============================================================
+   VIEW SWITCH BAR — Controls for switching table views
+   ============================================================ */
+.view-switch-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .action-group {

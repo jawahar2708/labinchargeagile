@@ -30,12 +30,12 @@
         },
 
         notifications: [
-            { id: 'NTF-001', icon: '📦', iconClass: 'notif-icon-request', body: 'TEAM-001 has submitted a new component request for Arduino Mega boards.', time: '2 min ago', unread: true },
-            { id: 'NTF-002', icon: '⏰', iconClass: 'notif-icon-overdue', body: 'TEAM-006 has 1 overdue equipment return — Raspberry Pi 4 (EQ-011).', time: '18 min ago', unread: true },
-            { id: 'NTF-003', icon: '🎫', iconClass: 'notif-icon-ticket', body: 'New damage ticket TKT-007 raised by TEAM-002 for Digital Oscilloscope.', time: '1 hr ago', unread: true },
-            { id: 'NTF-004', icon: '✅', iconClass: 'notif-icon-info', body: 'Component request REQ-012 for resistors was approved and marked fulfilled.', time: '3 hrs ago', unread: false },
-            { id: 'NTF-005', icon: '📋', iconClass: 'notif-icon-request', body: 'TEAM-005 submitted a material return for Soldering Station (EQ-012).', time: '5 hrs ago', unread: false },
-            { id: 'NTF-006', icon: '⚠️', iconClass: 'notif-icon-overdue', body: 'Inventory alert: 3D Printer (EQ-001) maintenance is due this week.', time: 'Yesterday', unread: false }
+            { id: 'NTF-001', icon: '<i data-lucide=\"package\"></i>', iconClass: 'notif-icon-request', body: 'TEAM-001 has submitted a new component request for Arduino Mega boards.', time: '2 min ago', unread: true },
+            { id: 'NTF-002', icon: '<i data-lucide=\"alarm-clock\"></i>', iconClass: 'notif-icon-overdue', body: 'TEAM-006 has 1 overdue equipment return — Raspberry Pi 4 (EQ-011).', time: '18 min ago', unread: true },
+            { id: 'NTF-003', icon: '<i data-lucide=\"ticket\"></i>', iconClass: 'notif-icon-ticket', body: 'New damage ticket TKT-007 raised by TEAM-002 for Digital Oscilloscope.', time: '1 hr ago', unread: true },
+            { id: 'NTF-004', icon: '<i data-lucide=\"check-circle\"></i>', iconClass: 'notif-icon-info', body: 'Component request REQ-012 for resistors was approved and marked fulfilled.', time: '3 hrs ago', unread: false },
+            { id: 'NTF-005', icon: '<i data-lucide=\"clipboard-list\"></i>', iconClass: 'notif-icon-request', body: 'TEAM-005 submitted a material return for Soldering Station (EQ-012).', time: '5 hrs ago', unread: false },
+            { id: 'NTF-006', icon: '<i data-lucide=\"triangle-alert\"></i>', iconClass: 'notif-icon-overdue', body: 'Inventory alert: 3D Printer (EQ-001) maintenance is due this week.', time: 'Yesterday', unread: false }
         ],
 
         teams: [
