@@ -387,6 +387,10 @@ body {
     gap: 28px;
 }
 
+.page-content-wrapper > * {
+    flex-shrink: 0;
+}
+
 /* ── PAGE FOOTER ────────────────────────────────────────────── */
 .page-footer {
     text-align: center;

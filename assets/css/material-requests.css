@@ -242,6 +242,7 @@
     overflow: hidden; 
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 
 .custom-table {
