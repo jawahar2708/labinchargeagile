@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="assets/css/index.css">
 
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
 <body>
@@ -114,6 +115,26 @@
                     </div>
                 </div>
 
+                <!-- CHARTS ROW -->
+                <div class="db-charts-grid">
+                    <div class="card glass-panel chart-card">
+                        <div class="card-head">
+                            <h3 class="card-title">Inventory Health</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="inventoryDonutChart"></div>
+                        </div>
+                    </div>
+                    <div class="card glass-panel chart-card">
+                        <div class="card-head">
+                            <h3 class="card-title">Ticket & Return Timeline</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="timelineAreaChart"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- QUICK ACCESS MODULES -->
                 <div>
                     <div class="section-label">Quick Access</div>
@@ -188,6 +209,56 @@
                                 <div class="module-desc">In-depth records</div>
                             </div>
                         </a>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC TABLES (RECENT REQUESTS & ACTION NEEDED) -->
+                <div class="db-bottom">
+                    <div class="db-card glass-panel">
+                        <div class="db-card-head">
+                            <div class="db-card-title">
+                                <span>📋</span> Recent Material Requests
+                            </div>
+                            <a href="material-requests.html" class="db-card-link">View All</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="db-tbl" id="recentRequestsTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Team</th>
+                                        <th>Item Requested</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated dynamically via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="db-card glass-panel">
+                        <div class="db-card-head">
+                            <div class="db-card-title">
+                                <span>⚠️</span> Action Needed
+                            </div>
+                            <div class="db-card-sub">Overdue Returns & Open Tickets</div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="db-tbl" id="actionNeededTable">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Item / Subject</th>
+                                        <th>Entity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated dynamically via JS -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 

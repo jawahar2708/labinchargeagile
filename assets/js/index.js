@@ -178,4 +178,180 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('kpiBadge2').textContent = `${unavailable} Items`;
     document.getElementById('kpiBadge3').textContent = `${approvedReqs} Approved`;
     document.getElementById('kpiBadge4').textContent = `${totalTickets} Total`;
+
+    // ── Charts Initialization ──────────────────────────────────────────
+    if (typeof ApexCharts !== 'undefined') {
+        // 1. Inventory Health Donut Chart
+        const invAvailable = db.inventory.filter(i => i.status === 'Available').length;
+        const invMaintenance = db.inventory.filter(i => i.status === 'Maintenance').length;
+        const invRepairing = db.inventory.filter(i => i.status === 'Repairing').length;
+
+        const donutOptions = {
+            series: [invAvailable, invMaintenance, invRepairing],
+            chart: {
+                type: 'donut',
+                height: 280,
+                fontFamily: "'Plus Jakarta Sans', sans-serif"
+            },
+            labels: ['Available', 'Maintenance', 'Repairing'],
+            colors: ['#16A34A', '#F59E0B', '#EF4444'],
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '70%',
+                        labels: {
+                            show: true,
+                            name: { fontSize: '12px' },
+                            value: { fontSize: '24px', fontWeight: 800, color: '#0F172A' },
+                            total: {
+                                show: true,
+                                showAlways: true,
+                                label: 'Total',
+                                formatter: function (w) {
+                                    return w.globals.seriesTotals.reduce((a, b) => a + b, 0)
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            dataLabels: { enabled: false },
+            legend: { position: 'bottom', fontSize: '13px', markers: { radius: 12 } },
+            stroke: { show: true, colors: ['transparent'] }
+        };
+
+        const donutChart = new ApexCharts(document.querySelector("#inventoryDonutChart"), donutOptions);
+        donutChart.render();
+
+        // 2. Timeline Area Chart (Mock data for past 7 days)
+        // Group returns and tickets by day (just mocking a trend for now)
+        const categories = [];
+        const returnsData = [];
+        const ticketsData = [];
+        
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            categories.push(d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+            
+            // Random mock trend data to make it look active
+            returnsData.push(Math.floor(Math.random() * 8) + 2);
+            ticketsData.push(Math.floor(Math.random() * 5));
+        }
+
+        const areaOptions = {
+            series: [{
+                name: 'Material Returns',
+                data: returnsData
+            }, {
+                name: 'Tickets Raised',
+                data: ticketsData
+            }],
+            chart: {
+                type: 'area',
+                height: 280,
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                toolbar: { show: false },
+                zoom: { enabled: false }
+            },
+            colors: ['#4F3CF5', '#F59E0B'],
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth', width: 2 },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.4,
+                    opacityTo: 0.05,
+                    stops: [0, 90, 100]
+                }
+            },
+            xaxis: {
+                categories: categories,
+                axisBorder: { show: false },
+                axisTicks: { show: false }
+            },
+            yaxis: { show: false }, // Cleaner look for dashboard
+            grid: {
+                borderColor: 'rgba(0,0,0,0.05)',
+                strokeDashArray: 4,
+                yaxis: { lines: { show: true } }
+            },
+            legend: { position: 'top', horizontalAlign: 'right', fontSize: '12px' }
+        };
+
+        const areaChart = new ApexCharts(document.querySelector("#timelineAreaChart"), areaOptions);
+        areaChart.render();
+    }
+
+    // ── Dynamic Tables ─────────────────────────────────────────────────
+    
+    // Helper to get CSS class for status
+    function getStatusClass(status) {
+        const s = status.toLowerCase().replace(' ', '-');
+        return `status-badge ${s}`;
+    }
+
+    // 1. Recent Material Requests (Top 5)
+    const recentRequestsTbody = document.querySelector('#recentRequestsTable tbody');
+    if (recentRequestsTbody) {
+        // Sort requests by date descending (mock data has dates as YYYY-MM-DD)
+        const sortedReqs = [...db.materialRequests].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+        
+        let reqHTML = '';
+        sortedReqs.forEach(req => {
+            reqHTML += `
+                <tr>
+                    <td style="font-weight:600; color:#4F3CF5">${req.id}</td>
+                    <td>${req.teamName}</td>
+                    <td>${req.item}</td>
+                    <td><span class="${getStatusClass(req.status)}">${req.status}</span></td>
+                </tr>
+            `;
+        });
+        recentRequestsTbody.innerHTML = reqHTML || '<tr><td colspan="4" style="text-align:center">No recent requests</td></tr>';
+    }
+
+    // 2. Action Needed (Overdue Returns + Open Tickets)
+    const actionNeededTbody = document.querySelector('#actionNeededTable tbody');
+    if (actionNeededTbody) {
+        const actions = [];
+        
+        // Add Overdue returns
+        db.materialReturns.filter(r => r.status === 'Overdue').forEach(r => {
+            actions.push({
+                type: 'Return',
+                typeLabel: '<span class="overdue-dot"></span> Overdue',
+                subject: r.item,
+                entity: r.teamName,
+                date: r.date // For sorting if needed, but we just list them
+            });
+        });
+        
+        // Add Open/In-Progress Tickets
+        db.tickets.filter(t => t.status !== 'Resolved').forEach(t => {
+            actions.push({
+                type: 'Ticket',
+                typeLabel: `<span class="status-badge ${getStatusClass(t.status)}">${t.status}</span>`,
+                subject: t.subject,
+                entity: t.raisedBy || t.teamName,
+                date: t.date
+            });
+        });
+        
+        // Sort conceptually (or just display top 5)
+        const topActions = actions.slice(0, 6);
+        
+        let actHTML = '';
+        topActions.forEach(act => {
+            actHTML += `
+                <tr>
+                    <td>${act.typeLabel}</td>
+                    <td style="font-weight:600">${act.subject}</td>
+                    <td style="color:var(--text-secondary)">${act.entity}</td>
+                </tr>
+            `;
+        });
+        actionNeededTbody.innerHTML = actHTML || '<tr><td colspan="3" style="text-align:center">No urgent actions needed</td></tr>';
+    }
 });

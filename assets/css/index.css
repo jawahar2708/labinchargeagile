@@ -322,7 +322,37 @@
     margin-bottom: 12px;
 }
 
-/* ── Bottom Tables (kept for future use, currently commented out) ── */
+/* ── Charts Grid ────────────────────────────────────────────────── */
+.db-charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .db-charts-grid { grid-template-columns: 1fr; }
+}
+
+.chart-card {
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-card .card-head {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.chart-card .card-body {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Bottom Tables ─────────────────────────────────────────────── */
 .db-bottom {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
@@ -380,7 +410,7 @@
 }
 
 .db-tbl th {
-    background: #F8FAFC;
+    background: rgba(255, 255, 255, 0.4);
     padding: 11px 20px;
     font-size: 10.5px;
     font-weight: 700;
@@ -399,7 +429,24 @@
 }
 
 .db-tbl tr:last-child td { border-bottom: none; }
-.db-tbl tbody tr:hover td { background: #FAFBFF; }
+.db-tbl tbody tr:hover td { background: rgba(255, 255, 255, 0.6); }
+
+/* ── Status Badges for Tables ───────────────────────────────────── */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.status-badge.pending { background: #FEF3C7; color: #B45309; }
+.status-badge.approved { background: #DCFCE7; color: #16A34A; }
+.status-badge.rejected { background: #FEE2E2; color: #DC2626; }
+.status-badge.fully-issued { background: #E0E7FF; color: #4338CA; }
+.status-badge.overdue { background: #FEE2E2; color: #DC2626; }
+.status-badge.open { background: #FEF3C7; color: #B45309; }
+.status-badge.in-progress { background: #DBEAFE; color: #2563EB; }
+.status-badge.resolved { background: #DCFCE7; color: #16A34A; }
 
 .overdue-dot {
     display: inline-block;
