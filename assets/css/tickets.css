@@ -159,3 +159,34 @@
 .tickets-style-f440e7 { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; }
 .tickets-style-78f6f2 { margin-top:12px; }
 .tickets-style-43d7b3 { width:100%; height:75px; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; outline:none; resize:vertical; font-family:inherit; font-size:13px; color:var(--text-primary); }
+
+/* Ticket/Request status classes */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-open {
+    background-color: var(--status-open-bg);
+    color: var(--status-open-text);
+}
+
+.status-pending {
+    background-color: var(--status-pending-bg);
+    color: var(--status-pending-text);
+}
+
+.status-in-progress {
+    background-color: var(--status-in-progress-bg);
+    color: var(--status-in-progress-text);
+}
+
+.status-resolved {
+    background-color: var(--status-resolved-bg);
+    color: var(--status-resolved-text);
+}

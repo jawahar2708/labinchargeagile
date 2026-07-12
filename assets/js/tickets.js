@@ -593,7 +593,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sortedTickets = [...tickets].sort((a, b) => b.id.localeCompare(a.id));
 
     activeTableBody.innerHTML = sortedTickets.map(t => {
-      let badgeClass = "status-pending";
+      let badgeClass = "badge status-pending";
       if (t.status === "Resolved") badgeClass = "badge status-resolved";
       else if (t.status === "In Progress") badgeClass = "badge status-in-progress";
       else badgeClass = "badge status-open";
