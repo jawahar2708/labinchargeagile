@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="assets/css/inventory.css">
     <!-- Keep lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- SheetJS: required for Excel/CSV bulk upload parsing -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
     </head>
 
 <body>
@@ -93,34 +95,12 @@
                         <!--<button class="filter-btn">
                             <span>&#9783;</span> Filters <span>&#9662;</span>
                         </button>-->
-                        <div class="inventory-style-5afa63">
-                            <label
-                                class="inventory-style-302c78"
-                                title="If checked, duplicate IDs in Excel/CSV will update the existing item in the DB. Otherwise, they are skipped and reported.">
-                                <!-- <input type="checkbox" id="updateDuplicateCheck"
-                                    class="inventory-style-964a26"> Update Duplicates -->
-                            </label>
-
-                            <div id="actionsEquipment" class="action-group">
-                                <a href="#" id="addEquipmentBtn" class="btn btn-primary inventory-style-274acb">+ Add Equipment</a>
-                                <button type="button" class="btn btn-outline btn-download" data-type="equipment"
-                                    class="inventory-style-f6b1cb">Download
-                                    Template</button>
-                            </div>
-                            <div id="actionsComponents" class="action-group inventory-style-93b8ea">
-                                <a href="#" class="btn btn-primary inventory-style-274acb">+ Add Component</a>
-                                <button type="button" class="btn btn-outline btn-download" data-type="components"
-                                    class="inventory-style-f6b1cb">Download
-                                    Template</button>
-                            </div>
-                            <div id="actionsTools" class="action-group inventory-style-93b8ea">
-                                <a href="#" class="btn btn-primary inventory-style-274acb">+ Add Tool</a>
-                                <button type="button" class="btn btn-outline btn-download" data-type="tools"
-                                    class="inventory-style-f6b1cb">Download
-                                    Template</button>
-                            </div>
+                        <div class="inventory-action-panel">
+                            <a href="#" id="addEquipmentBtn" class="btn btn-primary">+ Add Equipment</a>
+                            <a href="#" id="addComponentBtn" class="btn btn-primary">+ Add Component</a>
+                            <a href="#" id="addToolBtn" class="btn btn-primary">+ Add Tool</a>
                         </div>
-                        <input type="file" id="bulkUploadFileInput" accept=".xlsx,.csv" class="inventory-style-93b8ea">
+                        <input type="file" id="bulkUploadFileInput" accept=".xlsx,.csv" style="display:none;">
 
 
 
@@ -185,36 +165,44 @@
                 <h2>Add Equipment</h2>
                 <span>Create a new equipment entry</span>
             </div>
-            <button class="modal-close-btn" data-action="closeAddEquipmentModal">&times;</button>
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+                <button type="button" class="btn btn-outline btn-upload-trigger" data-type="equipment" style="font-size:0.8rem; padding:0.35rem 0.75rem;">
+                    <span class="btn-icon">&#8593;</span> Bulk Upload
+                </button>
+                <button type="button" class="btn btn-ghost btn-download" data-type="equipment" style="font-size:0.8rem; padding:0.35rem 0.75rem;">
+                    &#8595; Template
+                </button>
+                <button class="modal-close-btn" data-action="closeAddEquipmentModal">&times;</button>
+            </div>
         </div>
         <div class="drawer-body">
             <form id="addEquipmentForm">
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Component Name</label>
-                    <input type="text" id="eqName" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                <div class="form-group">
+                    <label>Equipment Name</label>
+                    <input type="text" id="eqName" required placeholder="e.g. 3D Printer">
                 </div>
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Make</label>
-                    <input type="text" id="eqMake" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                <div class="form-group">
+                    <label>Make</label>
+                    <input type="text" id="eqMake" required placeholder="e.g. Creality">
                 </div>
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Specification/Version</label>
-                    <input type="text" id="eqSpec" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                <div class="form-group">
+                    <label>Specification / Version</label>
+                    <input type="text" id="eqSpec" required placeholder="e.g. Ender 3 V2">
                 </div>
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Total Count</label>
-                    <input type="number" id="eqCount" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                <div class="form-group">
+                    <label>Total Count</label>
+                    <input type="number" id="eqCount" required placeholder="0" min="0">
                 </div>
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Component Type</label>
-                    <select id="eqType" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                <div class="form-group">
+                    <label>Equipment Type</label>
+                    <select id="eqType">
                         <option value="Manufacturing Equipment">Manufacturing Equipment</option>
                         <option value="Testing Equipment">Testing Equipment</option>
                     </select>
                 </div>
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Lab</label>
-                    <select id="eqLab" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                <div class="form-group">
+                    <label>Lab</label>
+                    <select id="eqLab">
                         <option value="Mechanical Lab">Mechanical Lab</option>
                         <option value="Electronics Lab">Electronics Lab</option>
                         <option value="Manufacturing Lab">Manufacturing Lab</option>
@@ -222,56 +210,354 @@
                         <option value="IoT Lab">IoT Lab</option>
                     </select>
                 </div>
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Remarks</label>
-                    <input type="text" id="eqRemarks" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                <div class="form-group full-width">
+                    <label>Remarks</label>
+                    <input type="text" id="eqRemarks" placeholder="Any remarks or condition notes">
                 </div>
             </form>
         </div>
-        <div class="drawer-footer" style="display: flex; gap: 1rem; justify-content: flex-end;">
+        <div class="drawer-footer">
             <button class="btn btn-outline" data-action="closeAddEquipmentModal">Cancel</button>
             <button class="btn btn-primary" id="saveEquipmentBtn">Save Equipment</button>
         </div>
     </div>
 
-    <!-- BULK UPLOAD SUMMARY MODAL -->
-    <div class="drawer-overlay" id="uploadSummaryModalOverlay" data-action="closeUploadSummaryModal"></div>
-    <div class="drawer" id="uploadSummaryModal" class="inventory-style-c5a25c">
+    <!-- ADD COMPONENT MODAL -->
+    <div class="drawer-overlay" id="addComponentModalOverlay" data-action="closeAddComponentModal"></div>
+    <div class="drawer" id="addComponentModal">
         <div class="drawer-header">
             <div>
-                <h2>Bulk Upload Summary</h2>
-                <span class="inventory-style-7e1b38">Excel / CSV Import
-                    Results</span>
+                <h2>Add Component</h2>
+                <span>Create a new component entry</span>
             </div>
-            <button class="modal-close-btn inventory-style-4cc55b"
-                data-action="closeUploadSummaryModal">&times;</button>
+            <div>
+                <button type="button" class="btn btn-outline btn-upload-trigger" data-type="components" style="font-size:0.8rem; padding:0.35rem 0.75rem;">
+                    <span class="btn-icon">&#8593;</span> Bulk Upload
+                </button>
+                <button type="button" class="btn btn-ghost btn-download" data-type="components" style="font-size:0.8rem; padding:0.35rem 0.75rem;">
+                    &#8595; Template
+                </button>
+                <button class="modal-close-btn" data-action="closeAddComponentModal">&times;</button>
+            </div>
         </div>
-        <div class="drawer-body inventory-style-86c90f">
-            <div class="inventory-style-320f95">
-                <div class="stat-card inventory-style-4aa468">
-                    <span class="stat-value" id="summaryTotalRows" class="inventory-style-af18ea">0</span>
-                    <span class="stat-label inventory-style-6ec708">Total Processed</span>
+        <div class="drawer-body">
+            <form id="addComponentForm">
+                <div class="form-group">
+                    <label>Component Name</label>
+                    <input type="text" id="compName" required placeholder="e.g. Arduino Uno">
                 </div>
-                <div class="stat-card inventory-style-f43fec">
-                    <span class="stat-value" id="summarySuccessRows" class="inventory-style-6c06c7">0</span>
-                    <span class="stat-label inventory-style-6ec708">Successfully Imported</span>
+                <div class="form-group">
+                    <label>Make</label>
+                    <input type="text" id="compMake" required placeholder="e.g. Arduino">
                 </div>
-                <div class="stat-card inventory-style-f80db9">
-                    <span class="stat-value" id="summaryFailedRows" class="inventory-style-534916">0</span>
-                    <span class="stat-label inventory-style-6ec708">Failed / Skipped</span>
+                <div class="form-group">
+                    <label>Specification / Version</label>
+                    <input type="text" id="compSpec" required placeholder="e.g. ATmega328P">
+                </div>
+                <div class="form-group">
+                    <label>Cost (&#8377;)</label>
+                    <input type="number" id="compCost" required placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Return Timeline</label>
+                    <input type="text" id="compReturnTimeline" placeholder="e.g. Project Completion">
+                </div>
+                <div class="form-group">
+                    <label>Total Count</label>
+                    <input type="number" id="compCount" required placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Component Type</label>
+                    <select id="compType">
+                        <option value="Electronics">Electronics</option>
+                        <option value="Embedded">Embedded</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Sensors">Sensors</option>
+                        <option value="Power">Power</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Lab</label>
+                    <select id="compLab">
+                        <option value="Mechanical Lab">Mechanical Lab</option>
+                        <option value="Electronics Lab">Electronics Lab</option>
+                        <option value="Manufacturing Lab">Manufacturing Lab</option>
+                        <option value="Embedded Lab">Embedded Lab</option>
+                        <option value="IoT Lab">IoT Lab</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cupboard</label>
+                    <input type="text" id="compCupboard" placeholder="e.g. CUP-1">
+                </div>
+                <div class="form-group">
+                    <label>Purpose</label>
+                    <input type="text" id="compPurpose" placeholder="e.g. Student Projects">
+                </div>
+                <div class="form-group">
+                    <label>Shelf 1</label>
+                    <input type="text" id="compShelf1" placeholder="e.g. A1">
+                </div>
+                <div class="form-group">
+                    <label>Count 1</label>
+                    <input type="number" id="compCount1" placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Shelf 2</label>
+                    <input type="text" id="compShelf2" placeholder="e.g. A2">
+                </div>
+                <div class="form-group">
+                    <label>Count 2</label>
+                    <input type="number" id="compCount2" placeholder="0" min="0">
+                </div>
+                <div class="form-group full-width">
+                    <label>Comments</label>
+                    <input type="text" id="compComments" placeholder="Any additional notes">
+                </div>
+            </form>
+        </div>
+        <div class="drawer-footer">
+            <button class="btn btn-outline" data-action="closeAddComponentModal">Cancel</button>
+            <button class="btn btn-primary" id="saveComponentBtn">Save Component</button>
+        </div>
+    </div>
+
+    <!-- ADD TOOL MODAL -->
+    <div class="drawer-overlay" id="addToolModalOverlay" data-action="closeAddToolModal"></div>
+    <div class="drawer" id="addToolModal">
+        <div class="drawer-header">
+            <div>
+                <h2>Add Tool</h2>
+                <span>Create a new tool entry</span>
+            </div>
+            <div>
+                <button type="button" class="btn btn-outline btn-upload-trigger" data-type="tools" style="font-size:0.8rem; padding:0.35rem 0.75rem;">
+                    <span class="btn-icon">&#8593;</span> Bulk Upload
+                </button>
+                <button type="button" class="btn btn-ghost btn-download" data-type="tools" style="font-size:0.8rem; padding:0.35rem 0.75rem;">
+                    &#8595; Template
+                </button>
+                <button class="modal-close-btn" data-action="closeAddToolModal">&times;</button>
+            </div>
+        </div>
+        <div class="drawer-body">
+            <form id="addToolForm">
+                <div class="form-group">
+                    <label>Tool Name</label>
+                    <input type="text" id="toolName" required placeholder="e.g. Screw Driver Set">
+                </div>
+                <div class="form-group">
+                    <label>Make</label>
+                    <input type="text" id="toolMake" required placeholder="e.g. Bosch">
+                </div>
+                <div class="form-group">
+                    <label>Specification / Version</label>
+                    <input type="text" id="toolSpec" required placeholder="e.g. Professional Kit">
+                </div>
+                <div class="form-group">
+                    <label>Cost (&#8377;)</label>
+                    <input type="number" id="toolCost" required placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Return Timeline</label>
+                    <input type="text" id="toolReturnTimeline" placeholder="e.g. Daily">
+                </div>
+                <div class="form-group">
+                    <label>Total Count</label>
+                    <input type="number" id="toolCount" required placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Tool Type</label>
+                    <select id="toolType">
+                        <option value="Hand Tool">Hand Tool</option>
+                        <option value="Electronic Tool">Electronic Tool</option>
+                        <option value="Power Tool">Power Tool</option>
+                        <option value="Measuring Tool">Measuring Tool</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Lab</label>
+                    <select id="toolLab">
+                        <option value="Mechanical Lab">Mechanical Lab</option>
+                        <option value="Electronics Lab">Electronics Lab</option>
+                        <option value="Manufacturing Lab">Manufacturing Lab</option>
+                        <option value="Embedded Lab">Embedded Lab</option>
+                        <option value="IoT Lab">IoT Lab</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cupboard</label>
+                    <input type="text" id="toolCupboard" placeholder="e.g. CUP-5">
+                </div>
+                <div class="form-group">
+                    <label>Purpose</label>
+                    <input type="text" id="toolPurpose" placeholder="e.g. Maintenance">
+                </div>
+                <div class="form-group">
+                    <label>Shelf 1</label>
+                    <input type="text" id="toolShelf1" placeholder="e.g. A1">
+                </div>
+                <div class="form-group">
+                    <label>Count 1</label>
+                    <input type="number" id="toolCount1" placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Shelf 2</label>
+                    <input type="text" id="toolShelf2" placeholder="e.g. A2">
+                </div>
+                <div class="form-group">
+                    <label>Count 2</label>
+                    <input type="number" id="toolCount2" placeholder="0" min="0">
+                </div>
+                <div class="form-group full-width">
+                    <label>Comments</label>
+                    <input type="text" id="toolComments" placeholder="Any additional notes">
+                </div>
+            </form>
+        </div>
+        <div class="drawer-footer">
+            <button class="btn btn-outline" data-action="closeAddToolModal">Cancel</button>
+            <button class="btn btn-primary" id="saveToolBtn">Save Tool</button>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         BULK UPLOAD MODAL — 3-Stage Flow
+         Stage 1: File Selection / Drag & Drop
+         Stage 2: Processing / Progress Animation
+         Stage 3: Results Summary
+    ════════════════════════════════════════════════════════════ -->
+    <div class="bulk-upload-overlay" id="bulkUploadModalOverlay"></div>
+    <div class="bulk-upload-modal" id="bulkUploadModal" role="dialog" aria-modal="true" aria-labelledby="bulkUploadTitle">
+
+        <!-- Modal Header -->
+        <div class="bum-header">
+            <div class="bum-header-left">
+                <div class="bum-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <div>
+                    <h2 class="bum-title" id="bulkUploadTitle">Bulk Upload</h2>
+                    <p class="bum-subtitle" id="bulkUploadSubtitle">Import items via CSV or Excel file</p>
+                </div>
+            </div>
+            <button class="bum-close" id="bulkUploadCloseBtn" aria-label="Close">&times;</button>
+        </div>
+
+        <!-- Step Indicator -->
+        <div class="bum-steps">
+            <div class="bum-step active" id="bum-step-1">
+                <div class="bum-step-dot">1</div>
+                <span>Select File</span>
+            </div>
+            <div class="bum-step-line"></div>
+            <div class="bum-step" id="bum-step-2">
+                <div class="bum-step-dot">2</div>
+                <span>Processing</span>
+            </div>
+            <div class="bum-step-line"></div>
+            <div class="bum-step" id="bum-step-3">
+                <div class="bum-step-dot">3</div>
+                <span>Results</span>
+            </div>
+        </div>
+
+        <!-- ─── STAGE 1: File Selection ─── -->
+        <div class="bum-stage" id="bumStage1">
+            <div class="bum-dropzone" id="bumDropzone" tabindex="0" role="button" aria-label="Drop CSV or Excel file here or click to browse">
+                <div class="bum-dz-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                </div>
+                <p class="bum-dz-title">Drop your file here</p>
+                <p class="bum-dz-sub">Supports <strong>.xlsx</strong> and <strong>.csv</strong> formats &mdash; max 10 MB</p>
+                <button class="btn btn-primary bum-browse-btn" type="button" id="bumBrowseBtn">Browse Files</button>
+            </div>
+
+            <!-- Selected File Preview -->
+            <div class="bum-file-preview" id="bumFilePreview" style="display:none;">
+                <div class="bum-fp-icon" id="bumFpIcon">&#128196;</div>
+                <div class="bum-fp-info">
+                    <span class="bum-fp-name" id="bumFpName"></span>
+                    <span class="bum-fp-size" id="bumFpSize"></span>
+                </div>
+                <button class="bum-fp-remove" id="bumFpRemove" aria-label="Remove file">&times;</button>
+            </div>
+
+            <!-- Update Duplicates option -->
+            <label class="bum-option-row">
+                <div class="bum-toggle-wrap">
+                    <input type="checkbox" id="bumUpdateDuplicates" class="bum-toggle-input">
+                    <span class="bum-toggle-slider"></span>
+                </div>
+                <div class="bum-option-text">
+                    <span class="bum-opt-label">Update existing items</span>
+                    <span class="bum-opt-hint">When enabled, rows matching an existing ID will update the record instead of being skipped.</span>
+                </div>
+            </label>
+
+            <div class="bum-info-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span>Download the template first to ensure your file uses the correct column headers.</span>
+            </div>
+        </div>
+
+        <!-- ─── STAGE 2: Processing ─── -->
+        <div class="bum-stage" id="bumStage2" style="display:none;">
+            <div class="bum-processing-wrap">
+                <div class="bum-processing-icon" id="bumProcessingIcon">
+                    <svg class="bum-spin" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                </div>
+                <h3 class="bum-proc-title" id="bumProcessingTitle">Reading file&hellip;</h3>
+                <p class="bum-proc-sub" id="bumProcessingSub">Parsing rows and validating data</p>
+
+                <div class="bum-progress-track">
+                    <div class="bum-progress-bar" id="bumProgressBar"></div>
+                </div>
+                <span class="bum-progress-label" id="bumProgressLabel">0%</span>
+
+                <div class="bum-log" id="bumLog">
+                    <!-- Live processing messages injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── STAGE 3: Results Summary ─── -->
+        <div class="bum-stage" id="bumStage3" style="display:none;">
+            <div class="bum-results-header" id="bumResultsHeader">
+                <!-- Success / Error icon injected here -->
+            </div>
+
+            <div class="bum-kpi-row">
+                <div class="bum-kpi bum-kpi-total">
+                    <span class="bum-kpi-val" id="summaryTotalRows">0</span>
+                    <span class="bum-kpi-label">Total Processed</span>
+                </div>
+                <div class="bum-kpi bum-kpi-success">
+                    <span class="bum-kpi-val" id="summarySuccessRows">0</span>
+                    <span class="bum-kpi-label">Imported / Updated</span>
+                </div>
+                <div class="bum-kpi bum-kpi-fail">
+                    <span class="bum-kpi-val" id="summaryFailedRows">0</span>
+                    <span class="bum-kpi-label">Failed / Skipped</span>
                 </div>
             </div>
 
-            <div>
-                <h3 class="section-title inventory-style-88275e">Import Details & Errors</h3>
-                <div
-                    class="inventory-style-6f9793">
-                    <table class="table-mini inventory-style-7eb3f4">
-                        <thead class="inventory-style-548d46">
+            <div class="bum-details-section">
+                <div class="bum-details-header">
+                    <h4>Import Details</h4>
+                    <span class="bum-details-badge" id="bumDetailsBadge"></span>
+                </div>
+                <div class="bum-table-wrap">
+                    <table class="table-mini bum-results-table">
+                        <thead>
                             <tr>
-                                <th class="inventory-style-902c6d">Row #</th>
-                                <th class="inventory-style-e3d221">Item ID</th>
-                                <th>Status / Reason</th>
+                                <th>Row</th>
+                                <th>Item ID</th>
+                                <th>Name</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody id="uploadSummaryTableBody"></tbody>
@@ -279,8 +565,28 @@
                 </div>
             </div>
         </div>
-        <div class="drawer-footer">
-            <button class="btn btn-primary" data-action="closeUploadSummaryModal">OK</button>
+
+        <!-- Modal Footer -->
+        <div class="bum-footer">
+            <!-- Stage 1 footer -->
+            <div id="bumFooter1">
+                <button class="btn btn-ghost" id="bumCancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="bumUploadBtn" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Upload &amp; Import
+                </button>
+            </div>
+            <!-- Stage 2 footer -->
+            <div id="bumFooter2" style="display:none;">
+                <span class="bum-processing-note">Please wait while your file is being processed&hellip;</span>
+            </div>
+            <!-- Stage 3 footer -->
+            <div id="bumFooter3" style="display:none;">
+                <button class="btn btn-ghost" id="bumUploadAnotherBtn">
+                    &#8593; Upload Another File
+                </button>
+                <button class="btn btn-primary" id="bumDoneBtn">Done</button>
+            </div>
         </div>
     </div>
 

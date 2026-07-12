@@ -71,6 +71,14 @@ const DEFAULT_DATABASE = {
       membersCount: 8,
       activeProjects: 2,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-05", text: "Requested 2× Raspberry Pi 4 for telemetry module" },
+        { type: "return",   date: "2025-07-01", text: "Returned Digital Oscilloscope (EQ-006) in good condition" },
+        { type: "borrow",   date: "2025-06-30", text: "Borrowed Laser Cutter (EQ-010) for solar panel cutting" },
+        { type: "issue",    date: "2025-06-28", text: "Issued 24× Li-ion Battery 18650 (REQ-001) — Fully fulfilled" },
+        { type: "ticket",   date: "2025-06-25", text: "Damage ticket TKT-008 raised: 3D Printer bed glass cracked" },
+        { type: "return",   date: "2025-06-20", text: "Overdue return flagged: 3D Printer (EQ-001) — 7 days past due" },
+      ],
     },
     {
       id: "TEAM-002",
@@ -79,6 +87,14 @@ const DEFAULT_DATABASE = {
       membersCount: 5,
       activeProjects: 1,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-03", text: "Requested 4× LiPo Battery 11.1V for flight testing" },
+        { type: "borrow",   date: "2025-07-01", text: "Borrowed Digital Oscilloscope (EQ-006) for ESC signal check" },
+        { type: "return",   date: "2025-06-30", text: "Returned Soldering Station (EQ-012) after PCB rework" },
+        { type: "issue",    date: "2025-06-29", text: "Issued 6× PIR Motion Sensor (REQ-010) — Fully fulfilled" },
+        { type: "ticket",   date: "2025-06-27", text: "Damage ticket TKT-009 raised: Digital Oscilloscope probe tip broken" },
+        { type: "overdue",  date: "2025-06-22", text: "Overdue return alert: Hot Air Rework Station (EQ-016) — 11 days late" },
+      ],
     },
     {
       id: "TEAM-003",
@@ -87,6 +103,14 @@ const DEFAULT_DATABASE = {
       membersCount: 6,
       activeProjects: 2,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-05", text: "Requested 4× 16x2 LCD Display for sensor dashboard" },
+        { type: "issue",    date: "2025-07-01", text: "Issued 3× Arduino Uno R3 (REQ-003) — Fully fulfilled" },
+        { type: "borrow",   date: "2025-06-30", text: "Borrowed Soldering Station (EQ-012) for PCB assembly" },
+        { type: "return",   date: "2025-06-28", text: "Returned Variable DC Power Supply (EQ-018) in working condition" },
+        { type: "overdue",  date: "2025-06-22", text: "Overdue return flagged: Bench Multimeter (EQ-013) — 10 days late" },
+        { type: "ticket",   date: "2025-06-20", text: "Damage ticket TKT-010 raised: Arduino Uno R3 USB port shorted" },
+      ],
     },
     {
       id: "TEAM-004",
@@ -95,6 +119,13 @@ const DEFAULT_DATABASE = {
       membersCount: 4,
       activeProjects: 1,
       status: "Suspended",
+      activities: [
+        { type: "request",  date: "2025-07-05", text: "Requested 2× 16x2 LCD Display — awaiting approval" },
+        { type: "rejected", date: "2025-06-26", text: "Request REQ-012 for Bipolar NEMA 17 rejected — stock reserved" },
+        { type: "overdue",  date: "2025-06-19", text: "Overdue return alert: Bench Multimeter (EQ-013) — 13 days late" },
+        { type: "ticket",   date: "2025-06-18", text: "Damage ticket TKT-011 raised: Haptic glove servo driver burned" },
+        { type: "borrow",   date: "2025-06-10", text: "Borrowed Bench Multimeter (EQ-013) for resistance mapping" },
+      ],
     },
     {
       id: "TEAM-005",
@@ -103,6 +134,14 @@ const DEFAULT_DATABASE = {
       membersCount: 7,
       activeProjects: 2,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-03", text: "Requested 5× Soil Moisture Sensor for field deployment" },
+        { type: "return",   date: "2025-07-01", text: "Returned Digital Oscilloscope (EQ-006) on schedule" },
+        { type: "issue",    date: "2025-07-01", text: "Issued 5× Arduino Uno R3 (REQ-013) — Fully fulfilled" },
+        { type: "borrow",   date: "2025-06-28", text: "Borrowed 3D Printer (EQ-001) for sensor housing prototype" },
+        { type: "return",   date: "2025-06-25", text: "Returned Soldering Station (EQ-012) — 2 units returned" },
+        { type: "issue",    date: "2025-06-20", text: "Issued 5× Soil Moisture Sensor (REQ-002) — pending fulfillment" },
+      ],
     },
     {
       id: "TEAM-006",
@@ -111,6 +150,13 @@ const DEFAULT_DATABASE = {
       membersCount: 6,
       activeProjects: 1,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-04", text: "Requested 1× Raspberry Pi 4 for ML inference module" },
+        { type: "issue",    date: "2025-06-30", text: "Issued 8× Ultrasonic Sensor (REQ-015) — Fully fulfilled" },
+        { type: "borrow",   date: "2025-06-28", text: "Borrowed Laser Cutter (EQ-010) for sorting bin chassis" },
+        { type: "overdue",  date: "2025-06-23", text: "Overdue return alert: Soldering Station (EQ-012) — 9 days late" },
+        { type: "ticket",   date: "2025-06-21", text: "Damage ticket TKT-012 raised: Conveyor motor driver fried" },
+      ],
     },
     {
       id: "TEAM-007",
@@ -119,6 +165,14 @@ const DEFAULT_DATABASE = {
       membersCount: 9,
       activeProjects: 3,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-05", text: "Requested 4× DC Motor 12V for propulsion testing" },
+        { type: "issue",    date: "2025-07-02", text: "Issued 6× LiPo Battery 11.1V (REQ-016) — Fully fulfilled" },
+        { type: "return",   date: "2025-07-01", text: "Returned 3D Scanner (EQ-019) after airframe scan" },
+        { type: "borrow",   date: "2025-06-28", text: "Borrowed CNC Milling Machine (EQ-005) for frame milling" },
+        { type: "overdue",  date: "2025-06-20", text: "Overdue return alert: Hot Air Rework Station (EQ-016) — 12 days late" },
+        { type: "ticket",   date: "2025-06-18", text: "Damage ticket TKT-013 raised: ESC controller burned during load test" },
+      ],
     },
     {
       id: "TEAM-008",
@@ -127,6 +181,13 @@ const DEFAULT_DATABASE = {
       membersCount: 5,
       activeProjects: 1,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-04", text: "Requested 8× Li-ion Battery 18650 for hand actuators" },
+        { type: "issue",    date: "2025-06-28", text: "Issued 10× Bipolar NEMA 17 (REQ-006) — Fully fulfilled" },
+        { type: "return",   date: "2025-06-26", text: "Returned Soldering Station (EQ-012) after finger joint wiring" },
+        { type: "borrow",   date: "2025-06-24", text: "Borrowed 3D Printer (EQ-001) for prosthetic finger print" },
+        { type: "ticket",   date: "2025-06-22", text: "Damage ticket TKT-005 raised: 16x2 LCD Display cracked — resolved" },
+      ],
     },
     {
       id: "TEAM-009",
@@ -135,6 +196,13 @@ const DEFAULT_DATABASE = {
       membersCount: 6,
       activeProjects: 2,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-04", text: "Requested 2× Arduino Uno R3 for navigation module" },
+        { type: "issue",    date: "2025-06-28", text: "Issued 5× PIR Motion Sensor (REQ-019) — Fully fulfilled" },
+        { type: "borrow",   date: "2025-06-26", text: "Borrowed Laser Cutter (EQ-010) for chassis frame cutting" },
+        { type: "overdue",  date: "2025-06-24", text: "Overdue return alert: Variable DC Power Supply (EQ-018) — 8 days late" },
+        { type: "return",   date: "2025-06-20", text: "Returned Bench Multimeter (EQ-013) after circuit validation" },
+      ],
     },
     {
       id: "TEAM-010",
@@ -143,6 +211,13 @@ const DEFAULT_DATABASE = {
       membersCount: 4,
       activeProjects: 1,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-05", text: "Requested 2× Arduino Uno R3 for water quality control unit" },
+        { type: "issue",    date: "2025-07-01", text: "Issued 6× Soil Moisture Sensor (REQ-020) — Fully fulfilled" },
+        { type: "return",   date: "2025-06-30", text: "Returned Soldering Station (EQ-012) after sensor wiring" },
+        { type: "borrow",   date: "2025-06-28", text: "Borrowed Bench Multimeter (EQ-013) for conductivity check" },
+        { type: "ticket",   date: "2025-06-25", text: "Damage ticket raised: pH sensor probe corroded" },
+      ],
     },
     {
       id: "TEAM-011",
@@ -151,6 +226,13 @@ const DEFAULT_DATABASE = {
       membersCount: 7,
       activeProjects: 2,
       status: "Active",
+      activities: [
+        { type: "issue",    date: "2025-07-03", text: "Issued 8× Bipolar NEMA 17 (REQ-022) — Fully fulfilled" },
+        { type: "rejected", date: "2025-06-30", text: "Request REQ-004 for DC Motor 12V (qty 6) rejected — insufficient stock" },
+        { type: "borrow",   date: "2025-06-28", text: "Borrowed Variable DC Power Supply (EQ-018) for motor calibration" },
+        { type: "overdue",  date: "2025-06-26", text: "Overdue return alert: Digital Oscilloscope (EQ-006) — 6 days late" },
+        { type: "ticket",   date: "2025-06-24", text: "Damage ticket TKT-003 raised: DC Motor 12V coil burned — in progress" },
+      ],
     },
     {
       id: "TEAM-012",
@@ -159,6 +241,13 @@ const DEFAULT_DATABASE = {
       membersCount: 5,
       activeProjects: 1,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-04", text: "Requested 10× PIR Motion Sensor for traffic detection array" },
+        { type: "issue",    date: "2025-06-29", text: "Issued 2× Raspberry Pi 4 (REQ-023) — Fully fulfilled" },
+        { type: "return",   date: "2025-06-28", text: "Returned Bench Multimeter (EQ-013) after circuit verification" },
+        { type: "borrow",   date: "2025-06-26", text: "Borrowed 3D Printer (EQ-001) for signal box enclosure" },
+        { type: "ticket",   date: "2025-06-22", text: "Damage ticket raised: Camera module lens scratched during testing" },
+      ],
     },
     {
       id: "TEAM-013",
@@ -167,6 +256,13 @@ const DEFAULT_DATABASE = {
       membersCount: 8,
       activeProjects: 2,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-05", text: "Requested 12× Li-ion Battery 18650 for probe power pack" },
+        { type: "issue",    date: "2025-07-02", text: "Issued 3× DC Motor 12V (REQ-025) — Fully fulfilled" },
+        { type: "borrow",   date: "2025-06-30", text: "Borrowed 3D Printer (EQ-001) for hull prototype printing" },
+        { type: "overdue",  date: "2025-06-27", text: "Overdue return alert: Laser Cutter (EQ-010) — 5 days past due" },
+        { type: "return",   date: "2025-06-24", text: "Returned Bench Multimeter (EQ-013) after underwater sensor test" },
+      ],
     },
     {
       id: "TEAM-014",
@@ -175,6 +271,13 @@ const DEFAULT_DATABASE = {
       membersCount: 6,
       activeProjects: 1,
       status: "Active",
+      activities: [
+        { type: "issue",    date: "2025-06-30", text: "Issued 4× Arduino Uno R3 (REQ-027) — Fully fulfilled" },
+        { type: "rejected", date: "2025-06-27", text: "Request REQ-028 for 16x2 LCD Display rejected — batch reserved" },
+        { type: "return",   date: "2025-07-01", text: "Returned Digital Oscilloscope (EQ-006) after RFID reader testing" },
+        { type: "borrow",   date: "2025-06-28", text: "Borrowed Variable DC Power Supply (EQ-018) for motor driver calibration" },
+        { type: "ticket",   date: "2025-06-24", text: "Damage ticket raised: RFID reader antenna element bent" },
+      ],
     },
     {
       id: "TEAM-015",
@@ -183,6 +286,13 @@ const DEFAULT_DATABASE = {
       membersCount: 7,
       activeProjects: 1,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-03", text: "Requested 5× Soil Moisture Sensor for waste moisture detection" },
+        { type: "issue",    date: "2025-06-27", text: "Issued 4× Ultrasonic Sensor (REQ-008) — Fully fulfilled" },
+        { type: "borrow",   date: "2025-06-25", text: "Borrowed Soldering Station (EQ-012) for sensor integration" },
+        { type: "overdue",  date: "2025-06-22", text: "Overdue return alert: Hot Air Rework Station (EQ-016) — 10 days late" },
+        { type: "ticket",   date: "2025-06-20", text: "Damage ticket TKT-007 raised: Soil Moisture Sensor corroded — open" },
+      ],
     },
     {
       id: "TEAM-016",
@@ -191,6 +301,13 @@ const DEFAULT_DATABASE = {
       membersCount: 6,
       activeProjects: 2,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-06", text: "Requested 3× Arduino Uno R3 for exo-suit control system" },
+        { type: "issue",    date: "2025-07-03", text: "Issued 6× Bipolar NEMA 17 (REQ-031) — Fully fulfilled" },
+        { type: "borrow",   date: "2025-07-01", text: "Borrowed Variable DC Power Supply (EQ-018) for actuator testing" },
+        { type: "overdue",  date: "2025-06-25", text: "Overdue return alert: Soldering Station (EQ-012) — 7 days late" },
+        { type: "ticket",   date: "2025-06-23", text: "Damage ticket raised: Servo actuator bracket cracked under load" },
+      ],
     },
     {
       id: "TEAM-017",
@@ -199,6 +316,13 @@ const DEFAULT_DATABASE = {
       membersCount: 5,
       activeProjects: 1,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-06", text: "Requested 2× DC Motor 12V for filtration pump drive" },
+        { type: "issue",    date: "2025-07-02", text: "Issued 8× Soil Moisture Sensor (REQ-033) — Fully fulfilled" },
+        { type: "return",   date: "2025-06-30", text: "Returned Digital Oscilloscope (EQ-006) after signal analysis" },
+        { type: "borrow",   date: "2025-06-28", text: "Borrowed Bench Multimeter (EQ-013) for conductivity measurement" },
+        { type: "ticket",   date: "2025-06-25", text: "Damage ticket raised: Nano-filter membrane punctured during testing" },
+      ],
     },
     {
       id: "TEAM-018",
@@ -207,6 +331,13 @@ const DEFAULT_DATABASE = {
       membersCount: 7,
       activeProjects: 2,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-06", text: "Requested 6× PIR Motion Sensor for crop perimeter detection" },
+        { type: "issue",    date: "2025-07-04", text: "Issued 3× Raspberry Pi 4 (REQ-035) — Fully fulfilled" },
+        { type: "borrow",   date: "2025-07-02", text: "Borrowed 3D Printer (EQ-001) for sensor mount enclosure" },
+        { type: "overdue",  date: "2025-06-24", text: "Overdue return alert: Laser Cutter (EQ-010) — 8 days late" },
+        { type: "ticket",   date: "2025-06-22", text: "Damage ticket raised: Camera module lens fogged during field trial" },
+      ],
     },
     {
       id: "TEAM-019",
@@ -215,6 +346,14 @@ const DEFAULT_DATABASE = {
       membersCount: 8,
       activeProjects: 3,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-06", text: "Requested 5× LiPo Battery 11.1V for swarm bot fleet" },
+        { type: "issue",    date: "2025-07-03", text: "Issued 8× Arduino Uno R3 (REQ-037) — Fully fulfilled" },
+        { type: "borrow",   date: "2025-07-01", text: "Borrowed Laser Cutter (EQ-010) for bot chassis cutting" },
+        { type: "overdue",  date: "2025-06-23", text: "Overdue return alert: Hot Air Rework Station (EQ-016) — 9 days late" },
+        { type: "return",   date: "2025-06-28", text: "Returned Soldering Station (EQ-012) after PCB soldering session" },
+        { type: "ticket",   date: "2025-06-21", text: "Damage ticket raised: Swarm coordinator PCB short-circuit" },
+      ],
     },
     {
       id: "TEAM-020",
@@ -223,6 +362,13 @@ const DEFAULT_DATABASE = {
       membersCount: 6,
       activeProjects: 1,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-06", text: "Requested 1× Variable DC Power Supply for charging curve test" },
+        { type: "issue",    date: "2025-07-04", text: "Issued 20× Li-ion Battery 18650 (REQ-039) — Fully fulfilled" },
+        { type: "return",   date: "2025-07-01", text: "Returned Bench Multimeter (EQ-013) after cell balancing check" },
+        { type: "borrow",   date: "2025-06-29", text: "Borrowed Variable DC Power Supply (EQ-018) for charging station test" },
+        { type: "ticket",   date: "2025-06-26", text: "Damage ticket raised: Charging controller MOSFET overheated" },
+      ],
     },
     {
       id: "TEAM-021",
@@ -231,6 +377,14 @@ const DEFAULT_DATABASE = {
       membersCount: 5,
       activeProjects: 2,
       status: "Active",
+      activities: [
+        { type: "request",  date: "2025-07-06", text: "Requested 2× Raspberry Pi 4 for ROV vision processing" },
+        { type: "issue",    date: "2025-07-03", text: "Issued 4× DC Motor 12V (REQ-041) — Fully fulfilled" },
+        { type: "borrow",   date: "2025-07-01", text: "Borrowed Digital Oscilloscope (EQ-006) for motor driver signal check" },
+        { type: "overdue",  date: "2025-06-26", text: "Overdue return alert: Soldering Station (EQ-012) — 6 days late" },
+        { type: "borrow",   date: "2025-06-24", text: "Borrowed 3D Printer (EQ-001) for thruster housing print" },
+        { type: "ticket",   date: "2025-06-22", text: "Damage ticket raised: Underwater housing seal failed during pressure test" },
+      ],
     },
   ],
   equipment: [
@@ -1788,7 +1942,7 @@ function fillRemainingTickets() {
 }
 fillRemainingTickets();
 
-const DB_VERSION = 12;
+const DB_VERSION = 13;
 function initLocalStorageDB() {
   const storedVersion = parseInt(
     localStorage.getItem("rplms_db_version") || "0",
@@ -2747,90 +2901,131 @@ document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("timelineContainer");
     const events = [];
 
+    // ── 1. Pull from team activities array (rich mock data) ──────────────────
+    const teamRecord = db.teams.find((t) => t.id === teamId);
+    if (teamRecord && Array.isArray(teamRecord.activities)) {
+      const activityConfig = {
+        request:  { icon: "📋", color: "#D97706", bg: "#FEF3C7", label: "Component Requested" },
+        issue:    { icon: "✅", color: "#16A34A", bg: "#DCFCE7", label: "Request Fulfilled" },
+        return:   { icon: "↩", color: "#2563EB", bg: "#DBEAFE", label: "Equipment Returned" },
+        borrow:   { icon: "📦", color: "#7C3AED", bg: "#EDE9FE", label: "Equipment Borrowed" },
+        overdue:  { icon: "⚠", color: "#DC2626", bg: "#FEE2E2", label: "Overdue Alert" },
+        rejected: { icon: "✕",  color: "#EF4444", bg: "#FEE2E2", label: "Request Rejected" },
+        ticket:   { icon: "🎫", color: "#6D28D9", bg: "#EDE9FE", label: "Ticket Raised" },
+      };
+      teamRecord.activities.forEach((a) => {
+        const cfg = activityConfig[a.type] || { icon: "●", color: "#64748B", bg: "#F1F5F9", label: a.type };
+        events.push({
+          date: a.date,
+          sortDate: a.date,
+          icon: cfg.icon,
+          color: cfg.color,
+          bg: cfg.bg,
+          title: cfg.label,
+          desc: a.text,
+          source: "activity",
+        });
+      });
+    }
+
+    // ── 2. Supplement from material returns ──────────────────────────────────
     db.materialReturns
       .filter((r) => r.teamId === teamId)
       .forEach((r) => {
-        const icons = {
-          Returned: { icon: "&#10003;", color: "#16A34A", bg: "#DCFCE7" },
-          Overdue: { icon: "&#9888;", color: "#DC2626", bg: "#FEE2E2" },
-          Assigned: { icon: "&#128230;", color: "#2563EB", bg: "#DBEAFE" },
-        };
-        const s = icons[r.status] || {
-          icon: "&#8635;",
-          color: "#64748B",
-          bg: "#F1F5F9",
-        };
-        const labels = {
-          Returned: "Equipment Returned",
-          Overdue: "Return Overdue",
-          Assigned: "Equipment Borrowed",
-        };
-        events.push({
-          date: r.date,
-          icon: s.icon,
-          color: s.color,
-          bg: s.bg,
-          title: labels[r.status] || r.status,
-          desc: r.item,
-        });
+        const cfg = {
+          Returned: { icon: "↩", color: "#16A34A", bg: "#DCFCE7", label: "Equipment Returned" },
+          Overdue:  { icon: "⚠", color: "#DC2626", bg: "#FEE2E2", label: "Return Overdue" },
+          Assigned: { icon: "📦", color: "#2563EB", bg: "#DBEAFE", label: "Equipment Borrowed" },
+        }[r.status] || { icon: "●", color: "#64748B", bg: "#F1F5F9", label: r.status };
+
+        // Only add if no activity entry already covers this item to avoid duplication
+        const alreadyCovered = events.some(
+          (ev) => ev.source === "activity" && ev.desc.toLowerCase().includes(r.item.toLowerCase())
+        );
+        if (!alreadyCovered) {
+          events.push({
+            date: r.date,
+            sortDate: r.date,
+            icon: cfg.icon,
+            color: cfg.color,
+            bg: cfg.bg,
+            title: cfg.label,
+            desc: r.item,
+            source: "return",
+          });
+        }
       });
 
+    // ── 3. Supplement from component requests ─────────────────────────────────
     db.materialRequests
       .filter((r) => r.teamId === teamId)
       .forEach((r) => {
-        const icons = {
-          Approved: { icon: "&#10003;", color: "#16A34A", bg: "#DCFCE7" },
-          Pending: { icon: "&#9998;", color: "#D97706", bg: "#FEF3C7" },
-          Rejected: { icon: "&#10005;", color: "#EF4444", bg: "#FEE2E2" },
-        };
-        const s = icons[r.status] || {
-          icon: "&#9998;",
-          color: "#64748B",
-          bg: "#F1F5F9",
-        };
-        events.push({
-          date: r.date,
-          icon: s.icon,
-          color: s.color,
-          bg: s.bg,
-          title: "Component Requested",
-          desc: `${r.item} × ${r.qty} — ${r.status}`,
-        });
+        const cfg = {
+          "Fully Issued": { icon: "✅", color: "#16A34A", bg: "#DCFCE7", label: "Request Fulfilled" },
+          Pending:        { icon: "📋", color: "#D97706", bg: "#FEF3C7", label: "Component Requested" },
+          Rejected:       { icon: "✕",  color: "#EF4444", bg: "#FEE2E2", label: "Request Rejected" },
+        }[r.status] || { icon: "📋", color: "#64748B", bg: "#F1F5F9", label: "Component Requested" };
+
+        const alreadyCovered = events.some(
+          (ev) => ev.source === "activity" && ev.desc.toLowerCase().includes(r.item.toLowerCase())
+        );
+        if (!alreadyCovered) {
+          events.push({
+            date: r.date,
+            sortDate: r.date,
+            icon: cfg.icon,
+            color: cfg.color,
+            bg: cfg.bg,
+            title: cfg.label,
+            desc: `${r.item} × ${r.qty} — ${r.status}`,
+            source: "request",
+          });
+        }
       });
 
+    // ── 4. Supplement from tickets ────────────────────────────────────────────
     db.tickets
       .filter((t) => t.assignedTo === teamId)
       .forEach((t) => {
-        events.push({
-          date: t.date.replace(/ /g, "-"),
-          icon: "&#9993;",
-          color: "#7C3AED",
-          bg: "#EDE9FE",
-          title: "Ticket Raised",
-          desc: t.subject,
-        });
+        // Normalise date: "04 Jul 2025" → "2025-07-04"
+        const rawDate = t.date.replace(/ /g, "-");
+        const alreadyCovered = events.some(
+          (ev) => ev.source === "activity" && ev.desc.toLowerCase().includes((t.subject || "").toLowerCase())
+        );
+        if (!alreadyCovered) {
+          events.push({
+            date: rawDate,
+            sortDate: rawDate,
+            icon: "🎫",
+            color: "#7C3AED",
+            bg: "#EDE9FE",
+            title: "Ticket Raised",
+            desc: t.subject,
+            source: "ticket",
+          });
+        }
       });
 
     // Sort newest first
-    events.sort((a, b) => b.date.localeCompare(a.date));
+    events.sort((a, b) => b.sortDate.localeCompare(a.sortDate));
 
     if (!events.length) {
-      container.innerHTML = `<div class="teams-style-65dd0a">No activity recorded yet.</div>`;
+      container.innerHTML = `<div class="tl-empty">No activity recorded yet.</div>`;
       return;
     }
 
     container.innerHTML = events
       .map(
         (e, i) => `
-            <div class="teams-style-a39ef9"16px" : "0"};">
-                <div class="teams-style-64b8a6">
-                    <div class="teams-style-42031d">${e.icon}</div>
-                    ${i < events.length - 1 ? `<div class="teams-style-3cd439"></div>` : ""}
+            <div class="tl-item${i < events.length - 1 ? " tl-item--connected" : ""}">
+                <div class="tl-icon-col">
+                    <div class="tl-icon" style="background:${e.bg};color:${e.color}">${e.icon}</div>
+                    ${i < events.length - 1 ? `<div class="tl-connector"></div>` : ""}
                 </div>
-                <div class="teams-style-e9cfa2"0" : "0"};">
-                    <div class="teams-style-18f3d6">${e.title}</div>
-                    <div class="teams-style-4b3267">${e.desc}</div>
-                    <div class="teams-style-93ac84">&#128197; ${e.date}</div>
+                <div class="tl-body">
+                    <div class="tl-title">${e.title}</div>
+                    <div class="tl-desc">${e.desc}</div>
+                    <div class="tl-date">&#128197; ${e.date}</div>
                 </div>
             </div>`,
       )

@@ -535,6 +535,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }</tr>`;
 
     }
+
     document
         .querySelectorAll(".view-btn")
         .forEach(btn => {
@@ -871,41 +872,415 @@ window.deleteTool = function (id, name) {
         });
     });
 
-    // Hidden file input change listener
-    const fileInput = document.getElementById("bulkUploadFileInput");
-    if (fileInput) {
-        fileInput.addEventListener("change", function (e) {
-            const file = e.target.files[0];
-            if (!file) return;
+    // ================================================================
+    //  BULK UPLOAD MODAL — 3-Stage Flow
+    // ================================================================
 
-            const uploadType = this.dataset.uploadType; // e.g. "equipment", "components", "tools"
-            const updateDuplicates = document.getElementById("updateDuplicateCheck")?.checked || false;
+    let bumCurrentType = "equipment"; // Track which tab triggered the modal
+    let bumSelectedFile = null;       // Track the chosen file
 
-            const reader = new FileReader();
-            reader.onload = function (evt) {
-                try {
-                    const data = new Uint8Array(evt.target.result);
-                    const workbook = XLSX.read(data, { type: "array" });
-                    const firstSheetName = workbook.SheetNames[0];
-                    const sheet = workbook.Sheets[firstSheetName];
-                    const rows = XLSX.utils.sheet_to_json(sheet);
+    const bumOverlay    = document.getElementById("bulkUploadModalOverlay");
+    const bumModal      = document.getElementById("bulkUploadModal");
+    const bumCloseBtn   = document.getElementById("bulkUploadCloseBtn");
+    const bumCancelBtn  = document.getElementById("bumCancelBtn");
+    const bumUploadBtn  = document.getElementById("bumUploadBtn");
+    const bumDoneBtn    = document.getElementById("bumDoneBtn");
+    const bumUploadAnotherBtn = document.getElementById("bumUploadAnotherBtn");
+    const bumDropzone   = document.getElementById("bumDropzone");
+    const bumBrowseBtn  = document.getElementById("bumBrowseBtn");
+    const bumFilePreview = document.getElementById("bumFilePreview");
+    const bumFpName     = document.getElementById("bumFpName");
+    const bumFpSize     = document.getElementById("bumFpSize");
+    const bumFpRemove   = document.getElementById("bumFpRemove");
+    const bumFpIcon     = document.getElementById("bumFpIcon");
+    const fileInput     = document.getElementById("bulkUploadFileInput");
 
-                    if (!rows || rows.length === 0) {
-                        showToast("Excel/CSV file is empty.", "warn");
-                        return;
-                    }
+    // — Open modal
+    function openBulkUploadModal(type) {
+        bumCurrentType = type;
+        // Update subtitle
+        const typeLabels = { equipment: "Equipment", components: "Components", tools: "Tools" };
+        document.getElementById("bulkUploadSubtitle").textContent =
+            `Import ${typeLabels[type] || "items"} via CSV or Excel file`;
+        // Reset to Stage 1
+        resetBumToStage1();
+        bumOverlay.classList.add("show");
+        bumModal.classList.add("show");
+    }
 
-                    processImport(rows, uploadType, updateDuplicates);
-                } catch (err) {
-                    console.error(err);
-                    showToast("Error parsing file. Ensure it is a valid Excel or CSV file.", "error");
-                }
-            };
-            reader.readAsArrayBuffer(file);
+    // — Close modal
+    function closeBulkUploadModal() {
+        bumOverlay.classList.remove("show");
+        bumModal.classList.remove("show");
+        // Small delay to allow close animation before reset
+        setTimeout(resetBumToStage1, 350);
+    }
+
+    // — Reset to Stage 1
+    function resetBumToStage1() {
+        bumSelectedFile = null;
+        if (fileInput) fileInput.value = "";
+        bumFilePreview.style.display = "none";
+        bumDropzone.style.display = "";
+        bumUploadBtn.disabled = true;
+        setStage(1);
+        // Clear progress state
+        const pb = document.getElementById("bumProgressBar");
+        const pl = document.getElementById("bumProgressLabel");
+        const pi = document.getElementById("bumProcessingIcon");
+        if (pb) { pb.style.width = "0%"; pb.classList.remove("complete"); }
+        if (pl) pl.textContent = "0%";
+        if (pi) { pi.classList.remove("success-state", "error-state"); }
+        const bumLog = document.getElementById("bumLog");
+        if (bumLog) bumLog.innerHTML = "";
+    }
+
+    // — Switch between stages with step indicator animation
+    function setStage(stage) {
+        const stages = ["bumStage1", "bumStage2", "bumStage3"];
+        const footers = ["bumFooter1", "bumFooter2", "bumFooter3"];
+        const steps = ["bum-step-1", "bum-step-2", "bum-step-3"];
+        const lines = document.querySelectorAll(".bum-step-line");
+
+        stages.forEach((id, i) => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = (i === stage - 1) ? "" : "none";
+        });
+        footers.forEach((id, i) => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = (i === stage - 1) ? "" : "none";
+        });
+        steps.forEach((id, i) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.remove("active", "done");
+            if (i + 1 === stage) el.classList.add("active");
+            else if (i + 1 < stage) el.classList.add("done");
+        });
+        lines.forEach((line, i) => {
+            line.classList.remove("active", "done");
+            if (i + 1 < stage) line.classList.add("done");
+            else if (i + 1 === stage) line.classList.add("active");
         });
     }
 
-    function processImport(rows, type, updateDuplicates) {
+    // — File selection helpers
+    function applyFile(file) {
+        if (!file) return;
+        const ext = file.name.split(".").pop().toLowerCase();
+        if (ext !== "csv" && ext !== "xlsx" && ext !== "xls") {
+            showToast("Please upload a valid .csv or .xlsx file", "error");
+            return;
+        }
+        bumSelectedFile = file;
+        bumFpName.textContent = file.name;
+        bumFpSize.textContent = (file.size / 1024).toFixed(1) + " KB";
+        bumFpIcon.textContent = ext === "csv" ? "📄" : "📊";
+        bumFilePreview.style.display = "flex";
+        bumDropzone.style.display = "none";
+        bumUploadBtn.disabled = false;
+    }
+
+    function removeFile() {
+        bumSelectedFile = null;
+        if (fileInput) fileInput.value = "";
+        bumFilePreview.style.display = "none";
+        bumDropzone.style.display = "";
+        bumUploadBtn.disabled = true;
+    }
+
+    // — Open modal from Bulk Upload buttons
+    document.querySelectorAll(".btn-upload-trigger").forEach(btn => {
+        btn.addEventListener("click", () => {
+            openBulkUploadModal(btn.dataset.type);
+        });
+    });
+
+    // — Close triggers
+    if (bumCloseBtn) bumCloseBtn.addEventListener("click", closeBulkUploadModal);
+    if (bumCancelBtn) bumCancelBtn.addEventListener("click", closeBulkUploadModal);
+    bumOverlay.addEventListener("click", closeBulkUploadModal);
+    if (bumDoneBtn) bumDoneBtn.addEventListener("click", closeBulkUploadModal);
+    if (bumUploadAnotherBtn) bumUploadAnotherBtn.addEventListener("click", () => {
+        resetBumToStage1();
+    });
+
+    // — Browse button triggers hidden file input
+    if (bumBrowseBtn) bumBrowseBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (fileInput) {
+            fileInput.dataset.uploadType = bumCurrentType;
+            fileInput.value = "";
+            fileInput.click();
+        }
+    });
+
+    // — File input change
+    if (fileInput) {
+        fileInput.addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) applyFile(file);
+        });
+    }
+
+    // — Dropzone click (whole zone acts as browse)
+    if (bumDropzone) {
+        bumDropzone.addEventListener("click", () => {
+            if (fileInput) {
+                fileInput.dataset.uploadType = bumCurrentType;
+                fileInput.value = "";
+                fileInput.click();
+            }
+        });
+        bumDropzone.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                bumDropzone.click();
+            }
+        });
+    }
+
+    // — Drag & Drop events
+    ["dragenter", "dragover"].forEach(evtName => {
+        document.addEventListener(evtName, (e) => {
+            if (bumModal.classList.contains("show")) e.preventDefault();
+        });
+    });
+
+    if (bumDropzone) {
+        bumDropzone.addEventListener("dragenter", (e) => {
+            e.preventDefault(); e.stopPropagation();
+            bumDropzone.classList.add("drag-over");
+        });
+        bumDropzone.addEventListener("dragover", (e) => {
+            e.preventDefault(); e.stopPropagation();
+            bumDropzone.classList.add("drag-over");
+        });
+        bumDropzone.addEventListener("dragleave", (e) => {
+            bumDropzone.classList.remove("drag-over");
+        });
+        bumDropzone.addEventListener("drop", (e) => {
+            e.preventDefault(); e.stopPropagation();
+            bumDropzone.classList.remove("drag-over");
+            const file = e.dataTransfer.files[0];
+            if (file) applyFile(file);
+        });
+    }
+
+    // — Remove file
+    if (bumFpRemove) bumFpRemove.addEventListener("click", (e) => {
+        e.stopPropagation();
+        removeFile();
+    });
+
+    // — Upload & Import (Stage 1 → 2 → 3)
+    if (bumUploadBtn) {
+        bumUploadBtn.addEventListener("click", () => {
+            if (!bumSelectedFile) return;
+            runBulkUploadFlow(bumSelectedFile, bumCurrentType);
+        });
+    }
+
+    function runBulkUploadFlow(file, type) {
+        const updateDuplicates = document.getElementById("bumUpdateDuplicates")?.checked || false;
+
+        setStage(2);
+
+        const progressBar   = document.getElementById("bumProgressBar");
+        const progressLabel = document.getElementById("bumProgressLabel");
+        const procTitle     = document.getElementById("bumProcessingTitle");
+        const procSub       = document.getElementById("bumProcessingSub");
+        const procIcon      = document.getElementById("bumProcessingIcon");
+        const bumLog        = document.getElementById("bumLog");
+        bumLog.innerHTML    = "";
+
+        function addLog(msg, cls = "log-info") {
+            const div = document.createElement("div");
+            div.className = "bum-log-entry";
+            div.innerHTML = `<span class="${cls}">${cls === 'log-ok' ? '✓' : cls === 'log-fail' ? '✗' : '›'}</span><span>${msg}</span>`;
+            bumLog.appendChild(div);
+            bumLog.scrollTop = bumLog.scrollHeight;
+        }
+
+        function setProgress(pct, label) {
+            progressBar.style.width = pct + "%";
+            progressLabel.textContent = (label || pct) + "%";
+        }
+
+        // Stage 2 simulation messages
+        addLog("Opening file: " + file.name, "log-info");
+
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+            let rows = [];
+            let parseError = false;
+
+            // Simulate read delay
+            setTimeout(() => {
+                setProgress(20);
+                addLog("Parsing file structure…", "log-info");
+            }, 200);
+
+            try {
+                const data = new Uint8Array(evt.target.result);
+                const workbook = XLSX.read(data, { type: "array" });
+                const firstSheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[firstSheetName];
+                rows = XLSX.utils.sheet_to_json(sheet);
+            } catch (err) {
+                parseError = true;
+            }
+
+            setTimeout(() => {
+                if (parseError || !rows || rows.length === 0) {
+                    setProgress(100);
+                    addLog(parseError ? "Parse error: invalid file format." : "File is empty — no rows found.", "log-fail");
+                    procTitle.textContent = "Upload Failed";
+                    procSub.textContent   = parseError ? "Invalid file format" : "Empty file — no data rows";
+                    procIcon.classList.add("error-state");
+                    progressBar.style.background = "linear-gradient(90deg,#dc2626,#ef4444)";
+                    progressBar.classList.add("complete");
+                    progressLabel.textContent = "Failed";
+                    progressLabel.style.color = "#dc2626";
+                    setTimeout(() => setStage(3), 1200);
+                    renderResultsStage(rows || [], 0, rows ? rows.length : 0, []);
+                    return;
+                }
+
+                addLog(`Found ${rows.length} data row(s) to process`, "log-info");
+                setProgress(40);
+            }, 600);
+
+            setTimeout(() => {
+                if (parseError) return;
+                addLog("Validating column headers…", "log-info");
+                setProgress(55);
+            }, 900);
+
+            setTimeout(() => {
+                if (parseError) return;
+                addLog("Processing rows…", "log-info");
+                setProgress(70);
+            }, 1200);
+
+            setTimeout(() => {
+                if (parseError) return;
+                // Actual processing happens here
+                const result = processImportData(rows, type, updateDuplicates);
+
+                // Log results per-row feedback (show first 5)
+                const preview = result.details.slice(0, 5);
+                preview.forEach(d => {
+                    if (d.status === "Created" || d.status === "Updated") {
+                        addLog(`Row ${d.row}: ${d.id} — ${d.status}`, "log-ok");
+                    } else {
+                        addLog(`Row ${d.row}: ${d.id} — ${d.status}: ${d.reason}`, "log-fail");
+                    }
+                });
+                if (result.details.length > 5) {
+                    addLog(`… and ${result.details.length - 5} more row(s)`, "log-info");
+                }
+
+                setProgress(90);
+                addLog("Saving to database…", "log-info");
+
+                setTimeout(() => {
+                    setProgress(100);
+                    progressBar.classList.add("complete");
+                    progressLabel.textContent = "100%";
+
+                    const allSuccess = result.failCount === 0;
+                    const allFail = result.successCount === 0;
+
+                    if (allSuccess) {
+                        procTitle.textContent = "Import Complete!";
+                        procSub.textContent   = `${result.successCount} item(s) successfully imported`;
+                        procIcon.classList.add("success-state");
+                        addLog(`Import complete — ${result.successCount} item(s) added/updated`, "log-ok");
+                    } else if (allFail) {
+                        procTitle.textContent = "Import Failed";
+                        procSub.textContent   = "No items could be imported — check column format";
+                        procIcon.classList.add("error-state");
+                        progressBar.style.background = "linear-gradient(90deg,#dc2626,#ef4444)";
+                        progressLabel.style.color = "#dc2626";
+                        addLog("No items imported — validation failures", "log-fail");
+                    } else {
+                        procTitle.textContent = "Import Partially Complete";
+                        procSub.textContent   = `${result.successCount} imported, ${result.failCount} skipped`;
+                        progressBar.style.background = "linear-gradient(90deg,#d97706,#f59e0b)";
+                        addLog(`Partial import — ${result.successCount} OK, ${result.failCount} skipped`, "log-info");
+                    }
+
+                    renderResultsStage(rows, result.successCount, result.failCount, result.details);
+
+                    // Update table & KPIs
+                    db = getDB();
+                    renderTable();
+                    updateKPIs();
+
+                    setTimeout(() => setStage(3), 1400);
+
+                }, 400);
+            }, 1600);
+        };
+
+        reader.onerror = function () {
+            addLog("File read error", "log-fail");
+            procTitle.textContent = "Read Error";
+            procIcon.classList.add("error-state");
+        };
+
+        reader.readAsArrayBuffer(file);
+    }
+
+    // — Render Stage 3 results (no DOM switch; just populates content)
+    function renderResultsStage(rows, successCount, failCount, details) {
+        document.getElementById("summaryTotalRows").textContent  = rows.length;
+        document.getElementById("summarySuccessRows").textContent = successCount;
+        document.getElementById("summaryFailedRows").textContent  = failCount;
+
+        const badge = document.getElementById("bumDetailsBadge");
+        if (badge) badge.textContent = details.length + " row(s)";
+
+        // Result header
+        const header = document.getElementById("bumResultsHeader");
+        const allSuccess = failCount === 0 && successCount > 0;
+        const allFail    = successCount === 0;
+        const iconClass  = allSuccess ? "success" : allFail ? "error" : "partial";
+        const iconChar   = allSuccess ? "✅" : allFail ? "❌" : "⚠️";
+        const titleText  = allSuccess ? "All Items Imported Successfully" : allFail ? "Import Failed" : "Partially Imported";
+        const subText    = allSuccess ? `${successCount} item(s) added to inventory` :
+                          allFail    ? "No items imported — check your file format" :
+                                      `${successCount} imported, ${failCount} failed or skipped`;
+        header.innerHTML = `
+            <div class="bum-result-icon ${iconClass}">${iconChar}</div>
+            <h3 class="bum-result-title">${titleText}</h3>
+            <p class="bum-result-sub">${subText}</p>
+        `;
+
+        // Details table
+        const tbody = document.getElementById("uploadSummaryTableBody");
+        if (details.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:20px;">No details available</td></tr>`;
+        } else {
+            tbody.innerHTML = details.map(d => {
+                const statusClass = (d.status === "Created" || d.status === "Updated") ? d.status.toLowerCase() :
+                                     d.status === "Skipped" ? "skipped" : "failed";
+                return `<tr>
+                    <td style="color:#64748b;">#${d.row}</td>
+                    <td><strong>${d.id}</strong></td>
+                    <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.name || "—"}</td>
+                    <td><span class="bum-status-badge ${statusClass}">${d.status}</span><span style="font-size:11px;color:#94a3b8;margin-left:6px;">${d.reason ? d.reason : ""}</span></td>
+                </tr>`;
+            }).join("");
+        }
+    }
+
+    // ================================================================
+    //  processImportData — Core data parser and validator
+    //  Returns { successCount, failCount, details }
+    // ================================================================
+    function processImportData(rows, type, updateDuplicates) {
         const freshDb = getDB();
         let successCount = 0;
         let failCount = 0;
@@ -947,36 +1322,38 @@ window.deleteTool = function (id, name) {
         rows.forEach((row, idx) => {
             const sheetRowIndex = idx + 2; // Row #1 is headers
 
-            // Extract item ID
-            const itemId = getProp(row, altIdKeys);
+            // Extract item ID & name
+            const itemId   = getProp(row, altIdKeys);
             const itemName = getProp(row, altNameKeys);
-            const make = getProp(row, ["Make", "manufacturer"]);
-            const lab = getProp(row, ["Lab", "location"]);
+            const make     = getProp(row, ["Make", "manufacturer"]);
+            const lab      = getProp(row, ["Lab", "location"]);
 
             // Required validations
             if (!itemId) {
                 failCount++;
-                details.push({ row: sheetRowIndex, id: "N/A", status: "Failed", reason: "Missing unique Item ID column." });
+                details.push({ row: sheetRowIndex, id: "N/A", name: itemName || "—", status: "Failed", reason: "Missing unique Item ID." });
                 return;
             }
             if (!itemName) {
                 failCount++;
-                details.push({ row: sheetRowIndex, id: itemId, status: "Failed", reason: "Missing Item Name." });
+                details.push({ row: sheetRowIndex, id: itemId, name: "—", status: "Failed", reason: "Missing Item Name." });
                 return;
             }
             if (!make) {
                 failCount++;
-                details.push({ row: sheetRowIndex, id: itemId, status: "Failed", reason: "Missing Make." });
+                details.push({ row: sheetRowIndex, id: itemId, name: itemName, status: "Failed", reason: "Missing Make." });
                 return;
             }
             if (!lab) {
                 failCount++;
-                details.push({ row: sheetRowIndex, id: itemId, status: "Failed", reason: "Missing Lab location." });
+                details.push({ row: sheetRowIndex, id: itemId, name: itemName, status: "Failed", reason: "Missing Lab." });
                 return;
             }
 
-            // check duplicate ID
-            const existingIdx = listArr.findIndex(item => String(item[idKey]).trim().toLowerCase() === itemId.toLowerCase());
+            // Check duplicate ID
+            const existingIdx = listArr.findIndex(item =>
+                String(item[idKey]).trim().toLowerCase() === itemId.toLowerCase()
+            );
 
             if (existingIdx > -1) {
                 if (updateDuplicates) {
@@ -984,27 +1361,23 @@ window.deleteTool = function (id, name) {
                     if (type === "equipment") {
                         listArr[existingIdx] = {
                             ...listArr[existingIdx],
-                            name: itemName,
-                            componentName: itemName,
-                            make: make,
+                            name: itemName, componentName: itemName, make,
                             specification: getProp(row, ["Specification", "model"]),
                             totalCount: parseInt(getProp(row, ["Total Count", "qty"])) || listArr[existingIdx].totalCount || 1,
                             componentType: getProp(row, ["Component Type", "type"]) || listArr[existingIdx].componentType || "Equipment",
-                            lab: lab,
+                            lab,
                             remarks: getProp(row, ["Remarks", "description"]) || listArr[existingIdx].remarks || "Working Fine"
                         };
                     } else {
-                        // components or tools
                         listArr[existingIdx] = {
                             ...listArr[existingIdx],
-                            componentName: itemName,
-                            make: make,
+                            componentName: itemName, make,
                             specification: getProp(row, ["Specification", "model"]),
                             cost: parseFloat(getProp(row, ["Cost"])) || listArr[existingIdx].cost || 0,
                             returnTimeline: getProp(row, ["Return Timeline"]) || listArr[existingIdx].returnTimeline || "Daily",
                             totalCount: parseInt(getProp(row, ["Total Count", "qty"])) || listArr[existingIdx].totalCount || 1,
                             componentType: getProp(row, ["Component Type", "Tool Type", "type"]) || listArr[existingIdx].componentType || "Electronics",
-                            lab: lab,
+                            lab,
                             cupboard: getProp(row, ["Cupboard", "cupboard"]) || listArr[existingIdx].cupboard || "",
                             shelf1: getProp(row, ["Shelf 1", "shelf1"]) || listArr[existingIdx].shelf1 || "",
                             count1: parseInt(getProp(row, ["Count 1", "count1"])) || listArr[existingIdx].count1 || 0,
@@ -1015,40 +1388,34 @@ window.deleteTool = function (id, name) {
                         };
                     }
                     successCount++;
-                    details.push({ row: sheetRowIndex, id: itemId, status: "Updated", reason: "Existing item updated." });
+                    details.push({ row: sheetRowIndex, id: itemId, name: itemName, status: "Updated", reason: "Record updated." });
                 } else {
-                    // Skip duplicates
                     failCount++;
-                    details.push({ row: sheetRowIndex, id: itemId, status: "Skipped", reason: "Unique Item ID already exists, update duplicates disabled." });
+                    details.push({ row: sheetRowIndex, id: itemId, name: itemName, status: "Skipped", reason: "ID already exists (update duplicates off)." });
                 }
             } else {
-                // Add new item record
+                // Add new item
                 let newItem = {};
                 if (type === "equipment") {
                     newItem = {
                         sno: listArr.length + 1,
-                        eqpid: itemId,
-                        name: itemName,
-                        componentName: itemName,
-                        make: make,
+                        eqpid: itemId, name: itemName, componentName: itemName, make,
                         specification: getProp(row, ["Specification", "model"]),
                         totalCount: parseInt(getProp(row, ["Total Count", "qty"])) || 1,
                         componentType: getProp(row, ["Component Type", "type"]) || "Equipment",
-                        lab: lab,
+                        lab,
                         remarks: getProp(row, ["Remarks", "description"]) || "Working Fine"
                     };
                 } else {
                     newItem = {
                         sno: listArr.length + 1,
-                        [idKey]: itemId,
-                        componentName: itemName,
-                        make: make,
+                        [idKey]: itemId, componentName: itemName, make,
                         specification: getProp(row, ["Specification", "model"]),
                         cost: parseFloat(getProp(row, ["Cost"])) || 0,
                         returnTimeline: getProp(row, ["Return Timeline"]) || "Daily",
                         totalCount: parseInt(getProp(row, ["Total Count", "qty"])) || 1,
                         componentType: getProp(row, ["Component Type", "Tool Type", "type"]) || "Electronics",
-                        lab: lab,
+                        lab,
                         cupboard: getProp(row, ["Cupboard", "cupboard"]) || "",
                         shelf1: getProp(row, ["Shelf 1", "shelf1"]) || "",
                         count1: parseInt(getProp(row, ["Count 1", "count1"])) || 0,
@@ -1060,48 +1427,20 @@ window.deleteTool = function (id, name) {
                 }
                 listArr.push(newItem);
                 successCount++;
-                details.push({ row: sheetRowIndex, id: itemId, status: "Created", reason: "Successfully imported." });
+                details.push({ row: sheetRowIndex, id: itemId, name: itemName, status: "Created", reason: "Successfully imported." });
             }
         });
 
-        // Save DB
-        if (type === "equipment") freshDb.equipment = listArr;
+        // Persist to DB
+        if (type === "equipment")  freshDb.equipment  = listArr;
         else if (type === "components") freshDb.components = listArr;
-        else if (type === "tools") freshDb.tools = listArr;
-
+        else if (type === "tools") freshDb.tools      = listArr;
         setDB(freshDb);
         db = freshDb; // sync local state
 
-        // Re-render
-        renderTable();
-        updateKPIs();
-
-        // Render Summary Modal details
-        document.getElementById("summaryTotalRows").textContent = rows.length;
-        document.getElementById("summarySuccessRows").textContent = successCount;
-        document.getElementById("summaryFailedRows").textContent = failCount;
-
-        const tbody = document.getElementById("uploadSummaryTableBody");
-        tbody.innerHTML = details.map(d => {
-            const rowClass = d.status === "Failed" || d.status === "Skipped" ? "class='text-red-600 font-semibold'" : "class='text-green-600'";
-            return `
-                <tr>
-                    <td>Row ${d.row}</td>
-                    <td><strong>${d.id}</strong></td>
-                    <td><span ${rowClass}>${d.status}</span> - ${d.reason}</td>
-                </tr>
-            `;
-        }).join("");
-
-        // Show Modal
-        document.getElementById("uploadSummaryModalOverlay").classList.add("show");
-        document.getElementById("uploadSummaryModal").classList.add("show");
+        return { successCount, failCount, details };
     }
 
-    window.closeUploadSummaryModal = function () {
-        document.getElementById("uploadSummaryModalOverlay").classList.remove("show");
-        document.getElementById("uploadSummaryModal").classList.remove("show");
-    };
 
     window.downloadTemplate = function (type) {
         let headers = "";
@@ -1202,6 +1541,144 @@ window.deleteTool = function (id, name) {
     renderHeader();
     updateKPIs();
     renderTable();
+
+    // --- Add Component Modal Logic ---
+    const addComponentBtn = document.getElementById("addComponentBtn");
+    const addCompModal = document.getElementById("addComponentModal");
+    const addCompOverlay = document.getElementById("addComponentModalOverlay");
+
+    if (addComponentBtn) {
+        addComponentBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            addCompModal.classList.add("show");
+            addCompOverlay.classList.add("show");
+        });
+    }
+
+    window.closeAddComponentModal = function () {
+        if (addCompModal) addCompModal.classList.remove("show");
+        if (addCompOverlay) addCompOverlay.classList.remove("show");
+        const form = document.getElementById("addComponentForm");
+        if (form) form.reset();
+    };
+
+    const saveComponentBtn = document.getElementById("saveComponentBtn");
+    if (saveComponentBtn) {
+        saveComponentBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const form = document.getElementById("addComponentForm");
+            if (!form.reportValidity()) return;
+
+            const maxSno = db.components.length > 0 ? Math.max(...db.components.map(c => c.sno || 0)) : 0;
+            let maxCid = 0;
+            db.components.forEach(c => {
+                if (c.cid) {
+                    const idNum = parseInt(c.cid.replace("CID", ""));
+                    if (!isNaN(idNum) && idNum > maxCid) maxCid = idNum;
+                }
+            });
+
+            const newComp = {
+                sno: maxSno + 1,
+                cid: `CID${String(maxCid + 1).padStart(3, '0')}`,
+                componentName: document.getElementById("compName").value,
+                make: document.getElementById("compMake").value,
+                specification: document.getElementById("compSpec").value,
+                cost: parseFloat(document.getElementById("compCost").value) || 0,
+                returnTimeline: document.getElementById("compReturnTimeline").value,
+                totalCount: parseInt(document.getElementById("compCount").value) || 0,
+                componentType: document.getElementById("compType").value,
+                lab: document.getElementById("compLab").value,
+                cupboard: document.getElementById("compCupboard").value,
+                shelf1: document.getElementById("compShelf1").value,
+                count1: parseInt(document.getElementById("compCount1").value) || 0,
+                shelf2: document.getElementById("compShelf2").value,
+                count2: parseInt(document.getElementById("compCount2").value) || 0,
+                purpose: document.getElementById("compPurpose").value,
+                comments: document.getElementById("compComments").value
+            };
+
+            db.components.push(newComp);
+            setDB(db);
+            closeAddComponentModal();
+            if (typeof showToast === 'function') {
+                showToast("Component added successfully", "success");
+            } else {
+                alert("Component added successfully");
+            }
+            updateKPIs();
+            renderTable();
+        });
+    }
+
+    // --- Add Tool Modal Logic ---
+    const addToolBtn = document.getElementById("addToolBtn");
+    const addToolModal = document.getElementById("addToolModal");
+    const addToolOverlay = document.getElementById("addToolModalOverlay");
+
+    if (addToolBtn) {
+        addToolBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            addToolModal.classList.add("show");
+            addToolOverlay.classList.add("show");
+        });
+    }
+
+    window.closeAddToolModal = function () {
+        if (addToolModal) addToolModal.classList.remove("show");
+        if (addToolOverlay) addToolOverlay.classList.remove("show");
+        const form = document.getElementById("addToolForm");
+        if (form) form.reset();
+    };
+
+    const saveToolBtn = document.getElementById("saveToolBtn");
+    if (saveToolBtn) {
+        saveToolBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const form = document.getElementById("addToolForm");
+            if (!form.reportValidity()) return;
+
+            const maxSno = db.tools.length > 0 ? Math.max(...db.tools.map(t => t.sno || 0)) : 0;
+            let maxTid = 0;
+            db.tools.forEach(t => {
+                if (t.toolid) {
+                    const idNum = parseInt(t.toolid.replace("T", ""));
+                    if (!isNaN(idNum) && idNum > maxTid) maxTid = idNum;
+                }
+            });
+
+            const newTool = {
+                sno: maxSno + 1,
+                toolid: `T${String(maxTid + 1).padStart(3, '0')}`,
+                componentName: document.getElementById("toolName").value,
+                make: document.getElementById("toolMake").value,
+                specification: document.getElementById("toolSpec").value,
+                cost: parseFloat(document.getElementById("toolCost").value) || 0,
+                returnTimeline: document.getElementById("toolReturnTimeline").value,
+                totalCount: parseInt(document.getElementById("toolCount").value) || 0,
+                componentType: document.getElementById("toolType").value,
+                lab: document.getElementById("toolLab").value,
+                cupboard: document.getElementById("toolCupboard").value,
+                shelf1: document.getElementById("toolShelf1").value,
+                count1: parseInt(document.getElementById("toolCount1").value) || 0,
+                shelf2: document.getElementById("toolShelf2").value,
+                count2: parseInt(document.getElementById("toolCount2").value) || 0,
+                purpose: document.getElementById("toolPurpose").value,
+                comments: document.getElementById("toolComments").value
+            };
+
+            db.tools.push(newTool);
+            setDB(db);
+            closeAddToolModal();
+            if (typeof showToast === 'function') {
+                showToast("Tool added successfully", "success");
+            } else {
+                alert("Tool added successfully");
+            }
+            updateKPIs();
+            renderTable();
+        });
+    }
 });
 
 
@@ -1225,17 +1702,25 @@ document.addEventListener('click', function(e) {
     }
 });
 
+
 document.addEventListener('click', function(e) {
     let target = e.target.closest('[data-action]');
     if (!target) return;
     let action = target.getAttribute('data-action');
-    if (action === 'closeUploadSummaryModal') {
-        e.preventDefault();
-        closeUploadSummaryModal();
-    } else if (action === 'closeAddEquipmentModal') {
+    if (action === 'closeAddEquipmentModal') {
         e.preventDefault();
         if (typeof closeAddEquipmentModal === 'function') {
             closeAddEquipmentModal();
+        }
+    } else if (action === 'closeAddComponentModal') {
+        e.preventDefault();
+        if (typeof closeAddComponentModal === 'function') {
+            closeAddComponentModal();
+        }
+    } else if (action === 'closeAddToolModal') {
+        e.preventDefault();
+        if (typeof closeAddToolModal === 'function') {
+            closeAddToolModal();
         }
     }
 });
