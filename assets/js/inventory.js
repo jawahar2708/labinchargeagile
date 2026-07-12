@@ -541,6 +541,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .forEach(btn => {
 
             btn.addEventListener("click", () => {
+                document.querySelectorAll(".view-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
 
                 currentView =
                     btn.dataset.view;
@@ -551,6 +553,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
         });
+
 
     function renderTable() {
         tableBody.innerHTML = `
