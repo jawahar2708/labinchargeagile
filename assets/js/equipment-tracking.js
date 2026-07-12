@@ -716,6 +716,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const status = item.status || "Available";
                 const startVal = item.maintenanceStartTime || "";
                 const endVal = item.maintenanceEndTime || "";
+                const dateVal = item.maintenanceDate || "";
 
                 return `
                     <div class="eq-status-row" data-id="${item.id}">
@@ -738,6 +739,14 @@ document.addEventListener("DOMContentLoaded", () => {
                             <option value="Repairing" ${status === "Repairing" ? "selected" : ""}>Repairing</option>
                             <option value="Retired" ${status === "Retired" ? "selected" : ""}>Retired</option>
                         </select>
+
+                        <input
+                            type="date"
+                            id="date-${item.id}"
+                            class="eq-date-input"
+                            value="${dateVal}"
+                            aria-label="Maintenance date for ${name}"
+                        >
 
                         <input
                             type="text"
@@ -782,6 +791,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         item.status = newStatus;
         if (newStatus !== "Maintenance") {
+            delete item.maintenanceDate;
             delete item.maintenanceStartTime;
             delete item.maintenanceEndTime;
         }
@@ -792,11 +802,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function markUnderMaintenance(itemId) {
+        const date = document.getElementById(`date-${itemId}`)?.value;
         const startTime = document.getElementById(`start-${itemId}`)?.value;
         const endTime = document.getElementById(`end-${itemId}`)?.value;
 
-        if (!startTime || !endTime) {
-            showToast("Please select start and end time.", "error");
+        if (!date || !startTime || !endTime) {
+            showToast("Please select date, start and end time.", "error");
             return;
         }
 
@@ -805,6 +816,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!item) return;
 
         item.status = "Maintenance";
+        item.maintenanceDate = date;
         item.maintenanceStartTime = startTime;
         item.maintenanceEndTime = endTime;
 
@@ -813,7 +825,7 @@ document.addEventListener("DOMContentLoaded", () => {
             id: `NTF-${String(freshDb.notifications.length + 1).padStart(3, "0")}`,
             icon: "<i data-lucide=\"wrench\"></i>",
             iconClass: "notif-icon-info",
-            body: `${item.name || item.componentName} marked under maintenance from ${startTime} to ${endTime}.`,
+            body: `${item.name || item.componentName} marked under maintenance on ${date} from ${startTime} to ${endTime}.`,
             time: "Just now",
             unread: true
         });
