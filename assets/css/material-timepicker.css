@@ -1,0 +1,181 @@
+/* ============================================================
+   material-timepicker.css
+   ============================================================ */
+
+.mtp-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+    backdrop-filter: blur(2px);
+}
+.mtp-overlay.mtp-show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.mtp-dialog {
+    background: #fff;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: var(--font-family, 'Plus Jakarta Sans', sans-serif);
+}
+.mtp-overlay.mtp-show .mtp-dialog {
+    transform: scale(1);
+}
+.mtp-header {
+    background: var(--primary-color, #4E4AC8);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.mtp-time {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+.mtp-time span {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.mtp-time span:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+.mtp-time span.mtp-active {
+    color: #fff;
+    font-weight: 500;
+}
+.mtp-ampm {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    font-weight: 600;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+.mtp-ampm span {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.mtp-ampm span:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+.mtp-ampm span.mtp-active {
+    color: #fff;
+}
+.mtp-body {
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mtp-clock {
+    width: 250px;
+    height: 250px;
+    background: #F1F5F9;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+.mtp-clock-center {
+    width: 8px;
+    height: 8px;
+    background: var(--primary-color, #4E4AC8);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+.mtp-hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    width: 2px;
+    height: 100px;
+    background: var(--primary-color, #4E4AC8);
+    transform-origin: bottom center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 5;
+    pointer-events: none;
+}
+.mtp-hand::after {
+    content: '';
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 32px;
+    background: var(--primary-color, #4E4AC8);
+    border-radius: 50%;
+}
+.mtp-number {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    color: var(--text-primary, #0F172A);
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    transition: color 0.2s;
+    pointer-events: none;
+}
+.mtp-number.mtp-active {
+    color: #fff;
+    font-weight: 600;
+}
+.mtp-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 16px 16px;
+    gap: 8px;
+}
+.mtp-btn {
+    background: transparent;
+    color: var(--primary-color, #4E4AC8);
+    border: none;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 6px;
+    text-transform: uppercase;
+    transition: background 0.2s;
+}
+.mtp-btn:hover {
+    background: #F1F5F9;
+}
+.mtp-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+.mtp-input-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary, #64748B);
+    pointer-events: none;
+    width: 18px;
+    height: 18px;
+}

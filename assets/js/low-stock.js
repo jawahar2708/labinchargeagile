@@ -854,8 +854,8 @@ document.addEventListener("DOMContentLoaded", () => {
     <div class="gauge-wrap">
       <div class="gauge-nums"><span>${a.available} ${a.unit}</span><span class="min">min ${a.min}</span></div>
       <div class="gauge-track">
-        <div class="gauge-fill low-stock-style-4b1756"></div>
-        <div class="gauge-tick low-stock-style-70849d"></div>
+        <div class="gauge-fill" style="width:${fillPct}%;background:${meta.gauge}"></div>
+        <div class="gauge-tick" style="left:calc(${tickPct}% - 1px)"></div>
       </div>
     </div>`;
         }
@@ -869,12 +869,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 leftCell = `<div class="cb-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>`;
                 const sm = STATUS_META[req.status];
                 statusCell = `<div class="status-cell">
-        <span class="badge low-stock-style-566ef8">${req.status}</span>
+        <span class="badge" style="background:${sm.bg};color:${sm.fg}">${req.status}</span>
         <span class="pr-id">${req.id}</span>
       </div>`;
             } else {
                 leftCell = `<input type="checkbox" class="cb" data-id="${a.id}" ${state.selected.has(a.id) ? 'checked' : ''}>`;
-                statusCell = `<span class="badge low-stock-style-29081a">${meta.label.replace(' Priority', '')}</span>`;
+                statusCell = `<span class="badge" style="background:${meta.badgeBg};color:${meta.badgeFg}">${meta.label.replace(' Priority', '')}</span>`;
             }
 
             return `
@@ -916,9 +916,9 @@ if (state.priority !== "all") {
       <div class="group ${state.expanded[p] ? 'expanded' : ''}" data-group="${p}">
         <button class="group-header" data-toggle="${p}">
           <div class="gh-left">
-            <span class="gh-dot low-stock-style-0c5e26"></span>
+            <span class="gh-dot" style="background:${meta.dot}"></span>
             <span class="gh-title">${meta.label}</span>
-            <span class="gh-count low-stock-style-29081a">${items.length}</span>
+            <span class="gh-count" style="background:${meta.badgeBg};color:${meta.badgeFg}">${items.length}</span>
             ${selectedInGroup ? `<span class="gh-selected">${selectedInGroup} selected</span>` : ''}
           </div>
           <svg class="gh-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
@@ -1103,14 +1103,14 @@ if (state.priority !== "all") {
       <div class="req-card">
         <div class="req-top">
           <div><div class="req-id">${r.id}</div><div class="req-date">Created ${r.createdDate} · ${r.items.length} item${r.items.length === 1 ? '' : 's'}</div></div>
-          <span class="badge low-stock-style-566ef8">${r.status}</span>
+          <span class="badge" style="background:${STATUS_META[r.status].bg};color:${STATUS_META[r.status].fg}">${r.status}</span>
         </div>
         <div class="steps">${stepsHtml}</div>
         <div class="req-status-row">
-          <span class="low-stock-style-99b316">Pending</span>
-          <span class="low-stock-style-99b316">Approved</span>
-          <span class="low-stock-style-99b316">Procured</span>
-          <span class="low-stock-style-99b316">Restocked</span>
+          <span class="step-label">Pending</span>
+          <span class="step-label">Approved</span>
+          <span class="step-label">Procured</span>
+          <span class="step-label">Restocked</span>
         </div>
         <div class="req-items">${itemNames}</div>
         <div class="req-actions">${actions}</div>

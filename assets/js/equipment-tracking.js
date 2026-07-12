@@ -740,17 +740,19 @@ document.addEventListener("DOMContentLoaded", () => {
                         </select>
 
                         <input
-                            type="time"
+                            type="text"
                             id="start-${item.id}"
                             class="eq-time-input"
+                            placeholder="Start Time"
                             value="${startVal}"
                             aria-label="Maintenance start time for ${name}"
                         >
 
                         <input
-                            type="time"
+                            type="text"
                             id="end-${item.id}"
                             class="eq-time-input"
+                            placeholder="End Time"
                             value="${endVal}"
                             aria-label="Maintenance end time for ${name}"
                         >
@@ -765,6 +767,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 `;
             }).join("");
+
+            // Initialize Custom Material Time Picker
+            if (typeof initMaterialTimePicker === "function") {
+                initMaterialTimePicker(".eq-time-input");
+            }
         }
     }
 

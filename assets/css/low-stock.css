@@ -4,24 +4,35 @@
    ============================================================ */
 
 :root {
-    /* Page-specific color tokens */
-    --red: #EF4444;
-    --red-bg: #FDE8E8;
-    --orange: #F5A524;
-    --orange-bg: #FFF1DE;
-    --amber: #CA8A04;
-    --amber-bg: #FEF9E7;
-    --green: #16A34A;
-    --green-bg: #DCFCE7;
-    --blue: #1D4ED8;
-    --blue-bg: #DBEAFE;
-    --purple: #7C3AED;
-    --purple-bg: #EDE9FF;
+    /* Premium Page-specific color tokens */
+    --red: #FF3B30;
+    --red-bg: #FFE5E5;
+    --red-grad: linear-gradient(135deg, #FF3B30, #FF7B72);
+    
+    --orange: #FF9500;
+    --orange-bg: #FFF0D4;
+    --orange-grad: linear-gradient(135deg, #FF9500, #FFB340);
+    
+    --amber: #FFCC00;
+    --amber-bg: #FFF9D1;
+    --amber-grad: linear-gradient(135deg, #FFCC00, #FFE066);
+    
+    --green: #34C759;
+    --green-bg: #E5F9EA;
+    --green-grad: linear-gradient(135deg, #34C759, #6FE388);
+    
+    --blue: #007AFF;
+    --blue-bg: #E0EFFF;
+    --blue-grad: linear-gradient(135deg, #007AFF, #4AA3FF);
+    
+    --purple: #AF52DE;
+    --purple-bg: #F4E5FA;
+    --purple-grad: linear-gradient(135deg, #AF52DE, #D08AFA);
 
-    --radius-lg: 18px;
-    --radius-md: 12px;
-    --radius-sm: 8px;
-    --shadow: 0 1px 2px rgba(16, 24, 64, .04), 0 8px 24px rgba(16, 24, 64, .06);
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 /* ── Header: "Create Procurement Request" CTA button ─────────── */
@@ -1249,25 +1260,33 @@ textarea.notes:focus {
 =================================================== */
 
 .badge {
-    padding: 6px 12px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid rgba(255,255,255,0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .badge-critical {
-    background: #FEE2E2;
-    color: #B91C1C;
+    background: linear-gradient(135deg, rgba(255, 59, 48, 0.15), rgba(255, 123, 114, 0.1));
+    color: #D70015;
+    border-color: rgba(255, 59, 48, 0.3);
 }
 
 .badge-high {
-    background: #FED7AA;
-    color: #C2410C;
+    background: linear-gradient(135deg, rgba(255, 149, 0, 0.15), rgba(255, 179, 64, 0.1));
+    color: #CC7700;
+    border-color: rgba(255, 149, 0, 0.3);
 }
 
 .badge-medium {
-    background: #FEF9C3;
-    color: #A16207;
+    background: linear-gradient(135deg, rgba(255, 204, 0, 0.15), rgba(255, 224, 102, 0.1));
+    color: #B28F00;
+    border-color: rgba(255, 204, 0, 0.3);
 }
 
 /* ===================================================
@@ -1379,17 +1398,35 @@ gap: 12px;
 flex-wrap: wrap;
     }
 }
-/* Auto-extracted inline styles */
-.low-stock-style-f8ad38 { background:var(--purple-bg); }
-.low-stock-style-53b8cf { background:var(--red-bg); }
-.low-stock-style-11073e { background:var(--orange-bg); }
-.low-stock-style-66877d { background:var(--amber-bg); }
-.low-stock-style-4b1756 { width:${fillPct}%;background:${meta.gauge}; }
-.low-stock-style-70849d { left:calc(${tickPct}% - 1px); }
-.low-stock-style-566ef8 { background:${sm.bg};color:${sm.fg}; }
-.low-stock-style-29081a { background:${meta.badgeBg};color:${meta.badgeFg}; }
-.low-stock-style-0c5e26 { background:${meta.dot}; }
-.low-stock-style-99b316 { font-size:11px;color:var(--text-secondary);font-weight:600; }
+/* Semantic KPI and Helper classes */
+.kpi-purple { 
+    background: var(--purple-bg); 
+    box-shadow: 0 4px 12px rgba(175, 82, 222, 0.2); 
+    color: var(--purple);
+}
+.kpi-red { 
+    background: var(--red-bg); 
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.2); 
+    color: var(--red);
+}
+.kpi-orange { 
+    background: var(--orange-bg); 
+    box-shadow: 0 4px 12px rgba(255, 149, 0, 0.2); 
+    color: var(--orange);
+}
+.kpi-amber { 
+    background: var(--amber-bg); 
+    box-shadow: 0 4px 12px rgba(255, 204, 0, 0.2); 
+    color: var(--amber);
+}
+.step-label { 
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: rgba(0,0,0,0.03);
+}
 
 
 

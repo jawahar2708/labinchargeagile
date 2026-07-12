@@ -632,7 +632,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${item.lab}</td>
                         <td>${item.remarks || ""}</td>
                         <td>
-    <a href="#" class="inventory-style-5a2edf">
+    <a href="#" data-action="editEquipment" data-id="${item.eqpid}" class="inventory-style-5a2edf">
         ✏️
     </a>
 
@@ -664,7 +664,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${item.purpose || ""}</td>
                         <td>${item.comments || ""}</td>
                         <td>
-    <a href="#" class="inventory-style-5a2edf">
+    <a href="#" data-action="editComponent" data-id="${item.cid}" class="inventory-style-5a2edf">
         ✏️
     </a>
 
@@ -696,7 +696,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${item.purpose || ""}</td>
                         <td>${item.comments || ""}</td>
                         <td>
-    <a href="#" class="inventory-style-5a2edf">
+    <a href="#" data-action="editTool" data-id="${item.toolid}" class="inventory-style-5a2edf">
         ✏️
     </a>
 
@@ -828,6 +828,79 @@ window.deleteTool = function (id, name) {
         "Delete Tool",
         true
     );
+};
+
+window.editEquipment = function (id) {
+    const item = db.equipment.find(e => e.eqpid === id);
+    if (!item) return;
+    document.getElementById("eqName").value = item.componentName || item.name || '';
+    document.getElementById("eqMake").value = item.make || '';
+    document.getElementById("eqSpec").value = item.specification || '';
+    document.getElementById("eqCount").value = item.totalCount || item.avail || 0;
+    document.getElementById("eqType").value = item.componentType || '';
+    document.getElementById("eqLab").value = item.lab || '';
+    document.getElementById("eqRemarks").value = item.remarks || '';
+    
+    const form = document.getElementById("addEquipmentForm");
+    form.dataset.editId = id;
+    document.getElementById("addEquipmentModal").querySelector('h2').textContent = 'Edit Equipment';
+    
+    document.getElementById("addEquipmentModal").classList.add("show");
+    document.getElementById("addEquipmentModalOverlay").classList.add("show");
+};
+
+window.editComponent = function (id) {
+    const item = db.components.find(c => c.cid === id);
+    if (!item) return;
+    document.getElementById("compName").value = item.componentName || '';
+    document.getElementById("compMake").value = item.make || '';
+    document.getElementById("compSpec").value = item.specification || '';
+    document.getElementById("compCost").value = item.cost || '';
+    document.getElementById("compReturnTimeline").value = item.returnTimeline || '';
+    document.getElementById("compCount").value = item.totalCount || '';
+    document.getElementById("compType").value = item.componentType || '';
+    document.getElementById("compLab").value = item.lab || '';
+    document.getElementById("compCupboard").value = item.cupboard || '';
+    document.getElementById("compShelf1").value = item.shelf1 || '';
+    document.getElementById("compCount1").value = item.count1 || '';
+    document.getElementById("compShelf2").value = item.shelf2 || '';
+    document.getElementById("compCount2").value = item.count2 || '';
+    document.getElementById("compPurpose").value = item.purpose || '';
+    document.getElementById("compComments").value = item.comments || '';
+
+    const form = document.getElementById("addComponentForm");
+    form.dataset.editId = id;
+    document.getElementById("addComponentModal").querySelector('h2').textContent = 'Edit Component';
+
+    document.getElementById("addComponentModal").classList.add("show");
+    document.getElementById("addComponentModalOverlay").classList.add("show");
+};
+
+window.editTool = function (id) {
+    const item = db.tools.find(t => t.toolid === id);
+    if (!item) return;
+    document.getElementById("toolName").value = item.componentName || '';
+    document.getElementById("toolMake").value = item.make || '';
+    document.getElementById("toolSpec").value = item.specification || '';
+    document.getElementById("toolCost").value = item.cost || '';
+    document.getElementById("toolReturnTimeline").value = item.returnTimeline || '';
+    document.getElementById("toolCount").value = item.totalCount || '';
+    document.getElementById("toolType").value = item.componentType || '';
+    document.getElementById("toolLab").value = item.lab || '';
+    document.getElementById("toolCupboard").value = item.cupboard || '';
+    document.getElementById("toolShelf1").value = item.shelf1 || '';
+    document.getElementById("toolCount1").value = item.count1 || '';
+    document.getElementById("toolShelf2").value = item.shelf2 || '';
+    document.getElementById("toolCount2").value = item.count2 || '';
+    document.getElementById("toolPurpose").value = item.purpose || '';
+    document.getElementById("toolComments").value = item.comments || '';
+
+    const form = document.getElementById("addToolForm");
+    form.dataset.editId = id;
+    document.getElementById("addToolModal").querySelector('h2').textContent = 'Edit Tool';
+
+    document.getElementById("addToolModal").classList.add("show");
+    document.getElementById("addToolModalOverlay").classList.add("show");
 };
 
     // --- Search input listener ---
@@ -1481,7 +1554,10 @@ window.deleteTool = function (id, name) {
     window.closeAddEquipmentModal = function () {
         addEqModal.classList.remove("show");
         addEqOverlay.classList.remove("show");
-        document.getElementById("addEquipmentForm").reset();
+        const form = document.getElementById("addEquipmentForm");
+        form.reset();
+        delete form.dataset.editId;
+        addEqModal.querySelector('h2').textContent = 'Add Equipment';
     };
 
     const saveEquipmentBtn = document.getElementById("saveEquipmentBtn");
@@ -1501,36 +1577,59 @@ window.deleteTool = function (id, name) {
             const lab = document.getElementById("eqLab").value;
             const remarks = document.getElementById("eqRemarks").value;
 
-            const maxSno = db.equipment.length > 0 ? Math.max(...db.equipment.map(e => e.sno || 0)) : 0;
-            let maxEqpId = 0;
-            db.equipment.forEach(e => {
-                if (e.eqpid) {
-                    const idNum = parseInt(e.eqpid.replace("EQP", ""));
-                    if (!isNaN(idNum) && idNum > maxEqpId) maxEqpId = idNum;
+            const editId = form.dataset.editId;
+            if (editId) {
+                const index = db.equipment.findIndex(e => e.eqpid === editId);
+                if (index !== -1) {
+                    db.equipment[index] = {
+                        ...db.equipment[index],
+                        componentName: name,
+                        name: name,
+                        make: make,
+                        specification: spec,
+                        totalCount: count,
+                        componentType: type,
+                        lab: lab,
+                        remarks: remarks
+                    };
                 }
-            });
-
-            const newEq = {
-                sno: maxSno + 1,
-                eqpid: `EQP${String(maxEqpId + 1).padStart(3, '0')}`,
-                componentName: name,
-                make: make,
-                specification: spec,
-                totalCount: count,
-                componentType: type,
-                lab: lab,
-                remarks: remarks
-            };
-
-            db.equipment.push(newEq);
-            setDB(db); // Save to local storage
-            
-            closeAddEquipmentModal();
-            // Fallback alert if showToast isn't globally available
-            if(typeof showToast === 'function') {
-                showToast("Equipment added successfully", "success");
+                setDB(db);
+                closeAddEquipmentModal();
+                if(typeof showToast === 'function') {
+                    showToast("Equipment updated successfully", "success");
+                } else {
+                    alert("Equipment updated successfully");
+                }
             } else {
-                alert("Equipment added successfully");
+                const maxSno = db.equipment.length > 0 ? Math.max(...db.equipment.map(e => e.sno || 0)) : 0;
+                let maxEqpId = 0;
+                db.equipment.forEach(e => {
+                    if (e.eqpid) {
+                        const idNum = parseInt(e.eqpid.replace("EQP", ""));
+                        if (!isNaN(idNum) && idNum > maxEqpId) maxEqpId = idNum;
+                    }
+                });
+
+                const newEq = {
+                    sno: maxSno + 1,
+                    eqpid: `EQP${String(maxEqpId + 1).padStart(3, '0')}`,
+                    componentName: name,
+                    make: make,
+                    specification: spec,
+                    totalCount: count,
+                    componentType: type,
+                    lab: lab,
+                    remarks: remarks
+                };
+
+                db.equipment.push(newEq);
+                setDB(db);
+                closeAddEquipmentModal();
+                if(typeof showToast === 'function') {
+                    showToast("Equipment added successfully", "success");
+                } else {
+                    alert("Equipment added successfully");
+                }
             }
             updateKPIs();
             renderTable();
@@ -1559,7 +1658,11 @@ window.deleteTool = function (id, name) {
         if (addCompModal) addCompModal.classList.remove("show");
         if (addCompOverlay) addCompOverlay.classList.remove("show");
         const form = document.getElementById("addComponentForm");
-        if (form) form.reset();
+        if (form) {
+            form.reset();
+            delete form.dataset.editId;
+        }
+        if (addCompModal) addCompModal.querySelector('h2').textContent = 'Add Component';
     };
 
     const saveComponentBtn = document.getElementById("saveComponentBtn");
@@ -1569,42 +1672,74 @@ window.deleteTool = function (id, name) {
             const form = document.getElementById("addComponentForm");
             if (!form.reportValidity()) return;
 
-            const maxSno = db.components.length > 0 ? Math.max(...db.components.map(c => c.sno || 0)) : 0;
-            let maxCid = 0;
-            db.components.forEach(c => {
-                if (c.cid) {
-                    const idNum = parseInt(c.cid.replace("CID", ""));
-                    if (!isNaN(idNum) && idNum > maxCid) maxCid = idNum;
+            const editId = form.dataset.editId;
+            if (editId) {
+                const index = db.components.findIndex(c => c.cid === editId);
+                if (index !== -1) {
+                    db.components[index] = {
+                        ...db.components[index],
+                        componentName: document.getElementById("compName").value,
+                        make: document.getElementById("compMake").value,
+                        specification: document.getElementById("compSpec").value,
+                        cost: parseFloat(document.getElementById("compCost").value) || 0,
+                        returnTimeline: document.getElementById("compReturnTimeline").value,
+                        totalCount: parseInt(document.getElementById("compCount").value) || 0,
+                        componentType: document.getElementById("compType").value,
+                        lab: document.getElementById("compLab").value,
+                        cupboard: document.getElementById("compCupboard").value,
+                        shelf1: document.getElementById("compShelf1").value,
+                        count1: parseInt(document.getElementById("compCount1").value) || 0,
+                        shelf2: document.getElementById("compShelf2").value,
+                        count2: parseInt(document.getElementById("compCount2").value) || 0,
+                        purpose: document.getElementById("compPurpose").value,
+                        comments: document.getElementById("compComments").value
+                    };
                 }
-            });
-
-            const newComp = {
-                sno: maxSno + 1,
-                cid: `CID${String(maxCid + 1).padStart(3, '0')}`,
-                componentName: document.getElementById("compName").value,
-                make: document.getElementById("compMake").value,
-                specification: document.getElementById("compSpec").value,
-                cost: parseFloat(document.getElementById("compCost").value) || 0,
-                returnTimeline: document.getElementById("compReturnTimeline").value,
-                totalCount: parseInt(document.getElementById("compCount").value) || 0,
-                componentType: document.getElementById("compType").value,
-                lab: document.getElementById("compLab").value,
-                cupboard: document.getElementById("compCupboard").value,
-                shelf1: document.getElementById("compShelf1").value,
-                count1: parseInt(document.getElementById("compCount1").value) || 0,
-                shelf2: document.getElementById("compShelf2").value,
-                count2: parseInt(document.getElementById("compCount2").value) || 0,
-                purpose: document.getElementById("compPurpose").value,
-                comments: document.getElementById("compComments").value
-            };
-
-            db.components.push(newComp);
-            setDB(db);
-            closeAddComponentModal();
-            if (typeof showToast === 'function') {
-                showToast("Component added successfully", "success");
+                setDB(db);
+                closeAddComponentModal();
+                if (typeof showToast === 'function') {
+                    showToast("Component updated successfully", "success");
+                } else {
+                    alert("Component updated successfully");
+                }
             } else {
-                alert("Component added successfully");
+                const maxSno = db.components.length > 0 ? Math.max(...db.components.map(c => c.sno || 0)) : 0;
+                let maxCid = 0;
+                db.components.forEach(c => {
+                    if (c.cid) {
+                        const idNum = parseInt(c.cid.replace("CID", ""));
+                        if (!isNaN(idNum) && idNum > maxCid) maxCid = idNum;
+                    }
+                });
+
+                const newComp = {
+                    sno: maxSno + 1,
+                    cid: `CID${String(maxCid + 1).padStart(3, '0')}`,
+                    componentName: document.getElementById("compName").value,
+                    make: document.getElementById("compMake").value,
+                    specification: document.getElementById("compSpec").value,
+                    cost: parseFloat(document.getElementById("compCost").value) || 0,
+                    returnTimeline: document.getElementById("compReturnTimeline").value,
+                    totalCount: parseInt(document.getElementById("compCount").value) || 0,
+                    componentType: document.getElementById("compType").value,
+                    lab: document.getElementById("compLab").value,
+                    cupboard: document.getElementById("compCupboard").value,
+                    shelf1: document.getElementById("compShelf1").value,
+                    count1: parseInt(document.getElementById("compCount1").value) || 0,
+                    shelf2: document.getElementById("compShelf2").value,
+                    count2: parseInt(document.getElementById("compCount2").value) || 0,
+                    purpose: document.getElementById("compPurpose").value,
+                    comments: document.getElementById("compComments").value
+                };
+
+                db.components.push(newComp);
+                setDB(db);
+                closeAddComponentModal();
+                if (typeof showToast === 'function') {
+                    showToast("Component added successfully", "success");
+                } else {
+                    alert("Component added successfully");
+                }
             }
             updateKPIs();
             renderTable();
@@ -1628,7 +1763,11 @@ window.deleteTool = function (id, name) {
         if (addToolModal) addToolModal.classList.remove("show");
         if (addToolOverlay) addToolOverlay.classList.remove("show");
         const form = document.getElementById("addToolForm");
-        if (form) form.reset();
+        if (form) {
+            form.reset();
+            delete form.dataset.editId;
+        }
+        if (addToolModal) addToolModal.querySelector('h2').textContent = 'Add Tool';
     };
 
     const saveToolBtn = document.getElementById("saveToolBtn");
@@ -1638,42 +1777,74 @@ window.deleteTool = function (id, name) {
             const form = document.getElementById("addToolForm");
             if (!form.reportValidity()) return;
 
-            const maxSno = db.tools.length > 0 ? Math.max(...db.tools.map(t => t.sno || 0)) : 0;
-            let maxTid = 0;
-            db.tools.forEach(t => {
-                if (t.toolid) {
-                    const idNum = parseInt(t.toolid.replace("T", ""));
-                    if (!isNaN(idNum) && idNum > maxTid) maxTid = idNum;
+            const editId = form.dataset.editId;
+            if (editId) {
+                const index = db.tools.findIndex(t => t.toolid === editId);
+                if (index !== -1) {
+                    db.tools[index] = {
+                        ...db.tools[index],
+                        componentName: document.getElementById("toolName").value,
+                        make: document.getElementById("toolMake").value,
+                        specification: document.getElementById("toolSpec").value,
+                        cost: parseFloat(document.getElementById("toolCost").value) || 0,
+                        returnTimeline: document.getElementById("toolReturnTimeline").value,
+                        totalCount: parseInt(document.getElementById("toolCount").value) || 0,
+                        componentType: document.getElementById("toolType").value,
+                        lab: document.getElementById("toolLab").value,
+                        cupboard: document.getElementById("toolCupboard").value,
+                        shelf1: document.getElementById("toolShelf1").value,
+                        count1: parseInt(document.getElementById("toolCount1").value) || 0,
+                        shelf2: document.getElementById("toolShelf2").value,
+                        count2: parseInt(document.getElementById("toolCount2").value) || 0,
+                        purpose: document.getElementById("toolPurpose").value,
+                        comments: document.getElementById("toolComments").value
+                    };
                 }
-            });
-
-            const newTool = {
-                sno: maxSno + 1,
-                toolid: `T${String(maxTid + 1).padStart(3, '0')}`,
-                componentName: document.getElementById("toolName").value,
-                make: document.getElementById("toolMake").value,
-                specification: document.getElementById("toolSpec").value,
-                cost: parseFloat(document.getElementById("toolCost").value) || 0,
-                returnTimeline: document.getElementById("toolReturnTimeline").value,
-                totalCount: parseInt(document.getElementById("toolCount").value) || 0,
-                componentType: document.getElementById("toolType").value,
-                lab: document.getElementById("toolLab").value,
-                cupboard: document.getElementById("toolCupboard").value,
-                shelf1: document.getElementById("toolShelf1").value,
-                count1: parseInt(document.getElementById("toolCount1").value) || 0,
-                shelf2: document.getElementById("toolShelf2").value,
-                count2: parseInt(document.getElementById("toolCount2").value) || 0,
-                purpose: document.getElementById("toolPurpose").value,
-                comments: document.getElementById("toolComments").value
-            };
-
-            db.tools.push(newTool);
-            setDB(db);
-            closeAddToolModal();
-            if (typeof showToast === 'function') {
-                showToast("Tool added successfully", "success");
+                setDB(db);
+                closeAddToolModal();
+                if (typeof showToast === 'function') {
+                    showToast("Tool updated successfully", "success");
+                } else {
+                    alert("Tool updated successfully");
+                }
             } else {
-                alert("Tool added successfully");
+                const maxSno = db.tools.length > 0 ? Math.max(...db.tools.map(t => t.sno || 0)) : 0;
+                let maxTid = 0;
+                db.tools.forEach(t => {
+                    if (t.toolid) {
+                        const idNum = parseInt(t.toolid.replace("T", ""));
+                        if (!isNaN(idNum) && idNum > maxTid) maxTid = idNum;
+                    }
+                });
+
+                const newTool = {
+                    sno: maxSno + 1,
+                    toolid: `T${String(maxTid + 1).padStart(3, '0')}`,
+                    componentName: document.getElementById("toolName").value,
+                    make: document.getElementById("toolMake").value,
+                    specification: document.getElementById("toolSpec").value,
+                    cost: parseFloat(document.getElementById("toolCost").value) || 0,
+                    returnTimeline: document.getElementById("toolReturnTimeline").value,
+                    totalCount: parseInt(document.getElementById("toolCount").value) || 0,
+                    componentType: document.getElementById("toolType").value,
+                    lab: document.getElementById("toolLab").value,
+                    cupboard: document.getElementById("toolCupboard").value,
+                    shelf1: document.getElementById("toolShelf1").value,
+                    count1: parseInt(document.getElementById("toolCount1").value) || 0,
+                    shelf2: document.getElementById("toolShelf2").value,
+                    count2: parseInt(document.getElementById("toolCount2").value) || 0,
+                    purpose: document.getElementById("toolPurpose").value,
+                    comments: document.getElementById("toolComments").value
+                };
+
+                db.tools.push(newTool);
+                setDB(db);
+                closeAddToolModal();
+                if (typeof showToast === 'function') {
+                    showToast("Tool added successfully", "success");
+                } else {
+                    alert("Tool added successfully");
+                }
             }
             updateKPIs();
             renderTable();
@@ -1699,6 +1870,15 @@ document.addEventListener('click', function(e) {
     } else if (action === 'deleteTool') {
         e.preventDefault();
         deleteTool(target.getAttribute('data-id'), target.getAttribute('data-name'));
+    } else if (action === 'editEquipment') {
+        e.preventDefault();
+        editEquipment(target.getAttribute('data-id'));
+    } else if (action === 'editComponent') {
+        e.preventDefault();
+        editComponent(target.getAttribute('data-id'));
+    } else if (action === 'editTool') {
+        e.preventDefault();
+        editTool(target.getAttribute('data-id'));
     }
 });
 
