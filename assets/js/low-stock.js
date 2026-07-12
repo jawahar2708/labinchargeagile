@@ -971,14 +971,14 @@ if (state.priority !== "all") {
             document.getElementById('detailSub').textContent = `${a.category} · ${a.lab}`;
             const req = a.requestId ? requestById(a.requestId) : null;
             document.getElementById('detailGrid').innerHTML = `
-    <div class="detail-item"><div class="k">Asset ID</div><div class="v">${a.id}</div></div>
+    <div class="detail-item"><div class="k">Asset ID</div><div class="v"><span style="background: rgba(15,23,42,0.05); padding: 3px 8px; border-radius: 6px; font-family: monospace; font-size: 12.5px; color: #334155;">${a.id}</span></div></div>
     <div class="detail-item"><div class="k">Storage Location</div><div class="v">${a.location}</div></div>
-    <div class="detail-item"><div class="k">Available Quantity</div><div class="v">${a.available} ${a.unit}</div></div>
-    <div class="detail-item"><div class="k">Minimum Threshold</div><div class="v">${a.min} ${a.unit}</div></div>
-    <div class="detail-item"><div class="k">Priority</div><div class="v">${PRIORITY_META[a.priority].label}</div></div>
+    <div class="detail-item"><div class="k">Available Quantity</div><div class="v"><span style="color: var(--red); font-weight: 800; font-size: 17px;">${a.available}</span> <span style="font-size: 12px; color: var(--text-secondary)">${a.unit}</span></div></div>
+    <div class="detail-item"><div class="k">Minimum Threshold</div><div class="v">${a.min} <span style="font-size: 12px; color: var(--text-secondary)">${a.unit}</span></div></div>
+    <div class="detail-item"><div class="k">Priority</div><div class="v"><span class="badge badge-${a.priority}">${PRIORITY_META[a.priority].label}</span></div></div>
     <div class="detail-item"><div class="k">Preferred Supplier</div><div class="v">${a.supplier}</div></div>
     <div class="detail-item"><div class="k">Last Restocked</div><div class="v">${a.lastRestocked}</div></div>
-    <div class="detail-item"><div class="k">Procurement Status</div><div class="v">${req ? req.status + " (" + req.id + ")" : "Not requested yet"}</div></div>
+    <div class="detail-item"><div class="k">Procurement Status</div><div class="v">${req ? `<span class="badge" style="background:${STATUS_META[req.status].bg};color:${STATUS_META[req.status].fg};border:1px solid ${STATUS_META[req.status].fg}33">${req.status}</span> <span style="font-size:11px;color:var(--text-secondary);margin-left:6px">${req.id}</span>` : `<span style="color: var(--text-secondary); font-style: italic; font-size: 13px;">Not requested yet</span>`}</div></div>
   `;
             document.getElementById('detailModal').classList.add('show');
         }
