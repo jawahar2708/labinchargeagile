@@ -1,4 +1,4 @@
-# Implementation Plan: Lab Portal Upgrades and Fixes
+# Implementation Plan: Lab Portal Upgrades and Fixes 
 
 This document outlines the implementation plan to address the 11-point list of changes requested to improve the aesthetics, functionality, and consistency of the lab portal.
 
@@ -18,7 +18,7 @@ This document outlines the implementation plan to address the 11-point list of c
 
 ## Proposed Changes
 
----
+-----
 
 ### Global Design & Architecture (Icons, Glassmorphism, Consistency)
 **Summary:** Upgrade the portal's design system to remove emojis, enforce glassmorphism, and align all pages with the styling of the `material-requests` page.
@@ -33,7 +33,7 @@ This document outlines the implementation plan to address the 11-point list of c
 - Define standardized table styles (hover effects, rounded corners, sticky headers) to apply across all pages.
 - Add utility classes for icons to align them properly with text.
 
----
+-----
 
 ### Tables and Filters
 **Summary:** Standardize tables and fix filtering functionality across all views.
